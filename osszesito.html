@@ -1,0 +1,695 @@
+<style>
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+body { 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #334155;
+  background-color: #f8fafc;
+  line-height: 1.6;
+}
+
+.wrap { 
+  padding: 1.5rem 1rem; 
+}
+
+/* Címek és Szövegek */
+h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 0.5rem;
+}
+
+h3 { 
+  font-size: 1rem; 
+  font-weight: 600; 
+  color: #1e293b; 
+  margin: 1.5rem 0 0.6rem; 
+}
+
+h3:first-child { 
+  margin-top: 0; 
+}
+
+p, li { 
+  font-size: 13px; 
+  color: #475569; 
+}
+
+ul, ol { 
+  padding-left: 1.25rem; 
+  margin: 0.5rem 0 1rem; 
+}
+
+li { 
+  margin-bottom: 0.4rem; 
+}
+
+/* Badges */
+.badge { 
+  display: inline-flex; 
+  align-items: center;
+  font-size: 11px; 
+  padding: 2px 8px; 
+  border-radius: 6px; 
+  font-weight: 600; 
+  margin-left: 6px; 
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.badge.fontos { background: #fee2e2; color: #dc2626; }
+.badge.alap { background: #e0f2fe; color: #0284c7; }
+.badge.minta { background: #dcfce7; color: #16a34a; }
+
+/* Tabs */
+.tabs { 
+  display: flex; 
+  gap: 8px; 
+  margin-bottom: 1.5rem; 
+  flex-wrap: wrap; 
+}
+
+.tab { 
+  padding: 8px 16px; 
+  border-radius: 8px; 
+  border: 1px solid #e2e8f0; 
+  background: #ffffff; 
+  color: #64748b; 
+  cursor: pointer; 
+  font-size: 13px; 
+  font-weight: 500;
+  transition: all 0.2s ease; 
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.tab.active { 
+  background: #4f46e5; 
+  color: #ffffff; 
+  border-color: #4f46e5; 
+  box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);
+}
+
+.tab:hover:not(.active) { 
+  background: #f1f5f9; 
+  color: #334155;
+  border-color: #cbd5e1;
+}
+
+/* Pages & Accordion Sections */
+.page { display: none; }
+.page.active { display: block; }
+
+.section { 
+  margin-bottom: 1rem; 
+  border: 1px solid #e2e8f0; 
+  border-radius: 12px; 
+  background: #ffffff;
+  overflow: hidden; 
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.sec-head { 
+  padding: 14px 18px; 
+  background: #ffffff; 
+  cursor: pointer; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  font-size: 14px; 
+  font-weight: 600; 
+  color: #0f172a; 
+  user-select: none; 
+  gap: 12px;
+  border-bottom: 1px solid transparent;
+  transition: background 0.15s ease;
+}
+
+.sec-head:hover { 
+  background: #f8fafc; 
+}
+
+.sec-body { 
+  padding: 18px; 
+  display: none; 
+  background: #ffffff;
+  border-top: 1px solid #f1f5f9;
+}
+
+.sec-body.open { display: block; }
+
+.chevron { 
+  font-size: 10px; 
+  transition: transform 0.2s ease; 
+  display: inline-block; 
+  flex-shrink: 0; 
+  color: #94a3b8;
+}
+
+.chevron.open { transform: rotate(180deg); color: #4f46e5; }
+
+/* Grid & Cards */
+.grid2 { 
+  display: grid; 
+  grid-template-columns: 1fr 1fr; 
+  gap: 12px; 
+  margin: 0.75rem 0 1.25rem; 
+}
+
+.card-mini { 
+  background: #f8fafc; 
+  border-radius: 10px; 
+  border: 1px solid #e2e8f0; 
+  padding: 12px 14px; 
+}
+
+.card-mini strong { 
+  font-size: 13px; 
+  font-weight: 600; 
+  color: #0f172a; 
+  display: block; 
+  margin-bottom: 6px; 
+}
+
+.card-mini span { 
+  font-size: 12px; 
+  color: #475569; 
+  display: block;
+}
+
+@media (max-width: 640px) { 
+  .grid2 { grid-template-columns: 1fr; } 
+}
+
+/* Inline Code & Tables */
+code { 
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; 
+  font-size: 12px; 
+  background: #f1f5f9; 
+  padding: 2px 6px; 
+  border-radius: 6px; 
+  color: #0f172a; 
+  font-weight: 500;
+}
+
+.table-wrap { 
+  overflow-x: auto; 
+  margin: 1rem 0; 
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  font-size: 12px; 
+  text-align: left;
+  background: #ffffff;
+}
+
+th { 
+  background: #f8fafc; 
+  font-weight: 600; 
+  color: #1e293b; 
+  padding: 10px 12px; 
+  border-bottom: 1px solid #e2e8f0; 
+}
+
+td { 
+  padding: 10px 12px; 
+  border-bottom: 1px solid #f1f5f9; 
+  color: #475569; 
+  vertical-align: top; 
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:nth-child(even) td { 
+  background: #f8fafc; 
+}
+
+/* Callout Boxes (Info, Warning) */
+.tip, .warn { 
+  padding: 10px 14px; 
+  border-radius: 8px; 
+  margin: 1rem 0; 
+  font-size: 12.5px; 
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+}
+
+.tip { 
+  background: #f0f9ff; 
+  border-left: 4px solid #0ea5e9; 
+  color: #0369a1; 
+}
+
+.warn { 
+  background: #fffbeb; 
+  border-left: 4px solid #f59e0b; 
+  color: #b45309; 
+}
+</style>
+
+<div class="wrap">
+<h2>BProf záróvizsga összefoglaló tananyag</h2>
+
+<div class="tabs">
+  <button class="tab active" onclick="showPage('halozat')">🌐 Hálózatok</button>
+  <button class="tab" onclick="showPage('szofttech')">🏗️ Szoftvertechnológia</button>
+  <button class="tab" onclick="showPage('adatkezeles')">🗄️ Adatkezelés</button>
+</div>
+
+<div id="halozat" class="page active">
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">Általános ismeretek <span class="chevron">▼</span></div>
+<div class="sec-body open">
+  <h3>Kapcsolásszervezési módok</h3>
+  <div class="grid2">
+    <div class="card-mini"><strong>Áramkörkapcsolás</strong><span>Dedikált útvonal foglalódik le a teljes kommunikáció idejére. Pl.: telefonhálózat. Garantált sávszélesség, de pazarló.</span></div>
+    <div class="card-mini"><strong>Csomagkapcsolás</strong><span>Az adat kis csomagokra bontva, önállóan halad. Pl.: Internet. Hatékonyabb, de késleltetés és veszteség lehetséges.</span></div>
+  </div>
+  <h3>Csomagvesztés és késleltetés</h3>
+  <ul>
+    <li><strong>Feldolgozási késleltetés</strong> – a csomag fejlécének vizsgálata az útválasztóban</li>
+    <li><strong>Várakozási késleltetés</strong> – sor (queue) a kimeneti linken</li>
+    <li><strong>Átviteli késleltetés</strong> – csomag mérete / link sávszélesség</li>
+    <li><strong>Terjedési késleltetés</strong> – fizikai távolság / fény sebessége</li>
+  </ul>
+  <h3>Internet felépítése</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Típus</th><th>Hatótávolság</th><th>Példa</th></tr>
+    <tr><td>LAN</td><td>Épület, campus</td><td>Irodai hálózat, WiFi</td></tr>
+    <tr><td>MAN</td><td>Város</td><td>Városi optikai hálózat</td></tr>
+    <tr><td>WAN</td><td>Ország, világ</td><td>Internet gerinchálózat</td></tr>
+    <tr><td>ISP Tier-1</td><td>Globális</td><td>AT&T, Deutsche Telekom</td></tr>
+    <tr><td>ISP Tier-2</td><td>Regionális</td><td>Hazai nagy szolgáltatók</td></tr>
+    <tr><td>ISP Tier-3</td><td>Helyi</td><td>Lakóterületi internet</td></tr>
+  </table>
+  </div>
+  <h3>Protokollrétegek (TCP/IP modell)</h3>
+  <p>Alulról felfelé: <strong>Fizikai → Adatkapcsolati → Hálózati → Szállítási → Alkalmazási</strong></p>
+  <div class="tip">Megjegyzési tipp: "Fizikai Adatkapcsolati Hálózati Szállítási Alkalmazási" – FAHSzA</div>
+</div>
+</div>
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">Alkalmazási réteg <span class="chevron">▼</span></div>
+<div class="sec-body">
+  <h3>HTTP <span class="badge fontos">Fontos</span></h3>
+  <ul>
+    <li>Kliens-szerver modell, kérés-válasz alapú</li>
+    <li><strong>HTTP/1.0:</strong> minden kéréshez új TCP kapcsolat (nem perzisztens)</li>
+    <li><strong>HTTP/1.1:</strong> perzisztens kapcsolat, pipelining</li>
+    <li><strong>Metódusok:</strong> GET, POST, PUT, DELETE, HEAD</li>
+    <li><strong>Állapotkódok:</strong> 200 OK, 301 Moved, 404 Not Found, 500 Server Error</li>
+    <li>Állapotmentes (stateless) – cookie-k kompenzálják</li>
+  </ul>
+  <h3>FTP</h3>
+  <ul>
+    <li>Két kapcsolat: <strong>vezérlő (21-es port)</strong> és <strong>adat (20-as port)</strong></li>
+    <li>Állapotteljes – tartja nyilván az aktuális könyvtárat, felhasználót</li>
+  </ul>
+  <h3>E-mail protokollok</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Protokoll</th><th>Feladat</th><th>Port</th></tr>
+    <tr><td>SMTP</td><td>Küldés (szerver → szerver)</td><td>25</td></tr>
+    <tr><td>POP3</td><td>Letöltés, törlés szerverről</td><td>110</td></tr>
+    <tr><td>IMAP</td><td>Szerveren marad, szinkron</td><td>143</td></tr>
+  </table>
+  </div>
+  <h3>DNS <span class="badge fontos">Fontos</span></h3>
+  <ul>
+    <li>Doménnév → IP cím feloldás</li>
+    <li>Hierarchikus, elosztott adatbázis</li>
+    <li>Rekord típusok: <code>A</code> (IPv4), <code>AAAA</code> (IPv6), <code>MX</code> (mail), <code>CNAME</code> (alias), <code>NS</code> (névszerver)</li>
+    <li>Iteratív és rekurzív lekérdezés</li>
+    <li>Gyorsítótárazás (caching) TTL értékkel</li>
+  </ul>
+  <h3>Socketek</h3>
+  <ul>
+    <li>Alkalmazás és a hálózat közötti interfész (API)</li>
+    <li>Azonosítás: IP cím + port szám</li>
+    <li>UDP socket: cím + port elég; TCP socket: forrás+cél IP+port (4-es)</li>
+  </ul>
+</div>
+</div>
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">Szállítási réteg (TCP/UDP) <span class="chevron">▼</span></div>
+<div class="sec-body">
+  <h3>UDP vs TCP</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Jellemző</th><th>UDP</th><th>TCP</th></tr>
+    <tr><td>Kapcsolat</td><td>Kapcsolat nélküli</td><td>Kapcsolatorientált</td></tr>
+    <tr><td>Megbízhatóság</td><td>Nem garantált</td><td>Garantált, sorrendhelyes</td></tr>
+    <tr><td>Fejléc mérete</td><td>8 bájt</td><td>20+ bájt</td></tr>
+    <tr><td>Sebesség</td><td>Gyors</td><td>Lassabb</td></tr>
+    <tr><td>Használat</td><td>DNS, VoIP, streaming</td><td>HTTP, FTP, e-mail</td></tr>
+  </table>
+  </div>
+  <h3>TCP részletesen <span class="badge fontos">Fontos</span></h3>
+  <ul>
+    <li><strong>Háromfázisú kézfogás (3-way handshake):</strong> SYN → SYN-ACK → ACK</li>
+    <li><strong>Nyugtázás (ACK):</strong> kumulatív, a következő várt bájt sorszámát jelzi</li>
+    <li><strong>Forgalomszabályzás (flow control):</strong> fogadó ablak (rwnd) – a fogadó puffer szabad helyét jelzi</li>
+    <li><strong>Torlódáskezelés (congestion control):</strong> lassú indítás → torlódás elkerülés → gyors visszaállítás</li>
+    <li><strong>Kapcsolat bontás:</strong> 4 lépéses FIN-ACK csere</li>
+  </ul>
+  <h3>Portok besorolása</h3>
+  <ul>
+    <li><strong>Jól ismert portok:</strong> 0–1023 (HTTP: 80, HTTPS: 443, FTP: 21, SSH: 22, DNS: 53)</li>
+    <li><strong>Regisztrált portok:</strong> 1024–49151</li>
+    <li><strong>Dinamikus/privát portok:</strong> 49152–65535</li>
+  </ul>
+  <h3>Nyalábolás és nyalábbontás (Multiplexing/Demultiplexing)</h3>
+  <p>Nyalábolás: több alkalmazás adatát egyetlen hálózati kapcsolaton küldjük. Nyalábbontás: a fogadó oldalon portszám alapján szétválasztjuk a csomagokat a megfelelő alkalmazásokhoz.</p>
+</div>
+</div>
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">Hálózati réteg (IP, routing) <span class="chevron">▼</span></div>
+<div class="sec-body">
+  <h3>IPv4 <span class="badge fontos">Fontos</span></h3>
+  <ul>
+    <li>32 bites cím, ponttal elválasztott 4 oktet (pl. 192.168.1.1)</li>
+    <li><strong>Fejléc mezők:</strong> TTL, protokoll, forrás/cél IP, fragmentálás mezők</li>
+    <li><strong>Fragmentálás:</strong> ha a csomag nagyobb mint az MTU, feldarabolódik; cél újrarakja össze</li>
+  </ul>
+  <h3>Alhálózatok és maszkok <span class="badge fontos">Fontos</span></h3>
+  <ul>
+    <li>Alhálózati maszk jelöli a hálózat részt: <code>/24</code> = 255.255.255.0</li>
+    <li><strong>CIDR (osztályfüggetlen):</strong> pl. 192.168.1.0/26 = 64 cím, 62 gép</li>
+    <li>Hálózati cím: első cím; Broadcast: utolsó cím</li>
+    <li>Hasznos képlet: 2^(32-prefix) = összes cím, −2 = gépek száma</li>
+  </ul>
+  <div class="warn">VLSM (változó hosszúságú maszk) feladatoknál mindig a legnagyobb alhálózattal kezdj!</div>
+  <h3>IPv6</h3>
+  <ul>
+    <li>128 bites cím, kettősponttal elválasztott 8 × 16 bit hexadecimálisan</li>
+    <li>Nincs fragmentálás útválasztóban, nincs checksum, nincs broadcast</li>
+    <li>Fejléc egyszerűbb, kiterjesztett fejlécek opciósan</li>
+  </ul>
+  <h3>DHCP, NAT, ICMP</h3>
+  <ul>
+    <li><strong>DHCP:</strong> automatikus IP kiosztás (Discover → Offer → Request → ACK)</li>
+    <li><strong>NAT:</strong> privát IP-ket egyetlen publikus IP-re fordít; portszámmal különbözteti meg a kapcsolatokat</li>
+    <li><strong>ICMP:</strong> hibakezelés és diagnosztika (ping = echo request/reply, traceroute)</li>
+  </ul>
+  <h3>Routing protokollok <span class="badge fontos">Fontos</span></h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Protokoll</th><th>Típus</th><th>Algoritmus</th><th>Metrika</th></tr>
+    <tr><td>RIP</td><td>Belső, távolságvektor</td><td>Bellman-Ford</td><td>Ugrásszám (max 15)</td></tr>
+    <tr><td>OSPF</td><td>Belső, linkállapot</td><td>Dijkstra</td><td>Sávszélesség alapú cost</td></tr>
+    <tr><td>BGP</td><td>Külső (AS-ek között)</td><td>Path-vektor</td><td>Adminisztratív szabály</td></tr>
+  </table>
+  </div>
+  <p><strong>Távolságvektor:</strong> szomszédoktól kap táblát, konvergálás lassú, hurok problémák. <strong>Linkállapot:</strong> teljes topológia ismert, gyorsabb, OSPF area-kra osztható.</p>
+</div>
+</div>
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">Adatkapcsolati réteg <span class="chevron">▼</span></div>
+<div class="sec-body">
+  <h3>Szolgáltatások és ARP</h3>
+  <ul>
+    <li>Keretezés, hibakezelés (CRC), hozzáférés-vezérlés (MAC)</li>
+    <li><strong>MAC cím:</strong> 48 bit, hardverbe égetett, pl. AA:BB:CC:DD:EE:FF</li>
+    <li><strong>ARP:</strong> IP cím → MAC cím fordítás; broadcast kérdés, unicast válasz; ARP tábla gyorsítótárazza</li>
+  </ul>
+  <h3>LAN, STP, VLAN <span class="badge fontos">Fontos</span></h3>
+  <ul>
+    <li><strong>Switch (kapcsoló):</strong> MAC tábla alapján továbbít; hurok veszély → STP!</li>
+    <li><strong>STP (Spanning Tree Protocol):</strong> hurokmentessé teszi a hálózatot; root bridge választás, portok állapota: root, designated, blocked</li>
+    <li><strong>VLAN:</strong> logikai szétválasztás egy fizikai hálózaton belül; 802.1Q tag jelöli a keretek VLANját; trunk port viszi több VLAN forgalmát</li>
+  </ul>
+  <h3>Ethernet és WLAN</h3>
+  <ul>
+    <li><strong>Ethernet (IEEE 802.3):</strong> CSMA/CD – érzékeli az ütközést, exponenciális visszavárás</li>
+    <li><strong>WLAN (IEEE 802.11):</strong> CSMA/CA – ütközés elkerülés (nem érzékelhető vezeték nélkül); RTS/CTS mechanizmus</li>
+    <li>Infrastruktúra mód: AP (access point) koordinál; ad-hoc: közvetlen kapcsolat</li>
+  </ul>
+</div>
+</div>
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">Fizikai réteg <span class="chevron">▼</span></div>
+<div class="sec-body">
+  <h3>Átviteli közegek</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Típus</th><th>Sávszélesség</th><th>Távolság</th><th>Jellemző</th></tr>
+    <tr><td>Sodrott érpár (UTP/STP)</td><td>100 Mbps – 10 Gbps</td><td>100 m</td><td>Cat5e, Cat6; elektromágneses zavar</td></tr>
+    <tr><td>Koaxiális kábel</td><td>~1 Gbps</td><td>Néhány km</td><td>Jobb zajorvédelme</td></tr>
+    <tr><td>Optikai szál</td><td>Tbps</td><td>Száz km</td><td>Fényjel; egymódusú (SM) és többmódusú (MM)</td></tr>
+  </table>
+  </div>
+  <p>Egymódusú optika: hosszabb táv, vékonyabb mag, drágább. Többmódusú: rövidebb táv, vastagabb mag, LAN-ban.</p>
+</div>
+</div>
+
+</div><div id="szofttech" class="page">
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">SOLID elvek <span class="chevron">▼</span></div>
+<div class="sec-body open">
+  <div class="table-wrap">
+  <table>
+    <tr><th>Betű</th><th>Elv neve</th><th>Lényege</th></tr>
+    <tr><td><strong>S</strong></td><td>Single Responsibility</td><td>Egy osztálynak csak egy oka legyen a változásra. Egy osztály = egy felelősség.</td></tr>
+    <tr><td><strong>O</strong></td><td>Open/Closed</td><td>Nyitott bővítésre, zárt módosításra. Új viselkedés hozzáadásakor meglévő kód ne változzon.</td></tr>
+    <tr><td><strong>L</strong></td><td>Liskov Substitution</td><td>Az alosztály példánya behelyettesíthető szülőosztály helyére, a viselkedés nem törhet meg.</td></tr>
+    <tr><td><strong>I</strong></td><td>Interface Segregation</td><td>Ne kényszererítsük az osztályokat felesleges metódusok implementálására. Kis, specifikus interfészek.</td></tr>
+    <tr><td><strong>D</strong></td><td>Dependency Inversion</td><td>Magas szintű modulok ne függjenek alacsony szintűektől. Mindkettő absztrakciótól függjön.</td></tr>
+  </table>
+  </div>
+  <div class="tip">Megjegyzési tipp: "Solid elvek = Sopor Orvos Lázat Igyekszik Diagnoszticálni" (értelmetlen, de fura és ezért ragad)</div>
+</div>
+</div>
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">UML diagramok <span class="chevron">▼</span></div>
+<div class="sec-body">
+  <h3>Osztálydiagram (Class Diagram) <span class="badge fontos">Fontos</span></h3>
+  <ul>
+    <li>Osztályok, attribútumok, metódusok és kapcsolataik</li>
+    <li><strong>Kapcsolat típusok:</strong></li>
+  </ul>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Kapcsolat</th><th>Jel</th><th>Magyarázat</th></tr>
+    <tr><td>Asszociáció</td><td>→</td><td>Általános kapcsolat osztályok közt</td></tr>
+    <tr><td>Aggregáció</td><td>◇→</td><td>"has-a" – rész létezhet önállóan (üres rombusz)</td></tr>
+    <tr><td>Kompozíció</td><td>◆→</td><td>"has-a" – rész nem létezhet önállóan (teli rombusz)</td></tr>
+    <tr><td>Öröklés</td><td>△→</td><td>"is-a" – szülőosztálytól örököl (üres háromszög)</td></tr>
+    <tr><td>Megvalósítás</td><td>△--></td><td>Interfész implementálása (szaggatott + háromszög)</td></tr>
+  </table>
+  </div>
+  <p>Multiplicitás: <code>1</code>, <code>0..1</code>, <code>*</code>, <code>1..*</code>, <code>0..*</code></p>
+  <h3>Szekvenciadiagram (Sequence Diagram)</h3>
+  <ul>
+    <li>Időbeli sorrend: bal → jobb, idő: felülről lefelé</li>
+    <li>Életvonal (lifeline): szaggatott vonal</li>
+    <li>Aktiváció: téglalap az életvonalon (mikor "aktív" az objektum)</li>
+    <li>Üzenetek: szinkron (teli nyíl), aszinkron (nyitott nyíl), visszatérés (szaggatott nyíl)</li>
+    <li>Kombinált töredék: <code>alt</code> (ha-különben), <code>loop</code> (ciklus), <code>opt</code> (opcionális)</td>
+  </ul>
+  <h3>Állapotgép (State Machine)</h3>
+  <ul>
+    <li>Állapotok, átmenetek, esemény/feltétel/akció</li>
+    <li>Kezdőállapot: teli kör; végállapot: dupla kör</li>
+    <li>Átmenet jelölése: <code>esemény [feltétel] / akció</code></li>
+    <li>Összetett állapot: belső állapotok; párhuzamos régió: szaggatott vonal</li>
+  </ul>
+</div>
+</div>
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">Tervezési minták <span class="badge minta">6 minta</span> <span class="chevron">▼</span></div>
+<div class="sec-body">
+  <h3>Template Method <span class="badge alap">Viselkedési</span></h3>
+  <p>Az algoritmus vázát az ősosztály definiálja, a részleteket az alosztályok valósítják meg. A "sablon metódus" hívja a primitív metódusokat.</p>
+  <p><strong>Mikor:</strong> Van egy általános algoritmusod, de lépéseinek részletei változnak.</p>
+  
+  <h3>Strategy <span class="badge alap">Viselkedési</span></h3>
+  <p>Egy algoritmus-családot definiálunk, mindegyik külön osztályban. Futásidőben cserélhető. A Context tartalmaz egy Strategy referenciát.</p>
+  <p><strong>Mikor:</strong> Különböző viselkedéseket szeretnél felváltva használni (pl. különböző rendező algoritmusok).</p>
+  <p><strong>Különbség Template Method-tól:</strong> Strategy objektum szintű csere (kompozíció), Template Method öröklés szintű.</p>
+
+  <h3>Singleton <span class="badge alap">Létrehozási</span></h3>
+  <p>Biztosítja, hogy egy osztályból csak egy példány létezzen, és globálisan elérhető legyen.</p>
+  <p><strong>Megvalósítás:</strong> privát konstruktor, statikus <code>getInstance()</code> metódus.</p>
+  <div class="warn">SOLID-dal ellentétes lehet! Tesztelhetőséget rontja, globális állapot.</div>
+
+  <h3>Observer <span class="badge alap">Viselkedési</span></h3>
+  <p>Egy-a-többhöz függőség: ha egy objektum (Subject/Observable) állapota változik, minden megfigyelője (Observer) automatikusan értesül.</p>
+  <p><strong>Szereplők:</strong> Subject (tartja az Observer listát, notify()), Observer (update() metódus).</p>
+  <p><strong>Példa:</strong> UI eseménykezelők, MVC mintában Model → View frissítés.</p>
+
+  <h3>Composite <span class="badge alap">Szerkezeti</span></h3>
+  <p>Objektumokat fa struktúrában szervez, az egyedi és összetett elemeket azonos interfészen kezeli.</p>
+  <p><strong>Szereplők:</strong> Component (interfész), Leaf (levél, nincs gyermeke), Composite (tartalmaz Componenteket).</p>
+  <p><strong>Példa:</strong> fájlrendszer (fájl = Leaf, mappa = Composite), GUI fa.</p>
+
+  <h3>Adapter <span class="badge alap">Szerkezeti</span></h3>
+  <p>Inkompatibilis interfészeket tesz együttműködővé. "Illesztő": a kliens elvárja az interfészt, az Adapter fordítja az Adaptee hívásait.</p>
+  <p><strong>Példa:</strong> Régi API integrálása új rendszerbe, különböző formátumok konvertálása.</p>
+  <div class="tip">Adapter = Stratégia nélkül nem tudsz egy régi könyvtárat új kódba illeszteni.</div>
+</div>
+</div>
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">Fejlesztési módszertanok <span class="chevron">▼</span></div>
+<div class="sec-body">
+  <h3>Vízesés módszertan</h3>
+  <ul>
+    <li>Szekvenciális fázisok: Követelmény → Tervezés → Implementáció → Tesztelés → Karbantartás</li>
+    <li>Minden fázis lezárul, mielőtt a következő kezdődik</li>
+    <li>Dokumentumorientált, előre tervezett</li>
+    <li><strong>Hátrány:</strong> nehézkes a változáskezelés; hibát csak tesztelésnél fedezünk fel</li>
+    <li><strong>Előny:</strong> egyértelmű mérföldkövek, nagy, stabil követelményű projektekhez jó</li>
+  </ul>
+  <h3>Agilis fejlesztés</h3>
+  <ul>
+    <li>Iteratív, inkrementális fejlesztés</li>
+    <li>Agilis kiáltvány 4 értéke: egyének > folyamatok; működő szoftver > dokumentáció; együttműködés > szerződés; változásra reagálás > terv követése</li>
+    <li>Rövid iterációk, folyamatos visszajelzés</li>
+  </ul>
+  <h3>Scrum <span class="badge fontos">Fontos</span></h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Elem</th><th>Leírás</th></tr>
+    <tr><td>Sprint</td><td>1–4 hetes iteráció, fix cél, nem változik közben</td></tr>
+    <tr><td>Product Backlog</td><td>Összes igény prioritásos listája (Product Owner kezeli)</td></tr>
+    <tr><td>Sprint Backlog</td><td>Sprintre kiválasztott feladatok</td></tr>
+    <tr><td>Daily Scrum</td><td>Napi 15 perces stand-up: mit csináltam, mit fogok, mi akadályoz</td></tr>
+    <tr><td>Sprint Review</td><td>Sprint végén bemutató az érdekelteknek</td></tr>
+    <tr><td>Sprint Retrospective</td><td>Csapat önvizsgálata: mi ment jól/rosszul</td></tr>
+    <tr><td>Product Owner</td><td>Üzleti igényeket képviseli, backlogot kezeli</td></tr>
+    <tr><td>Scrum Master</td><td>Folyamatot facilitálja, akadályokat hárít el</td></tr>
+    <tr><td>Development Team</td><td>Önszervező, cross-funkcionális csapat</td></tr>
+  </table>
+  </div>
+</div>
+</div>
+
+</div><div id="adatkezeles" class="page">
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">ER-modellezés <span class="chevron">▼</span></div>
+<div class="sec-body open">
+  <h3>Alapfogalmak</h3>
+  <ul>
+    <li><strong>Entitás:</strong> valós világ objektuma (pl. Hallgató, Tantárgy)</li>
+    <li><strong>Attribútum:</strong> entitás jellemzője; lehet egyszerű, összetett, többértékű, levezetett</li>
+    <li><strong>Kulcsattribútum:</strong> egyedi azonosító (aláhúzva jelöljük)</li>
+    <li><strong>Kapcsolat (Relationship):</strong> entitások közötti viszony</li>
+  </ul>
+  <h3>Kapcsolatok számossága</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Típus</th><th>Jelölés</th><th>Példa</th></tr>
+    <tr><td>1:1</td><td>Egy-az-egyhez</td><td>Személy – Útlevél</td></tr>
+    <tr><td>1:N</td><td>Egy-a-többhöz</td><td>Tanár – Tantárgy</td></tr>
+    <tr><td>M:N</td><td>Több-a-többhöz</td><td>Hallgató – Tantárgy</td></tr>
+  </table>
+  </div>
+  <h3>Gyenge entitás</h3>
+  <p>Nem rendelkezik saját kulcsattribútummal, más entitástól függ (kettős kerettel jelöljük). Részkulccsal + tulajdonos kulcsával azonosítható.</p>
+</div>
+</div>
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">ER → Relációs leképezés <span class="chevron">▼</span></div>
+<div class="sec-body">
+  <ul>
+    <li><strong>Erős entitás:</strong> → saját tábla, kulcsattribútum lesz elsődleges kulcs</li>
+    <li><strong>1:N kapcsolat:</strong> → N oldalon idegen kulcs a kapcsolathoz</li>
+    <li><strong>M:N kapcsolat:</strong> → külön kapcsolótábla, mindkét entitás kulcsával</li>
+    <li><strong>1:1 kapcsolat:</strong> → valamelyik oldalon idegen kulcs (kötelező részvétel oldala preferált)</li>
+    <li><strong>Gyenge entitás:</strong> → tábla, kulcsa = részkulcs + tulajdonos PK (összetett PK)</li>
+    <li><strong>Többértékű attribútum:</strong> → külön tábla az értékeknek</li>
+  </ul>
+</div>
+</div>
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">Relációalgebra <span class="chevron">▼</span></div>
+<div class="sec-body">
+  <div class="table-wrap">
+  <table>
+    <tr><th>Művelet</th><th>Jelölés</th><th>Jelentés</th></tr>
+    <tr><td>Szelekció</td><td>σ feltétel(R)</td><td>Sorok szűrése feltétel szerint</td></tr>
+    <tr><td>Vetítés</td><td>π attribútumok(R)</td><td>Oszlopok kiválasztása</td></tr>
+    <tr><td>Unió</td><td>R ∪ S</td><td>Mindkét reláció sorai (azonos séma!)</td></tr>
+    <tr><td>Különbség</td><td>R − S</td><td>R-ben van, S-ben nincs</td></tr>
+    <tr><td>Descartes-szorzat</td><td>R × S</td><td>Minden sor minden sorral</td></tr>
+    <tr><td>Természetes illesztés</td><td>R ⋈ S</td><td>Egyező nevű oszlopokon join</td></tr>
+    <tr><td>Théta-illesztés</td><td>R ⋈θ S</td><td>Join feltétellel</td></tr>
+    <tr><td>Metszet</td><td>R ∩ S</td><td>Mindkettőben szereplő sorok</td></tr>
+  </table>
+  </div>
+</div>
+</div>
+
+<div class="section">
+<div class="sec-head" onclick="toggle(this)">SQL lekérdezések <span class="badge fontos">Fontos</span> <span class="chevron">▼</span></div>
+<div class="sec-body">
+  <h3>SELECT szerkezete</h3>
+  <p>Végrehajtási sorrend (≠ írási sorrend):</p>
+  <p><code>FROM</code> → <code>WHERE</code> → <code>GROUP BY</code> → <code>HAVING</code> → <code>SELECT</code> → <code>ORDER BY</code></p>
+  <h3>Aggregátum függvények</h3>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Függvény</th><th>Leírás</th></tr>
+    <tr><td>COUNT(*)</td><td>Sorok száma (NULL-okat is számol)</td></tr>
+    <tr><td>COUNT(oszlop)</td><td>Nem-NULL értékek száma</td></tr>
+    <tr><td>SUM(oszlop)</td><td>Összeg</td></tr>
+    <tr><td>AVG(oszlop)</td><td>Átlag</td></tr>
+    <tr><td>MIN / MAX</td><td>Minimum / maximum</td></tr>
+  </table>
+  </div>
+  <h3>WHERE vs HAVING</h3>
+  <ul>
+    <li><strong>WHERE:</strong> egyedi sorokra szűr (GROUP BY előtt, aggregátum NEM használható)</li>
+    <li><strong>HAVING:</strong> csoportokra szűr (GROUP BY után, aggregátum HASZNÁLHATÓ)</li>
+  </ul>
+  <div class="tip">Ha aggregátum függvény van a szűrőben → HAVING. Különben → WHERE.</div>
+  <h3>JOIN típusok</h3>
+  <ul>
+    <li><strong>INNER JOIN:</strong> csak az egyező sorok</li>
+    <li><strong>LEFT JOIN:</strong> bal tábla összes sora + egyező jobb oldaliak (hiányzó = NULL)</li>
+    <li><strong>RIGHT JOIN:</strong> jobb tábla összes sora</li>
+    <li><strong>FULL OUTER JOIN:</strong> mindkét tábla minden sora</li>
+  </ul>
+</div>
+</div>
+
+</div></div><script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+function toggle(head) {
+  const body = head.nextElementSibling;
+  const chev = head.querySelector('.chevron');
+  const open = body.classList.toggle('open');
+  chev.classList.toggle('open', open);
+}
+</script>
