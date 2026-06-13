@@ -1,0 +1,138 @@
+@import url('global.css');
+
+/* Specific styles for SZTT (Szoftvertechnológia) page components */
+
+/* Card Accent Borders */
+.card-accent { border-left: 3px solid var(--accent) !important; }
+.card-green { border-left: 3px solid #10b981 !important; }
+.card-orange { border-left: 3px solid #f59e0b !important; }
+.card-red { border-left: 3px solid #ef4444 !important; }
+.card-blue { border-left: 3px solid #3b82f6 !important; }
+.card-purple { border-left: 3px solid #8b5cf6 !important; }
+
+/* Grid systems */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+
+@media (max-width: 700px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+
+/* Syntax Highlighting inside pre tags */
+pre .kw { color: #c084fc; font-weight: 500; }
+pre .cls { color: #f59e0b; }
+pre .cm { color: #6b7280; font-style: italic; }
+pre .str { color: #34d399; }
+
+/* Pills */
+.pill {
+  display: inline-block;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin: 2px;
+}
+
+.pill-yellow { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.pill-green { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+.pill-orange { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+.pill-blue { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+.pill-red { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+.pill-purple { background: rgba(139, 92, 246, 0.15); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.3); }
+
+/* Comparisons */
+.compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 1.5rem 0;
+  background: var(--surface);
+  backdrop-filter: blur(8px);
+}
+
+.compare-col { 
+  padding: 1.5rem; 
+}
+
+.compare-col:first-child { 
+  background: rgba(16, 185, 129, 0.04); 
+  border-right: 1px solid var(--border); 
+}
+
+.compare-col:last-child { 
+  background: rgba(239, 68, 68, 0.04); 
+}
+
+.compare-col h4 { 
+  margin-top: 0; 
+}
+
+/* Highlight boxes */
+.highlight {
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+
+.highlight strong { 
+  color: #fbbf24; 
+}
+
+/* Pattern grids & cards */
+.pattern-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.pattern-card {
+  background: rgba(17, 24, 39, 0.45);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  backdrop-filter: blur(8px);
+}
+
+.pattern-card .pattern-type {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.pattern-card h4 { 
+  margin: 0 0 0.5rem; 
+  font-size: 1.05rem; 
+  color: var(--text); 
+}
+
+.pattern-card p { 
+  font-size: 0.9rem; 
+  color: var(--text-muted); 
+  margin-bottom: 0.4rem; 
+}
+
+.pattern-card .pattern-card-footer {
+  font-size: 0.8rem;
+  font-family: 'DM Mono', monospace;
+  color: var(--text-dim);
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}

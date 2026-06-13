@@ -3,21 +3,30 @@ nav ul {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333333;
+  background-color: rgba(17, 24, 39, 0.8) !important;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: center;
 }
 
 nav ul li {
-  float: left;
+  float: none; /* remove float left to allow centering */
 }
 
 nav ul li a {
   display: block;
-  color: white;
+  color: #9ca3af;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
   text-align: center;
-  padding: 14px 16px;
+  padding: 16px 24px;
   text-decoration: none;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
 }
 
 nav ul li a:hover {
-  background-color: #111111;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  color: #f3f4f6 !important;
 }

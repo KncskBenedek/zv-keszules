@@ -4,779 +4,426 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SzTT – Záróvizsga Összefoglaló</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap');
-
-  :root {
-    --bg: #0f0e0c;
-    --surface: #1a1916;
-    --surface2: #242320;
-    --border: #2e2d29;
-    --accent: #e8c547;
-    --accent2: #c97b3f;
-    --accent3: #5b9e7a;
-    --text: #e8e6e0;
-    --text-muted: #8a8880;
-    --text-dim: #5a5855;
-    --red: #c95f5f;
-    --blue: #5b8ac9;
-    --purple: #9b7ec9;
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 15px;
-    line-height: 1.65;
-    padding: 0;
-  }
-
-  /* HEADER */
-  header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 2.5rem 3rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-  }
-
-  header .badge {
-    background: var(--accent);
-    color: #000;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    padding: 4px 10px;
-    border-radius: 3px;
-    white-space: nowrap;
-  }
-
-  header h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.5rem;
-    color: var(--text);
-    font-weight: 400;
-  }
-
-  header h1 span { color: var(--accent); }
-
-  /* NAV */
-  nav {
-    background: var(--surface2);
-    border-bottom: 1px solid var(--border);
-    padding: 0.75rem 3rem;
-    display: flex;
-    gap: 0.25rem;
-    flex-wrap: wrap;
-    position: sticky;
-    top: 85px;
-    z-index: 99;
-  }
-
-  nav a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 13px;
-    padding: 4px 12px;
-    border-radius: 4px;
-    transition: all 0.15s;
-    font-family: 'DM Mono', monospace;
-  }
-
-  nav a:hover { background: var(--border); color: var(--accent); }
-
-  /* LAYOUT */
-  main {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 3rem 3rem 6rem;
-  }
-
-  /* SECTIONS */
-  section {
-    margin-bottom: 4rem;
-    scroll-margin-top: 140px;
-  }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .section-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    background: rgba(232, 197, 71, 0.1);
-    border: 1px solid rgba(232, 197, 71, 0.3);
-    padding: 3px 8px;
-    border-radius: 3px;
-    white-space: nowrap;
-  }
-
-  h2 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.6rem;
-    font-weight: 400;
-    color: var(--text);
-  }
-
-  h3 {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--accent);
-    margin: 1.5rem 0 0.6rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    font-size: 0.8rem;
-  }
-
-  h4 {
-    font-size: 0.95rem;
-    font-weight: 600;
-    color: var(--text);
-    margin: 1rem 0 0.4rem;
-  }
-
-  p { margin-bottom: 0.75rem; color: var(--text); }
-
-  /* CARDS */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .card-accent { border-left: 3px solid var(--accent); }
-  .card-green { border-left: 3px solid var(--accent3); }
-  .card-orange { border-left: 3px solid var(--accent2); }
-  .card-red { border-left: 3px solid var(--red); }
-  .card-blue { border-left: 3px solid var(--blue); }
-  .card-purple { border-left: 3px solid var(--purple); }
-
-  /* GRID */
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
-
-  @media (max-width: 700px) {
-    .grid-2, .grid-3 { grid-template-columns: 1fr; }
-    header, nav { padding-left: 1.5rem; padding-right: 1.5rem; }
-    main { padding: 2rem 1.5rem 4rem; }
-    nav { top: 70px; }
-  }
-
-  /* CODE */
-  code {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.82em;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    padding: 2px 6px;
-    border-radius: 3px;
-    color: var(--accent);
-  }
-
-  pre {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1rem 1.25rem;
-    margin: 0.75rem 0;
-    overflow-x: auto;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8em;
-    line-height: 1.7;
-    color: #c8c4b8;
-  }
-
-  pre .kw { color: var(--purple); }
-  pre .cls { color: var(--accent); }
-  pre .cm { color: var(--text-dim); font-style: italic; }
-  pre .str { color: var(--accent3); }
-
-  /* PRINCIPLE PILL */
-  .pill {
-    display: inline-block;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    font-weight: 500;
-    padding: 3px 10px;
-    border-radius: 20px;
-    margin: 2px;
-  }
-
-  .pill-yellow { background: rgba(232,197,71,0.15); color: var(--accent); border: 1px solid rgba(232,197,71,0.3); }
-  .pill-green { background: rgba(91,158,122,0.15); color: var(--accent3); border: 1px solid rgba(91,158,122,0.3); }
-  .pill-orange { background: rgba(201,123,63,0.15); color: var(--accent2); border: 1px solid rgba(201,123,63,0.3); }
-  .pill-blue { background: rgba(91,138,201,0.15); color: var(--blue); border: 1px solid rgba(91,138,201,0.3); }
-  .pill-red { background: rgba(201,95,95,0.15); color: var(--red); border: 1px solid rgba(201,95,95,0.3); }
-  .pill-purple { background: rgba(155,126,201,0.15); color: var(--purple); border: 1px solid rgba(155,126,201,0.3); }
-
-  /* UML TABLE */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.87rem;
-    margin: 0.75rem 0;
-  }
-
-  th {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    padding: 8px 12px;
-    text-align: left;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--accent);
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  td {
-    border: 1px solid var(--border);
-    padding: 8px 12px;
-    vertical-align: top;
-  }
-
-  tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
-
-  /* LIST */
-  ul, ol { padding-left: 1.4rem; margin-bottom: 0.75rem; }
-  li { margin-bottom: 0.3rem; }
-  li::marker { color: var(--accent); }
-
-  /* COMPARISON */
-  .compare {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    margin: 1rem 0;
-  }
-
-  .compare-col { padding: 1.25rem; }
-  .compare-col:first-child { background: rgba(91,158,122,0.06); border-right: 1px solid var(--border); }
-  .compare-col:last-child { background: rgba(201,95,95,0.06); }
-  .compare-col h4 { margin-top: 0; }
-
-  /* HIGHLIGHT BOX */
-  .highlight {
-    background: rgba(232,197,71,0.07);
-    border: 1px solid rgba(232,197,71,0.2);
-    border-radius: 6px;
-    padding: 1rem 1.25rem;
-    margin: 1rem 0;
-    font-size: 0.9rem;
-  }
-
-  .highlight strong { color: var(--accent); }
-
-  /* PATTERN GRID */
-  .pattern-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1rem;
-    margin: 1rem 0;
-  }
-
-  .pattern-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.1rem 1.25rem;
-  }
-
-  .pattern-card .pattern-type {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.5rem;
-  }
-
-  .pattern-card h4 { margin: 0 0 0.5rem; font-size: 1rem; color: var(--text); }
-  .pattern-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; }
-  .pattern-card .pattern-card-footer {
-    font-size: 0.78rem;
-    font-family: 'DM Mono', monospace;
-    color: var(--text-dim);
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid var(--border);
-  }
-
-  /* DIVIDER */
-  hr { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
-
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text-dim); }
-</style>
+<link rel="stylesheet" href="sztt.css">
 </head>
 <body>
 
-<header>
-  <div class="badge">BProf ZV 2024</div>
-  <h1>Szoftvertechnológia és -technikák <span>– Összefoglaló</span></h1>
-</header>
-<nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="halozat.html">Hálózat</a></li>
-        <li><a href="adatkezeles.html">Adatkezelés</a></li>
-        <li><a href="sztt.html">SZTT</a></li>
-        <li><a href="osszesito.html">Összesítő</a></li>
-      </ul>
-    </nav>
-    <hr>
-<nav>
-  <a href="#solid">SOLID</a>
-  <a href="#uml">UML</a>
-  <a href="#osztalydiagram">Osztálydiagram</a>
-  <a href="#szekvencia">Szekvencia</a>
-  <a href="#allapotgep">Állapotgép</a>
-  <a href="#mintak">Tervezési minták</a>
-  <a href="#modszertanok">Módszertanok</a>
-  <a href="#scrum">Scrum</a>
-</nav>
-
-<main>
-
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- 1. SOLID -->
-<!-- ═══════════════════════════════════════════════════════ -->
-<section id="solid">
-  <div class="section-header">
-    <span class="section-num">01</span>
-    <h2>SOLID elvek</h2>
-  </div>
-
-  <p>Az öt SOLID elv a jól tervezett, karbantartható OO kód alapköve. Mindegyik egy oksági elvben foglalja össze, mikor és miért változzon egy osztály.</p>
-
-  <div class="card card-accent">
-    <h4>S – Single Responsibility Principle (SRP)</h4>
-    <p>Egy osztálynak <strong>egyetlen felelőssége</strong> legyen – csak <em>egy ok</em> miatt változhasson.</p>
-    <p><em>Példa:</em> A riport <strong>összeállítása</strong> és <strong>nyomtatása</strong> két különböző ok miatt változhat → két különböző osztály.</p>
+  <nav>
     <ul>
-      <li>Erős kohézió (cohesion) és laza csatolás (coupling) az eredmény</li>
-      <li>Robosztusabb, átláthatóbb, jobb tesztelhetőség</li>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="halozat.html">Hálózat</a></li>
+      <li><a href="adatkezeles.html">Adatkezelés</a></li>
+      <li><a href="sztt.html">SZTT</a></li>
+      <li><a href="osszesito.html">Összesítő</a></li>
+      <li><a href="kikerdezo.html">Kikérdező</a></li>
     </ul>
-  </div>
+  </nav>
 
-  <div class="card card-orange">
-    <h4>O – Open/Closed Principle (OCP)</h4>
-    <p>A komponens legyen <strong>nyitott a bővítésre</strong>, de <strong>zárt a módosításra</strong>. Anélkül tudjuk bővíteni, hogy a meglévő kódhoz hozzá kellene nyúlni.</p>
-    <pre><code><span class="cm">// ROSSZ: minden új alakzatnál módosítani kell</span>
+  <div class="wrap">
+    <h2>Szoftvertechnológia és -technikák</h2>
+
+    <div class="tabs">
+      <button class="tab active" onclick="showPage('solid')">1. SOLID elvek</button>
+      <button class="tab" onclick="showPage('uml')">2. UML modellezés</button>
+      <button class="tab" onclick="showPage('mintak')">3. Tervezési minták</button>
+      <button class="tab" onclick="showPage('modszertanok')">4. Módszertanok</button>
+    </div>
+
+    <!-- ================= 1. SOLID ================= -->
+    <div id="solid" class="page active">
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">SOLID alapelvek <span class="badge k">ZV</span> <span class="chevron open">▼</span></div>
+        <div class="sec-body open">
+          <p>Az öt SOLID elv a jól tervezett, karbantartható OO kód alapköve. Mindegyik egy oksági elvben foglalja össze, mikor és miért változzon egy osztály.</p>
+
+          <div class="card card-accent">
+            <h4>S – Single Responsibility Principle (SRP)</h4>
+            <p>Egy osztálynak <strong>egyetlen felelőssége</strong> legyen – csak <em>egy ok</em> miatt változhasson.</p>
+            <p><em>Példa:</em> A riport <strong>összeállítása</strong> és <strong>nyomtatása</strong> két különböző ok miatt változhat → két különböző osztály.</p>
+            <ul>
+              <li>Erős kohézió (cohesion) és laza csatolás (coupling) az eredmény</li>
+              <li>Robusztusabb, átláthatóbb, jobb tesztelhetőség</li>
+            </ul>
+          </div>
+
+          <div class="card card-orange">
+            <h4>O – Open/Closed Principle (OCP)</h4>
+            <p>A komponens legyen <strong>nyitott a bővítésre</strong>, de <strong>zárt a módosításra</strong>. Anélkül tudjuk bővíteni, hogy a meglévő kódhoz hozzá kellene nyúlni.</p>
+            <pre><code><span class="cm">// ROSSZ: minden új alakzatnál módosítani kell</span>
 <span class="kw">if</span> (s <span class="kw">instanceof</span> Rectangle) area += r.a * r.b;
 <span class="kw">else if</span> (s <span class="kw">instanceof</span> Circle) area += c.r * c.r * PI;
 
 <span class="cm">// JÓ: interfész-alapú, bővítés új osztállyal</span>
 <span class="kw">interface</span> <span class="cls">Shape</span> { <span class="kw">double</span> area(); }
 area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code></pre>
-  </div>
+          </div>
 
-  <div class="card card-blue">
-    <h4>L – Liskov Substitution Principle (LSP)</h4>
-    <p>Az objektumokat <strong>leszármazott osztályukkal felcserélhetjük</strong> a helyes működés megsértése nélkül.</p>
-    <p>Technikai polimorfizmus ≠ LSP; a viselkedésnek is meg kell felelnie (pl. lista valóban tárolja és visszaadja, amit beletettünk).</p>
-  </div>
+          <div class="card card-blue">
+            <h4>L – Liskov Substitution Principle (LSP)</h4>
+            <p>Az objektumokat <strong>leszármazott osztályukkal felcserélhetjük</strong> a helyes működés megsértése nélkül.</p>
+            <p>Technikai polimorfizmus ≠ LSP; a viselkedésnek is meg kell felelnie (pl. lista valóban tárolja és visszaadja, amit beletettünk).</p>
+          </div>
 
-  <div class="card card-green">
-    <h4>I – Interface Segregation Principle (ISP)</h4>
-    <p>Az osztály <strong>ne függjön olyan interfészektől</strong>, amelyeknek metódusait nem használja ki. Használjunk specifikus, kis interfészeket a nagy helyett.</p>
-    <pre><code><span class="cm">// ROSSZ: BmwX5-nek nem kell setTurnSignal</span>
+          <div class="card card-green">
+            <h4>I – Interface Segregation Principle (ISP)</h4>
+            <p>Az osztály <strong>ne függjön olyan interfészektől</strong>, amelyeknek metódusait nem használja ki. Használjunk specifikus, kis interfészeket a nagy helyett.</p>
+            <pre><code><span class="cm">// ROSSZ: BmwX5-nek nem kell setTurnSignal</span>
 <span class="kw">interface</span> <span class="cls">Car</span> { setSeatHeating(); setTurnSignalLeft(); ... }
 
 <span class="cm">// JÓ: szétválasztva</span>
 <span class="kw">interface</span> <span class="cls">SeatHeating</span> { setSeatHeating(<span class="kw">boolean</span> v); }
 <span class="kw">class</span> <span class="cls">BmwX5</span> <span class="kw">implements</span> <span class="cls">SeatHeating</span> { ... }</code></pre>
-  </div>
+          </div>
 
-  <div class="card card-purple">
-    <h4>D – Dependency Inversion Principle (DIP)</h4>
-    <p><strong>Absztrakcióktól</strong> függjünk, ne konkrét dolgokból. A függőségeket ne a függő osztály hozza létre, hanem <strong>kívülről kapja</strong> (→ Dependency Injection).</p>
-    <ul>
-      <li>Interfészek/absztrakt osztályok a függőségekhez</li>
-      <li>Konstruktor- vagy setter-paraméterként adják át az implementációt</li>
-    </ul>
-  </div>
+          <div class="card card-purple">
+            <h4>D – Dependency Inversion Principle (DIP)</h4>
+            <p><strong>Absztrakcióktól</strong> függjünk, ne konkrét dolgokból. A függőségeket ne a függő osztály hozza létre, hanem <strong>kívülről kapja</strong> (→ Dependency Injection).</p>
+            <ul>
+              <li>Interfészek/absztrakt osztályok a függőségekhez</li>
+              <li>Konstruktor- vagy setter-paraméterként adják át az implementációt</li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-  <hr>
-  <h3>Kapcsolódó elvek</h3>
-  <div class="grid-3">
-    <div class="card">
-      <h4>KISS</h4>
-      <p style="color:var(--text-muted);font-size:.85rem">Keep it simple stupid – feleslegesen ne bonyolítsuk a kódot.</p>
-    </div>
-    <div class="card">
-      <h4>YAGNI</h4>
-      <p style="color:var(--text-muted);font-size:.85rem">You aren't gonna need it – amíg nem biztos, hogy kell, ne fejlesszük ki.</p>
-    </div>
-    <div class="card">
-      <h4>DRY</h4>
-      <p style="color:var(--text-muted);font-size:.85rem">Don't repeat yourself – minden feladatot egyszer, egy helyen oldjunk meg.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- 2. UML ÁTTEKINTÉS -->
-<!-- ═══════════════════════════════════════════════════════ -->
-<section id="uml">
-  <div class="section-header">
-    <span class="section-num">02</span>
-    <h2>UML – Áttekintés</h2>
-  </div>
-
-  <p><strong>Unified Modeling Language (UML 2.5.1)</strong> – szabványos, általános modellező nyelv szoftverrendszerek dokumentálásához és tervezéséhez. <em>Nem oldja meg a problémát, csak segít leírni.</em></p>
-
-  <div class="grid-2">
-    <div>
-      <h3>Struktúradiagramok</h3>
-      <ul>
-        <li><strong>Osztálydiagram</strong> – osztályok, tagváltozók, kapcsolatok</li>
-        <li>Komponensdiagram</li>
-        <li>Telepítési diagram</li>
-        <li>Objektumdiagram</li>
-        <li>Csomagdiagram</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Viselkedésdiagramok</h3>
-      <ul>
-        <li><strong>Állapotgép</strong> – állapotok, átmenetek</li>
-        <li><strong>Szekvenciadiagram</strong> – interakciók sorrendje</li>
-        <li>Aktivitásdiagram – munkafolyamat</li>
-        <li>Használati eset diagram</li>
-        <li>Kommunikációs diagram</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="highlight">
-    <strong>Vizsgán kiemelten fontos:</strong> Osztálydiagram, Szekvenciadiagram, Állapotgép (State Machine)
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- 3. OSZTÁLYDIAGRAM -->
-<!-- ═══════════════════════════════════════════════════════ -->
-<section id="osztalydiagram">
-  <div class="section-header">
-    <span class="section-num">03</span>
-    <h2>Osztálydiagram</h2>
-  </div>
-
-  <p>A leggyakrabban használt UML diagram. OOP-alapú rendszerek struktúráját írja le: osztályok, tagváltozók, metódusok, kapcsolatok. Programozási nyelvtől független.</p>
-
-  <h3>Osztályok szintaxisa</h3>
-
-  <div class="card">
-    <table>
-      <thead>
-        <tr><th>Elem</th><th>Szintaxis</th><th>Példa</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>Tagváltozó</td><td><code>[láthatóság] [név]: [típus][mult] [=érték]</code></td><td><code>- balance: int = 0</code></td></tr>
-        <tr><td>Metódus/Művelet</td><td><code>[láthatóság] [név]([params])[: visszatérés]</code></td><td><code>+ withdraw(amount: int): bool</code></td></tr>
-        <tr><td>Statikus tag</td><td>aláhúzással jelölve</td><td><code><u>- maxId: int</u></code></td></tr>
-        <tr><td>Absztrakt</td><td>dőlt betűvel jelölve</td><td><em>+ calculate(): double</em></td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3>Láthatósági jelölések</h3>
-  <div style="display:flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom:1rem">
-    <span class="pill pill-green"><code>+</code> public</span>
-    <span class="pill pill-red"><code>-</code> private</span>
-    <span class="pill pill-orange"><code>#</code> protected</span>
-    <span class="pill pill-blue"><code>~</code> package</span>
-  </div>
-
-  <h3>Multiplicitás</h3>
-  <div style="display:flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom:1rem">
-    <span class="pill pill-yellow"><code>1</code> vagy <code>1..1</code></span>
-    <span class="pill pill-yellow"><code>0..1</code> opcionális</span>
-    <span class="pill pill-yellow"><code>0..*</code> vagy <code>*</code> lista</span>
-    <span class="pill pill-yellow"><code>n..m</code> tartomány</span>
-  </div>
-
-  <h3>Kapcsolattípusok</h3>
-
-  <div class="card">
-    <table>
-      <thead>
-        <tr><th>Kapcsolat</th><th>Jelölés</th><th>Szemantika</th><th>Kódban</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Asszociáció</strong></td>
-          <td>folytonos vonal</td>
-          <td>Általános kapcsolat, (részben) navigálható</td>
-          <td>tagváltozó</td>
-        </tr>
-        <tr>
-          <td><strong>Általánosítás / Öröklés</strong></td>
-          <td>üres háromszög nyíl az ős felé</td>
-          <td>IS-A, leszármazott kibővíti az őst</td>
-          <td><code>extends</code></td>
-        </tr>
-        <tr>
-          <td><strong>Interfész megvalósítás</strong></td>
-          <td>szaggatott vonal üres háromszöggel</td>
-          <td>IS-A, interfész implementálása</td>
-          <td><code>implements</code></td>
-        </tr>
-        <tr>
-          <td><strong>Kompozíció</strong></td>
-          <td>teli rombusz a tartalmazónál</td>
-          <td>HAS-A kizárólagos; törléskor a tartalmazott is törlődik</td>
-          <td>tagváltozó</td>
-        </tr>
-        <tr>
-          <td><strong>Aggregáció</strong></td>
-          <td>üres rombusz a tartalmazónál</td>
-          <td>HAS-A megosztott; egységek életciklusa független</td>
-          <td>tagváltozó</td>
-        </tr>
-        <tr>
-          <td><strong>Függőség</strong></td>
-          <td>szaggatott nyíl</td>
-          <td>Laza, ideiglenes kapcsolat</td>
-          <td><code>import</code> / helyi példány</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="highlight">
-    <strong>IS-A vs HAS-A emlékeztető:</strong>
-    Öröklés/interfész = IS-A (általánosítás, közös funkcionalitás, Liskov-felcserélhetőség).
-    Kompozíció = kizárólagos HAS-A (tartalmazó nélkül nem létezik a tartalmazott).
-    Aggregáció = megosztott HAS-A (más is „tartalmazza").
-    Asszociáció = sem tartalmazás, sem öröklés.
-  </div>
-
-  <h3>Egyéb elemek</h3>
-  <div class="grid-2">
-    <div class="card">
-      <h4>Enumeráció &lt;&lt;enumeration&gt;&gt;</h4>
-      <p>Felsorolt típus rögzített értékkészlettel (pl. <code>AKTIV | INAKTIV | VARAKSZO</code>).</p>
-    </div>
-    <div class="card">
-      <h4>Sztereotípiák &lt;&lt;stereotype&gt;&gt;</h4>
-      <p>Meglévő elem jelentésének kiterjesztése. Pl. <code>&lt;&lt;interface&gt;&gt;</code>, <code>&lt;&lt;enumeration&gt;&gt;</code>, <code>&lt;&lt;use&gt;&gt;</code> (dependency-nél).</p>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- 4. SZEKVENCIADIAGRAM -->
-<!-- ═══════════════════════════════════════════════════════ -->
-<section id="szekvencia">
-  <div class="section-header">
-    <span class="section-num">04</span>
-    <h2>Szekvenciadiagram</h2>
-  </div>
-
-  <p>Az objektumok közötti <strong>üzenetek sorrendjére</strong> fókuszál. Egy konkrét lefutást ábrázol. Rendszer- és metódusszinten egyaránt alkalmazható.</p>
-
-  <h3>Alapfogalmak</h3>
-
-  <div class="grid-2">
-    <div class="card">
-      <h4>Életvonal (Lifeline)</h4>
-      <p>Szintaxis: <code>[név]: [típus]</code></p>
-      <p>Nem osztályok, hanem <strong>példányok</strong> szerepelnek. Az idő fentről lefelé telik.</p>
-    </div>
-    <div class="card">
-      <h4>Futási specifikáció</h4>
-      <p>Téglalap az életvonalon – jelzi, hogy az objektum éppen aktív (metódus fut rajta).</p>
-    </div>
-  </div>
-
-  <h3>Üzenettípusok</h3>
-  <div class="card">
-    <table>
-      <thead>
-        <tr><th>Típus</th><th>Jelölés</th><th>Jellemző</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>Szinkron hívás</strong></td><td>teli nyílhegy →</td><td>Blokkolja a hívót, van visszatérési értéke (szaggatott nyíl visszafelé)</td></tr>
-        <tr><td><strong>Aszinkron hívás</strong></td><td>nyitott nyílhegy →</td><td>Nem blokkolja a hívót, nincs kötelező visszatérési érték</td></tr>
-        <tr><td><strong>Belső hívás</strong></td><td>önmagára mutat</td><td>Az objektum saját metódusát hívja</td></tr>
-        <tr><td><strong>Létrehozás</strong></td><td><code>&lt;&lt;create&gt;&gt;</code> sztereotípiával</td><td>Konstruktor – az életvonal később kezdődik</td></tr>
-        <tr><td><strong>Megsemmisítés</strong></td><td>X az életvonal végén</td><td>Destruktor – az életvonal véget ér</td></tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3>Kombinált részletek (Combined Fragments)</h3>
-
-  <div class="grid-2">
-    <div class="card card-blue">
-      <h4><code>alt</code> – Alternatív</h4>
-      <p>If-else jellegű elágazás. Feltételek <code>[ ]</code> zárójelben jelölve. Minden feltétel legfeljebb egyszer fut.</p>
-    </div>
-    <div class="card card-green">
-      <h4><code>loop</code> – Ciklus</h4>
-      <p>Elöltesztelős ciklus feltétel szerint. <code>[min, max]</code> megadható a keretben.</p>
-    </div>
-    <div class="card card-orange">
-      <h4><code>opt</code> – Opcionális</h4>
-      <p>Else ág nélküli if. A blokk csak a feltétel teljesülésekor fut.</p>
-    </div>
-    <div class="card card-purple">
-      <h4><code>par</code> – Párhuzamos</h4>
-      <p>Párhuzamosan végrehajtandó utasítások. Részei bármilyen sorrendben végrehajthatók.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- 5. ÁLLAPOTGÉP -->
-<!-- ═══════════════════════════════════════════════════════ -->
-<section id="allapotgep">
-  <div class="section-header">
-    <span class="section-num">05</span>
-    <h2>Állapotgép (State Machine)</h2>
-  </div>
-
-  <p>Objektum-orientált, eseményvezérelt „véges automata". Fókusz: <strong>a rendszer állapotai</strong> és <strong>az állapotátmenetek feltételei</strong>.</p>
-
-  <div class="grid-2">
-    <div>
-      <h3>Alapelemek</h3>
-      <div class="card">
-        <table>
-          <thead><tr><th>Elem</th><th>Jelölés</th></tr></thead>
-          <tbody>
-            <tr><td>Kezdő állapot</td><td>Teli kör (●)</td></tr>
-            <tr><td>Állapot</td><td>Lekerekített téglalap</td></tr>
-            <tr><td>Végső állapot</td><td>Teli kör körrel (◎)</td></tr>
-            <tr><td>Terminálás</td><td>X – azonnal vége, akciók nélkül</td></tr>
-            <tr><td>Átmenet</td><td>Nyíl állapotok között</td></tr>
-          </tbody>
-        </table>
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Kapcsolódó elvek <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <div class="grid-3">
+            <div class="card">
+              <h4>KISS</h4>
+              <p style="color:var(--text-muted);font-size:.85rem">Keep it simple stupid – feleslegesen ne bonyolítsuk a kódot.</p>
+            </div>
+            <div class="card">
+              <h4>YAGNI</h4>
+              <p style="color:var(--text-muted);font-size:.85rem">You aren't gonna need it – amíg nem biztos, hogy kell, ne fejlesszük ki.</p>
+            </div>
+            <div class="card">
+              <h4>DRY</h4>
+              <p style="color:var(--text-muted);font-size:.85rem">Don't repeat yourself – minden feladatot egyszer, egy helyen oldjunk meg.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div>
-      <h3>Átmenet felépítése</h3>
-      <div class="card">
-        <p style="font-family:'DM Mono',monospace; font-size:0.85rem; color:var(--accent); margin-bottom:0.75rem">trigger [őrfeltétel] / akció</p>
-        <ul style="font-size:0.87rem">
-          <li><strong>Trigger:</strong> az átmenet oka (esemény, kódban: külső metódushívás)</li>
-          <li><strong>Őrfeltétel:</strong> <code>[ ]</code> zárójelben; triggerek finomhangolása</li>
-          <li><strong>Akció:</strong> az átmenet során végrehajtandó kód (belső függvényhívás)</li>
-        </ul>
+
+    <!-- ================= 2. UML MODELLEZÉS ================= -->
+    <div id="uml" class="page">
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">UML áttekintés <span class="badge i">def</span> <span class="chevron open">▼</span></div>
+        <div class="sec-body open">
+          <p><strong>Unified Modeling Language (UML 2.5.1)</strong> – szabványos, általános modellező nyelv szoftverrendszerek dokumentálásához és tervezéséhez. <em>Nem oldja meg a problémát, csak segít leírni.</em></p>
+
+          <div class="grid-2">
+            <div>
+              <h3>Struktúradiagramok</h3>
+              <ul>
+                <li><strong>Osztálydiagram</strong> – osztályok, tagváltozók, kapcsolatok</li>
+                <li>Komponensdiagram</li>
+                <li>Telepítési diagram</li>
+                <li>Objektumdiagram</li>
+                <li>Csomagdiagram</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Viselkedésdiagramok</h3>
+              <ul>
+                <li><strong>Állapotgép</strong> – állapotok, átmenetek</li>
+                <li><strong>Szekvenciadiagram</strong> – interakciók sorrendje</li>
+                <li>Aktivitásdiagram – munkafolyamat</li>
+                <li>Használati eset diagram</li>
+                <li>Kommunikációs diagram</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="highlight">
+            <strong>Vizsgán kiemelten fontos:</strong> Osztálydiagram, Szekvenciadiagram, Állapotgép (State Machine)
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Osztálydiagram <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <p>A leggyakrabban használt UML diagram. OOP-alapú rendszerek struktúráját írja le: osztályok, tagváltozók, metódusok, kapcsolatok. Programozási nyelvtől független.</p>
+
+          <h3>Osztályok szintaxisa</h3>
+
+          <div class="card">
+            <table>
+              <thead>
+                <tr><th>Elem</th><th>Szintaxis</th><th>Példa</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Tagváltozó</td><td><code>[láthatóság] [név]: [típus][mult] [=érték]</code></td><td><code>- balance: int = 0</code></td></tr>
+                <tr><td>Metódus/Művelet</td><td><code>[láthatóság] [név]([params])[: visszatérés]</code></td><td><code>+ withdraw(amount: int): bool</code></td></tr>
+                <tr><td>Statikus tag</td><td>aláhúzással jelölve</td><td><code><u>- maxId: int</u></code></td></tr>
+                <tr><td>Absztrakt</td><td>dőlt betűvel jelölve</td><td><em>+ calculate(): double</em></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Láthatósági jelölések</h3>
+          <div style="display:flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom:1rem">
+            <span class="pill pill-green"><code>+</code> public</span>
+            <span class="pill pill-red"><code>-</code> private</span>
+            <span class="pill pill-orange"><code>#</code> protected</span>
+            <span class="pill pill-blue"><code>~</code> package</span>
+          </div>
+
+          <h3>Multiplicitás</h3>
+          <div style="display:flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom:1rem">
+            <span class="pill pill-yellow"><code>1</code> vagy <code>1..1</code></span>
+            <span class="pill pill-yellow"><code>0..1</code> opcionális</span>
+            <span class="pill pill-yellow"><code>0..*</code> vagy <code>*</code> lista</span>
+            <span class="pill pill-yellow"><code>n..m</code> tartomány</span>
+          </div>
+
+          <h3>Kapcsolattípusok</h3>
+
+          <div class="card">
+            <table>
+              <thead>
+                <tr><th>Kapcsolat</th><th>Jelölés</th><th>Szemantika</th><th>Kódban</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Asszociáció</strong></td>
+                  <td>folytonos vonal</td>
+                  <td>Általános kapcsolat, (részben) navigálható</td>
+                  <td>tagváltozó</td>
+                </tr>
+                <tr>
+                  <td><strong>Általánosítás / Öröklés</strong></td>
+                  <td>üres háromszög nyíl az ős felé</td>
+                  <td>IS-A, leszármazott kibővíti az őst</td>
+                  <td><code>extends</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Interfész megvalósítás</strong></td>
+                  <td>szaggatott vonal üres háromszöggel</td>
+                  <td>IS-A, interfész implementálása</td>
+                  <td><code>implements</code></td>
+                </tr>
+                <tr>
+                  <td><strong>Kompozíció</strong></td>
+                  <td>teli rombusz a tartalmazónál</td>
+                  <td>HAS-A kizárólagos; törléskor a tartalmazott is törlődik</td>
+                  <td>tagváltozó</td>
+                </tr>
+                <tr>
+                  <td><strong>Aggregáció</strong></td>
+                  <td>üres rombusz a tartalmazónál</td>
+                  <td>HAS-A megosztott; egységek életciklusa független</td>
+                  <td>tagváltozó</td>
+                </tr>
+                <tr>
+                  <td><strong>Függőség</strong></td>
+                  <td>szaggatott nyíl</td>
+                  <td>Laza, ideiglenes kapcsolat</td>
+                  <td><code>import</code> / helyi példány</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="highlight">
+            <strong>IS-A vs HAS-A emlékeztető:</strong>
+            Öröklés/interfész = IS-A (általánosítás, közös funkcionalitás, Liskov-felcserélhetőség).
+            Kompozíció = kizárólagos HAS-A (tartalmazó nélkül nem létezik a tartalmazott).
+            Aggregáció = megosztott HAS-A (más is „tartalmazza").
+            Asszociáció = sem tartalmazás, sem öröklés.
+          </div>
+
+          <h3>Egyéb elemek</h3>
+          <div class="grid-2">
+            <div class="card">
+              <h4>Enumeráció &lt;&lt;enumeration&gt;&gt;</h4>
+              <p>Felsorolt típus rögzített értékkészlettel (pl. <code>AKTIV | INAKTIV | VARAKSZO</code>).</p>
+            </div>
+            <div class="card">
+              <h4>Sztereotípiák &lt;&lt;stereotype&gt;&gt;</h4>
+              <p>Meglévő elem jelentésének kiterjesztése. Pl. <code>&lt;&lt;interface&gt;&gt;</code>, <code>&lt;&lt;enumeration&gt;&gt;</code>, <code>&lt;&lt;use&gt;&gt;</code> (dependency-nél).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Szekvenciadiagram <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <p>Az objektumok közötti <strong>üzenetek sorrendjére</strong> fókuszál. Egy konkrét lefutást ábrázol. Rendszer- és metódusszinten egyaránt alkalmazható.</p>
+
+          <h3>Alapfogalmak</h3>
+
+          <div class="grid-2">
+            <div class="card">
+              <h4>Életvonal (Lifeline)</h4>
+              <p>Szintaxis: <code>[név]: [típus]</code></p>
+              <p>Nem osztályok, hanem <strong>példányok</strong> szerepelnek. Az idő fentről lefelé telik.</p>
+            </div>
+            <div class="card">
+              <h4>Futási specifikáció</h4>
+              <p>Téglalap az életvonalon – jelzi, hogy az objektum éppen aktív (metódus fut rajta).</p>
+            </div>
+          </div>
+
+          <h3>Üzenettípusok</h3>
+          <div class="card">
+            <table>
+              <thead>
+                <tr><th>Típus</th><th>Jelölés</th><th>Jellemző</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Szinkron hívás</strong></td><td>teli nyílhegy →</td><td>Blokkolja a hívót, van visszatérési értéke (szaggatott nyíl visszafelé)</td></tr>
+                <tr><td><strong>Aszinkron hívás</strong></td><td>nyitott nyílhegy →</td><td>Nem blokkolja a hívót, nincs kötelező visszatérési érték</td></tr>
+                <tr><td><strong>Belső hívás</strong></td><td>önmagára mutat</td><td>Az objektum saját metódusát hívja</td></tr>
+                <tr><td><strong>Létrehozás</strong></td><td><code>&lt;&lt;create&gt;&gt;</code> sztereotípiával</td><td>Konstruktor – az életvonal később kezdődik</td></tr>
+                <tr><td><strong>Megsemmisítés</strong></td><td>X az életvonal végén</td><td>Destruktor – az életvonal véget ér</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Kombinált részletek (Combined Fragments)</h3>
+
+          <div class="grid-2">
+            <div class="card card-blue">
+              <h4><code>alt</code> – Alternatív</h4>
+              <p>If-else jellegű elágazás. Feltételek <code>[ ]</code> zárójelben jelölve. Minden feltétel legfeljebb egyszer fut.</p>
+            </div>
+            <div class="card card-green">
+              <h4><code>loop</code> – Ciklus</h4>
+              <p>Elöltesztelős ciklus feltétel szerint. <code>[min, max]</code> megadható a keretben.</p>
+            </div>
+            <div class="card card-orange">
+              <h4><code>opt</code> – Opcionális</h4>
+              <p>Else ág nélküli if. A blokk csak a feltétel teljesülésekor fut.</p>
+            </div>
+            <div class="card card-purple">
+              <h4><code>par</code> – Párhuzamos</h4>
+              <p>Párhuzamosan végrehajtandó utasítások. Részei bármilyen sorrendben végrehajthatók.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Állapotgép (State Machine) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <p>Objektum-orientált, eseményvezérelt „véges automata". Fókusz: <strong>a rendszer állapotai</strong> és <strong>az állapotátmenetek feltételei</strong>.</p>
+
+          <div class="grid-2">
+            <div>
+              <h3>Alapelemek</h3>
+              <div class="card">
+                <table>
+                  <thead><tr><th>Elem</th><th>Jelölés</th></tr></thead>
+                  <tbody>
+                    <tr><td>Kezdő állapot</td><td>Teli kör (●)</td></tr>
+                    <tr><td>Állapot</td><td>Lekerekített téglalap</td></tr>
+                    <tr><td>Végső állapot</td><td>Teli kör körrel (◎)</td></tr>
+                    <tr><td>Terminálás</td><td>X – azonnal vége, akciók nélkül</td></tr>
+                    <tr><td>Átmenet</td><td>Nyíl állapotok között</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div>
+              <h3>Átmenet felépítése</h3>
+              <div class="card">
+                <p style="font-family:'DM Mono',monospace; font-size:0.85rem; color:var(--accent); margin-bottom:0.75rem">trigger [őrfeltétel] / akció</p>
+                <ul style="font-size:0.87rem">
+                  <li><strong>Trigger:</strong> az átmenet oka (esemény, kódban: külső metódushívás)</li>
+                  <li><strong>Őrfeltétel:</strong> <code>[ ]</code> zárójelben; triggerek finomhangolása</li>
+                  <li><strong>Akció:</strong> az átmenet során végrehajtandó kód (belső függvényhívás)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <h3>Összetett állapotok és speciális elemek</h3>
+
+          <div class="pattern-grid">
+            <div class="pattern-card">
+              <div class="pattern-type" style="color:var(--accent)">Összetett állapot</div>
+              <h4>Composite State</h4>
+              <p>Más állapotokat tartalmaz belül. Belépési (entry) és kilépési (exit) akciók futnak be-/kilépéskor.</p>
+            </div>
+            <div class="pattern-card">
+              <div class="pattern-type" style="color:var(--blue)">Régió</div>
+              <h4>Ortogonális régiók</h4>
+              <p>Összetett állapot párhuzamos részekre bontva (fork/join). Mindkét régió párhuzamosan aktív.</p>
+            </div>
+            <div class="pattern-card">
+              <div class="pattern-type" style="color:var(--accent3)">Történet</div>
+              <h4>Shallow (H) / Deep (H*)</h4>
+              <p>Visszatéréskor visszaállítja a korábbi belső állapotot. Shallow: egy szint. Deep: bármilyen mélység.</p>
+            </div>
+            <div class="pattern-card">
+              <div class="pattern-type" style="color:var(--purple)">Alállapotgép</div>
+              <h4>Submachine State</h4>
+              <p>Hivatkozás egy másik összetett állapotra. Újrafelhasználás lehetősége.</p>
+            </div>
+            <div class="pattern-card">
+              <div class="pattern-type" style="color:var(--accent2)">Elágazás / Egyesítés</div>
+              <h4>Fork / Join</h4>
+              <p>Fork: egyszerre több állapot aktiválódik. Join: megvárja az összes részállapotot.</p>
+            </div>
+            <div class="pattern-card">
+              <div class="pattern-type" style="color:var(--text-muted)">Be-/kilépési pont</div>
+              <h4>Entry / Exit Point</h4>
+              <p>Nevesített be- és kilépési pontok összetett állapoton. Különböző forgatókönyvekhez.</p>
+            </div>
+          </div>
+
+          <h3>Mikor melyiket?</h3>
+          <div class="card">
+            <table>
+              <thead><tr><th>Diagram</th><th>Mire jó?</th></tr></thead>
+              <tbody>
+                <tr><td>Szekvenciadiagram</td><td>Metódushívások, üzenetek tényleges időbelisége</td></tr>
+                <tr><td>Aktivitásdiagram</td><td>Munkafolyamat; vezérlési folyam fontosabb az állapotnál</td></tr>
+                <tr><td>Állapotgép</td><td>Eseményvezérelt állapotátmenetek</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
 
-  <h3>Összetett állapotok és speciális elemek</h3>
+    <!-- ================= 3. TERVEZÉSI MINTÁK ================= -->
+    <div id="mintak" class="page">
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Tervezési minták kategóriái <span class="chevron open">▼</span></div>
+        <div class="sec-body open">
+          <p>A <strong>GoF (Gang of Four)</strong> könyv 23 mintát katalogizált. Célok: könnyen változtatható/kiterjeszthető kód, újrafelhasználhatóság, unit tesztelhetőség.</p>
 
-  <div class="pattern-grid">
-    <div class="pattern-card">
-      <div class="pattern-type" style="color:var(--accent)">Összetett állapot</div>
-      <h4>Composite State</h4>
-      <p>Más állapotokat tartalmaz belül. Belépési (entry) és kilépési (exit) akciók futnak be-/kilépéskor.</p>
-    </div>
-    <div class="pattern-card">
-      <div class="pattern-type" style="color:var(--blue)">Régió</div>
-      <h4>Ortogonális régiók</h4>
-      <p>Összetett állapot párhuzamos részekre bontva (fork/join). Mindkét régió párhuzamosan aktív.</p>
-    </div>
-    <div class="pattern-card">
-      <div class="pattern-type" style="color:var(--accent3)">Történet</div>
-      <h4>Shallow (H) / Deep (H*)</h4>
-      <p>Visszatéréskor visszaállítja a korábbi belső állapotot. Shallow: egy szint. Deep: bármilyen mélység.</p>
-    </div>
-    <div class="pattern-card">
-      <div class="pattern-type" style="color:var(--purple)">Alállapotgép</div>
-      <h4>Submachine State</h4>
-      <p>Hivatkozás egy másik összetett állapotra. Újrafelhasználás lehetősége.</p>
-    </div>
-    <div class="pattern-card">
-      <div class="pattern-type" style="color:var(--accent2)">Elágazás / Egyesítés</div>
-      <h4>Fork / Join</h4>
-      <p>Fork: egyszerre több állapot aktiválódik. Join: megvárja az összes részállapotot.</p>
-    </div>
-    <div class="pattern-card">
-      <div class="pattern-type" style="color:var(--text-muted)">Be-/kilépési pont</div>
-      <h4>Entry / Exit Point</h4>
-      <p>Nevesített be- és kilépési pontok összetett állapoton. Különböző forgatókönyvekhez.</p>
-    </div>
-  </div>
+          <div class="grid-3">
+            <div class="card card-yellow" style="border-left: 3px solid var(--accent)">
+              <h4>Létrehozási</h4>
+              <p style="font-size:.85rem;color:var(--text-muted)">Factory Method, Abstract Factory, <strong>Singleton</strong>, Builder, Prototype</p>
+            </div>
+            <div class="card card-blue">
+              <h4>Strukturális</h4>
+              <p style="font-size:.85rem;color:var(--text-muted)"><strong>Adapter</strong>, <strong>Composite</strong>, Façade, Proxy, Bridge, Decorator</p>
+            </div>
+            <div class="card card-green">
+              <h4>Viselkedési</h4>
+              <p style="font-size:.85rem;color:var(--text-muted)"><strong>Template Method</strong>, <strong>Strategy</strong>, <strong>Observer</strong>, Command, Memento, …</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <h3>Mikor melyiket?</h3>
-  <div class="card">
-    <table>
-      <thead><tr><th>Diagram</th><th>Mire jó?</th></tr></thead>
-      <tbody>
-        <tr><td>Szekvenciadiagram</td><td>Metódushívások, üzenetek tényleges időbelisége</td></tr>
-        <tr><td>Aktivitásdiagram</td><td>Munkafolyamat; vezérlési folyam fontosabb az állapotnál</td></tr>
-        <tr><td>Állapotgép</td><td>Eseményvezérelt állapotátmenetek</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- 6. TERVEZÉSI MINTÁK -->
-<!-- ═══════════════════════════════════════════════════════ -->
-<section id="mintak">
-  <div class="section-header">
-    <span class="section-num">06</span>
-    <h2>Tervezési minták</h2>
-  </div>
-
-  <p>A <strong>GoF (Gang of Four)</strong> könyv 23 mintát katalogizált. Célok: könnyen változtatható/kiterjeszthető kód, újrafelhasználhatóság, unit tesztelhetőség.</p>
-
-  <h3>Kategóriák</h3>
-  <div class="grid-3">
-    <div class="card card-yellow" style="border-left: 3px solid var(--accent)">
-      <h4>Létrehozási</h4>
-      <p style="font-size:.85rem;color:var(--text-muted)">Factory Method, Abstract Factory, <strong>Singleton</strong>, Builder, Prototype</p>
-    </div>
-    <div class="card card-blue">
-      <h4>Strukturális</h4>
-      <p style="font-size:.85rem;color:var(--text-muted)"><strong>Adapter</strong>, <strong>Composite</strong>, Façade, Proxy, Bridge, Decorator</p>
-    </div>
-    <div class="card card-green">
-      <h4>Viselkedési</h4>
-      <p style="font-size:.85rem;color:var(--text-muted)"><strong>Template Method</strong>, <strong>Strategy</strong>, <strong>Observer</strong>, Command, Memento, …</p>
-    </div>
-  </div>
-
-  <hr>
-
-  <!-- TEMPLATE METHOD -->
-  <h3>Template Method (Sablonmetódus)</h3>
-  <div class="card card-orange">
-    <p><strong>Cél:</strong> Algoritmusvázat definiál, a lépések implementálását a leszármazottra bízza. Az ős <code>Run()</code> metódusa hívja a virtuális/absztrakt lépéseket.</p>
-    <div class="grid-2">
-      <div>
-        <h4>Osztálydiagram (egyszerűsített)</h4>
-        <pre><code><span class="kw">abstract class</span> <span class="cls">DataProcessorBase</span> {
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Template Method (Sablonmetódus) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <p><strong>Cél:</strong> Algoritmusvázat definiál, a lépések implementálását a leszármazottra bízza. Az ős <code>Run()</code> metódusa hívja a virtuális/absztrakt lépéseket.</p>
+          <div class="grid-2">
+            <div>
+              <h4>Osztálydiagram (egyszerűsített)</h4>
+              <pre><code><span class="kw">abstract class</span> <span class="cls">DataProcessorBase</span> {
   <span class="kw">public void</span> Run() {
     InitCompression();
     <span class="kw">while</span> (data != null) {
@@ -793,37 +440,36 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
   <span class="kw">protected override void</span> InitCompression() { ... }
   <span class="cm">// ...többi override</span>
 }</code></pre>
-      </div>
-      <div>
-        <h4>Mikor jó? Mikor nem?</h4>
-        <div class="compare">
-          <div class="compare-col">
-            <h4 style="color:var(--accent3)">✓ Előnyök</h4>
-            <ul style="font-size:.85rem">
-              <li>Kódduplikáció elkerülése (DRY)</li>
-              <li>Könnyen új viselkedés</li>
-              <li>Keretrendszerekben gyakori</li>
-            </ul>
-          </div>
-          <div class="compare-col">
-            <h4 style="color:var(--red)">✗ Hátrányok</h4>
-            <ul style="font-size:.85rem">
-              <li>Futás közben nem cserélhető viselkedés</li>
-              <li>Sok aspektusnál kombinatorikus robbanás</li>
-            </ul>
+            </div>
+            <div>
+              <h4>Mikor jó? Mikor nem?</h4>
+              <div class="compare">
+                <div class="compare-col">
+                  <h4 style="color:var(--accent3)">✓ Előnyök</h4>
+                  <ul style="font-size:.85rem">
+                    <li>Kódduplikáció elkerülése (DRY)</li>
+                    <li>Könnyen új viselkedés</li>
+                    <li>Keretrendszerekben gyakori</li>
+                  </ul>
+                </div>
+                <div class="compare-col">
+                  <h4 style="color:var(--red)">✗ Hátrányok</h4>
+                  <ul style="font-size:.85rem">
+                    <li>Futás közben nem cserélhető viselkedés</li>
+                    <li>Sok aspektusnál kombinatorikus robbanás</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <hr>
-
-  <!-- STRATEGY -->
-  <h3>Strategy (Stratégia)</h3>
-  <div class="card card-blue">
-    <p><strong>Cél:</strong> Algoritmusok egy csoportján belül az egyes algoritmusokat egységbe zárja és <strong>egymással kicserélhetővé</strong> teszi. A kliens csak az interfészt látja.</p>
-    <pre><code><span class="kw">interface</span> <span class="cls">ICompressionStrategy</span> {
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Strategy (Stratégia) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <p><strong>Cél:</strong> Algoritmusok egy csoportján belül az egyes algoritmusokat egységbe zárja és <strong>egymással kicserélhetővé</strong> teszi. A kliens csak az interfészt látja.</p>
+          <pre><code><span class="kw">interface</span> <span class="cls">ICompressionStrategy</span> {
   <span class="kw">void</span> InitCompression();
   <span class="kw">byte</span>[] CompressData(<span class="kw">byte</span>[] data);
   <span class="kw">void</span> CloseCompression();
@@ -833,32 +479,31 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
   <span class="cls">ICancellationStrategy</span> cancellationStrategy;
   <span class="cm">// konstruktorban kapja meg (Dependency Injection!)</span>
 }</code></pre>
-    <div class="compare">
-      <div class="compare-col">
-        <h4 style="color:var(--accent3)">✓ Előnyök</h4>
-        <ul style="font-size:.85rem">
-          <li>Futás közben cserélhető viselkedés</li>
-          <li>Több aspektusnál nincs kombinatorikus robbanás</li>
-          <li>Unit tesztelhetőség (dummy strategy)</li>
-        </ul>
+          <div class="compare">
+            <div class="compare-col">
+              <h4 style="color:var(--accent3)">✓ Előnyök</h4>
+              <ul style="font-size:.85rem">
+                <li>Futás közben cserélhető viselkedés</li>
+                <li>Több aspektusnál nincs kombinatorikus robbanás</li>
+                <li>Unit tesztelhetőség (dummy strategy)</li>
+              </ul>
+            </div>
+            <div class="compare-col">
+              <h4 style="color:var(--red)">vs Template Method</h4>
+              <ul style="font-size:.85rem">
+                <li>Strategy: delegál más osztályoknak → rugalmasabb</li>
+                <li>Template Method: leszármazottra bíz → egyszerűbb</li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="compare-col">
-        <h4 style="color:var(--red)">vs Template Method</h4>
-        <ul style="font-size:.85rem">
-          <li>Strategy: delegál más osztályoknak → rugalmasabb</li>
-          <li>Template Method: leszármazottra bíz → egyszerűbb</li>
-        </ul>
-      </div>
-    </div>
-  </div>
 
-  <hr>
-
-  <!-- SINGLETON -->
-  <h3>Singleton (Egyke)</h3>
-  <div class="card card-red">
-    <p><strong>Cél:</strong> Biztosítja, hogy egy osztályból <strong>csak egy példány</strong> létezzen, és ehhez globális hozzáférést biztosít.</p>
-    <pre><code><span class="kw">class</span> <span class="cls">WindowManager</span> {
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Singleton (Egyke) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <p><strong>Cél:</strong> Biztosítja, hogy egy osztályból <strong>csak egy példány</strong> létezzen, és ehhez globális hozzáférést biztosít.</p>
+          <pre><code><span class="kw">class</span> <span class="cls">WindowManager</span> {
   <span class="kw">private static</span> <span class="cls">WindowManager</span> instance;
   <span class="kw">private</span> WindowManager() { } <span class="cm">// védett konstruktor</span>
   <span class="kw">public static</span> <span class="cls">WindowManager</span> GetInstance() {
@@ -867,28 +512,27 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
     <span class="kw">return</span> instance;
   }
 }</code></pre>
-    <p style="color:var(--red);font-size:.85rem">⚠ Sokszor antipattern! Unit tesztelhetőséget rontja. Dependency Injection általában jobb megoldás.</p>
-  </div>
-
-  <hr>
-
-  <!-- OBSERVER -->
-  <h3>Observer (Megfigyelő)</h3>
-  <div class="card card-green">
-    <p><strong>Cél:</strong> Egy objektum (subject) értesítést küld más objektumoknak (observer) az állapotának változásairól – <strong>anélkül, hogy a konkrét típusuktól függne</strong>.</p>
-    <div class="grid-2">
-      <div>
-        <h4>Szereplők</h4>
-        <ul style="font-size:.87rem">
-          <li><strong>Subject:</strong> tárolja az observereket, értesíti őket (<code>Notify()</code>)</li>
-          <li><strong>Observer:</strong> interfész az <code>Update()</code> metódussal</li>
-          <li><strong>ConcreteSubject:</strong> az érdemi állapotot tárolja</li>
-          <li><strong>ConcreteObserver:</strong> hivatkozás a subject-re; <code>Update()</code>-ban lekérdezi az állapotot</li>
-        </ul>
+          <p style="color:var(--red);font-size:.85rem">⚠ Sokszor antipattern! Unit tesztelhetőséget rontja. Dependency Injection általában jobb megoldás.</p>
+        </div>
       </div>
-      <div>
-        <h4>Szekvencia vázlata</h4>
-        <pre style="font-size:.75rem"><code>doc  →  Attach(view1)
+
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Observer (Megfigyelő) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <p><strong>Cél:</strong> Egy objektum (subject) értesítést küld más objektumoknak (observer) az állapotának változásairól – <strong>anélkül, hogy a konkrét típusuktól függne</strong>.</p>
+          <div class="grid-2">
+            <div>
+              <h4>Szereplők</h4>
+              <ul style="font-size:.87rem">
+                <li><strong>Subject:</strong> tárolja az observereket, értesíti őket (<code>Notify()</code>)</li>
+                <li><strong>Observer:</strong> interfész az <code>Update()</code> metódussal</li>
+                <li><strong>ConcreteSubject:</strong> az érdemi állapotot tárolja</li>
+                <li><strong>ConcreteObserver:</strong> hivatkozás a subject-re; <code>Update()</code>-ban lekérdezi az állapotot</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Szekvencia vázlata</h4>
+              <pre style="font-size:.75rem"><code>doc  →  Attach(view1)
 doc  →  Attach(view2)
 —
 valaki → doc.SetData(x)
@@ -897,290 +541,283 @@ doc  →  view1.Update()
 view1→  doc.GetData()
 doc  →  view2.Update()
 view2→  doc.GetData()</code></pre>
+            </div>
+          </div>
+          <p style="margin-top:.75rem;font-size:.85rem">Előny: könnyen bővíthető új observerekkel; Subject nem függ a konkrét observer típusoktól. A .NET <code>event</code> ennek egy speciális megjelenése.</p>
+        </div>
       </div>
-    </div>
-    <p style="margin-top:.75rem;font-size:.85rem">Előny: könnyen bővíthető új observerekkel; Subject nem függ a konkrét observer típusoktól. A .NET <code>event</code> ennek egy speciális megjelenése.</p>
-  </div>
 
-  <hr>
-
-  <!-- COMPOSITE -->
-  <h3>Composite (Összetett)</h3>
-  <div class="card card-purple">
-    <p><strong>Cél:</strong> Rész-egész viszonyú objektumokat fastruktúrába rendez. A kliens az egyszerű és összetett objektumokat <strong>egységesen kezeli</strong>.</p>
-    <pre><code><span class="kw">interface</span> <span class="cls">Graphics</span> { <span class="kw">void</span> Draw(); }
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Composite (Összetett) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <p><strong>Cél:</strong> Rész-egész viszonyú objektumokat fastruktúrába rendez. A kliens az egyszerű és összetett objektumokat <strong>egységesen kezeli</strong>.</p>
+          <pre><code><span class="kw">interface</span> <span class="cls">Graphics</span> { <span class="kw">void</span> Draw(); }
 <span class="kw">class</span> <span class="cls">Line</span> : <span class="cls">Graphics</span> { <span class="kw">void</span> Draw() { ... } }  <span class="cm">// Leaf</span>
 <span class="kw">class</span> <span class="cls">Panel</span> : <span class="cls">Graphics</span> {                          <span class="cm">// Composite</span>
   List&lt;<span class="cls">Graphics</span>&gt; children;
   <span class="kw">void</span> Draw() { <span class="kw">foreach</span> (g in children) g.Draw(); }
   <span class="kw">void</span> Add(<span class="cls">Graphics</span> g)  { children.Add(g); }
 }</code></pre>
-    <p style="font-size:.85rem">Mikor: objektumok rész-egész viszonya + a kliens egységesen akarja kezelni az elemi és összetett objektumokat.</p>
-  </div>
+          <p style="font-size:.85rem">Mikor: objektumok rész-egész viszonya + a kliens egységesen akarja kezelni az elemi és összetett objektumokat.</p>
+        </div>
+      </div>
 
-  <hr>
-
-  <!-- ADAPTER -->
-  <h3>Adapter (Illesztő)</h3>
-  <div class="card card-accent">
-    <p><strong>Cél:</strong> Egy osztály interfészét olyan interfésszé konvertálja, amilyent a kliens vár – lehetővé téve inkompatibilis interfészek együttműködését.</p>
-    <div class="grid-2">
-      <div>
-        <h4>Object Adapter (preferált)</h4>
-        <pre style="font-size:.76rem"><code><span class="kw">class</span> <span class="cls">EditableTextShape</span> : <span class="cls">Shape</span> {
-  <span class="cls">TextBox</span> textBox; <span class="cm">// becsomagolt Adaptee</span>
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Adapter (Illesztő) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <p><strong>Cél:</strong> Egy osztály interfészét olyan interfésszé konvertálja, amilyent a kliens vár – lehetővé téve inkompatibilis interfészek együttműködését.</p>
+          <div class="grid-2">
+            <div>
+              <h4>Object Adapter (preferált)</h4>
+              <pre style="font-size:.76rem"><code><span class="kw">class</span> <span class="cls">EditableTextShape</span> : <span class="cls">Shape</span> {
+  <span class="cls">TextBox</span> textBox; \/\/ becsomagolt Adaptee
   <span class="kw">override</span> Rect GetBoundingBox() {
-    <span class="kw">return</span> textBox.GetExtent(); <span class="cm">// delegál</span>
+    <span class="kw">return</span> textBox.GetExtent(); \/\/ delegál
   }
 }</code></pre>
-      </div>
-      <div>
-        <h4>Class Adapter</h4>
-        <p style="font-size:.85rem">Leszármaztatással; Java/C# esetén Target csak interfész lehet (nincs többszörös öröklés). Kevésbé rugalmas.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- 7. MÓDSZERTANOK -->
-<!-- ═══════════════════════════════════════════════════════ -->
-<section id="modszertanok">
-  <div class="section-header">
-    <span class="section-num">07</span>
-    <h2>Fejlesztési módszertanok</h2>
-  </div>
-
-  <p>A módszertan meghatározza a szoftverfejlesztés aktivitásait, sorrendjüket és az azokban résztvevő szerepköröket.</p>
-
-  <h3>Vízesés modell (Waterfall)</h3>
-
-  <div class="card card-blue">
-    <p>Az elmúlt 50+ év legelterjedtebb modellje. <strong>Lineáris</strong> – az egyes fázisok egymás után következnek, egy fázis lezárása után lép a következőbe.</p>
-
-    <div style="display:flex; gap: 0.5rem; flex-wrap: wrap; align-items:center; margin: 1rem 0; font-family:'DM Mono',monospace; font-size:.8rem">
-      <span class="pill pill-yellow">1. Követelmény specifikáció</span>
-      <span style="color:var(--text-dim)">→</span>
-      <span class="pill pill-yellow">2. Szoftvertervezés</span>
-      <span style="color:var(--text-dim)">→</span>
-      <span class="pill pill-yellow">3. Megvalósítás &amp; integráció</span>
-      <span style="color:var(--text-dim)">→</span>
-      <span class="pill pill-yellow">4. Tesztelés</span>
-      <span style="color:var(--text-dim)">→</span>
-      <span class="pill pill-yellow">5. Telepítés &amp; karbantartás</span>
-    </div>
-
-    <div class="compare">
-      <div class="compare-col">
-        <h4 style="color:var(--accent3)">✓ Előnyök</h4>
-        <ul style="font-size:.85rem">
-          <li>Egyszerű, könnyen betartható</li>
-          <li>Változások dokumentumokon követhetők</li>
-          <li>Megrendelő nem szükséges folyamatosan</li>
-          <li>Projekt fejlődése könnyen mérhető</li>
-          <li>Hamar megtalált hibák olcsóbbak</li>
-        </ul>
-      </div>
-      <div class="compare-col">
-        <h4 style="color:var(--red)">✗ Hátrányok</h4>
-        <ul style="font-size:.85rem">
-          <li>„Követelmények nem változnak" – nem realisztikus</li>
-          <li>Nincs visszajelzés az elkészültig</li>
-          <li>Papíron létező spec-et az ügyfél félreérti</li>
-          <li>Változások drágák (újratervezés)</li>
-          <li>Integráció egyetlen nagy feladat a végén</li>
-        </ul>
+            </div>
+            <div>
+              <h4>Class Adapter</h4>
+              <p style="font-size:.85rem">Leszármaztatással; Java/C# esetén Target csak interfész lehet (nincs többszörös öröklés). Kevésbé rugalmas.</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="highlight" style="margin-top:1rem">
-      <strong>Mikor érdemes?</strong> Fix követelmények, ismert technológiák, törvényi határidők, fix projekt alapú megállapodás, megrendelő csak mérföldköveknél van jelen.
-    </div>
-  </div>
+    <!-- ================= 4. MÓDSZERTANOK ================= -->
+    <div id="modszertanok" class="page">
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Vízesés modell (Waterfall) <span class="badge k">ZV</span> <span class="chevron open">▼</span></div>
+        <div class="sec-body open">
+          <p>Az elmúlt 50+ év legelterjedtebb modellje. <strong>Lineáris</strong> – az egyes fázisok egymás után következnek, egy fázis lezárása után lép a következőbe.</p>
 
-  <hr>
-  <h3>Agilis fejlesztés – alapelvek</h3>
+          <div style="display:flex; gap: 0.5rem; flex-wrap: wrap; align-items:center; margin: 1rem 0; font-family:'DM Mono',monospace; font-size:.8rem">
+            <span class="pill pill-yellow">1. Követelmény specifikáció</span>
+            <span style="color:var(--text-dim)">→</span>
+            <span class="pill pill-yellow">2. Szoftvertervezés</span>
+            <span style="color:var(--text-dim)">→</span>
+            <span class="pill pill-yellow">3. Megvalósítás &amp; integráció</span>
+            <span style="color:var(--text-dim)">→</span>
+            <span class="pill pill-yellow">4. Tesztelés</span>
+            <span style="color:var(--text-dim)">→</span>
+            <span class="pill pill-yellow">5. Telepítés &amp; karbantartás</span>
+          </div>
 
-  <div class="card card-green">
-    <p>Az agilis kiáltvány (2001) négy értéke és 12 alapelve. Közös vonás: <strong>iteratív, inkrementális</strong> fejlesztés, folyamatos visszacsatolás, változásokhoz való alkalmazkodás.</p>
-    <div class="grid-2">
-      <div>
-        <h4>Agilis alapelvek (kiemeltek)</h4>
-        <ul style="font-size:.85rem">
-          <li>Működő szoftver a legjobb haladásmérő</li>
-          <li>Változó követelményeket akár késői stádiumban is elfogadják</li>
-          <li>Rövid szállítási ciklusok (hetek)</li>
-          <li>Üzleti és fejlesztők napi együttműködése</li>
-          <li>Önszervező csapatok</li>
-          <li>Rendszeres visszatekintés (retrospective)</li>
-        </ul>
+          <div class="compare">
+            <div class="compare-col">
+              <h4 style="color:var(--accent3)">✓ Előnyök</h4>
+              <ul style="font-size:.85rem">
+                <li>Egyszerű, könnyen betartható</li>
+                <li>Változások dokumentumokon követhetők</li>
+                <li>Megrendelő nem szükséges folyamatosan</li>
+                <li>Projekt fejlődése könnyen mérhető</li>
+                <li>Hamar megtalált hibák olcsóbbak</li>
+              </ul>
+            </div>
+            <div class="compare-col">
+              <h4 style="color:var(--red)">✗ Hátrányok</h4>
+              <ul style="font-size:.85rem">
+                <li>„Követelmények nem változnak" – nem realisztikus</li>
+                <li>Nincs visszajelzés az elkészültig</li>
+                <li>Papíron létező spec-et az ügyfél félreérti</li>
+                <li>Változások drágák (újratervezés)</li>
+                <li>Integráció egyetlen nagy feladat a végén</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="highlight" style="margin-top:1rem">
+            <strong>Mikor érdemes?</strong> Fix követelmények, ismert technológiák, törvényi határidők, fix projekt alapú megállapodás, megrendelő csak mérföldköveknél van jelen.
+          </div>
+        </div>
       </div>
-      <div>
-        <h4>Terv alapú vs Agilis</h4>
-        <table style="font-size:.82rem">
-          <thead><tr><th>Szempont</th><th>Terv alapú</th><th>Agilis</th></tr></thead>
-          <tbody>
-            <tr><td>Tervezés</td><td>Előre teljes</td><td>Inkrementális</td></tr>
-            <tr><td>Változások</td><td>Drágák</td><td>Befogadottak</td></tr>
-            <tr><td>Dokumentáció</td><td>Részletes</td><td>Minimális</td></tr>
-            <tr><td>Megrendelő</td><td>Mérföldköveknél</td><td>Folyamatosan</td></tr>
-          </tbody>
-        </table>
+
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Agilis fejlesztés – alapelvek <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <p>Az agilis kiáltvány (2001) négy értéke és 12 alapelve. Közös vonás: <strong>iteratív, inkrementális</strong> fejlesztés, folyamatos visszacsatolás, változásokhoz való alkalmazkodás.</p>
+          <div class="grid-2">
+            <div>
+              <h4>Agilis alapelvek (kiemeltek)</h4>
+              <ul style="font-size:.85rem">
+                <li>Működő szoftver a legjobb haladásmérő</li>
+                <li>Változó követelményeket akár késői stádiumban is elfogadják</li>
+                <li>Rövid szállítási ciklusok (hetek)</li>
+                <li>Üzleti és fejlesztők napi együttműködése</li>
+                <li>Önszervező csapatok</li>
+                <li>Rendszeres visszatekintés (retrospective)</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Terv alapú vs Agilis</h4>
+              <table style="font-size:.82rem">
+                <thead><tr><th>Szempont</th><th>Terv alapú</th><th>Agilis</th></tr></thead>
+                <tbody>
+                  <tr><td>Tervezés</td><td>Előre teljes</td><td>Inkrementális</td></tr>
+                  <tr><td>Változások</td><td>Drágák</td><td>Befogadottak</td></tr>
+                  <tr><td>Dokumentáció</td><td>Részletes</td><td>Minimális</td></tr>
+                  <tr><td>Megrendelő</td><td>Mérföldköveknél</td><td>Folyamatosan</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Scrum <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <p>A legelterjedtebb agilis keretrendszer. Iteratív-inkrementális, önszervező csapatokra épül. Alapegysége a <strong>Sprint</strong> (2–4 hét).</p>
+
+          <h3>Szerepkörök</h3>
+          <div class="grid-3">
+            <div class="card card-accent">
+              <h4>Product Owner</h4>
+              <p style="font-size:.85rem">A termék vízióját képviseli. Karbantartja és priorizálja a <strong>Product Backlog</strong>-ot. Felelős a ROI-ért.</p>
+            </div>
+            <div class="card card-orange">
+              <h4>Scrum Master</h4>
+              <p style="font-size:.85rem">A Scrum folyamatért felelős. Elhárítja az akadályokat (impediment). Nem projektvezető – szolgáló vezető.</p>
+            </div>
+            <div class="card card-blue">
+              <h4>Development Team</h4>
+              <p style="font-size:.85rem">Önszervező, keresztfunkcionális csapat (5–9 fő). Ők tervezik és szállítják a Potentially Shippable Increment-et.</p>
+            </div>
+          </div>
+
+          <h3>Artifaktok</h3>
+          <div class="grid-3">
+            <div class="card">
+              <h4>Product Backlog</h4>
+              <p style="font-size:.85rem">Prioritás szerint rendezett lista az összes szükséges funkcióról (user story-k). A Product Owner kezeli.</p>
+            </div>
+            <div class="card">
+              <h4>Sprint Backlog</h4>
+              <p style="font-size:.85rem">A Sprint Planning-en kiválasztott item-ek + terv a megvalósításhoz. A csapat kezeli.</p>
+            </div>
+            <div class="card">
+              <h4>Potentially Shippable Increment</h4>
+              <p style="font-size:.85rem">Minden Sprint végén leszállított, kész, átadható terméknövekmény. „Done" definíció kell hozzá.</p>
+            </div>
+          </div>
+
+          <h3>Események (Ceremonies)</h3>
+          <div class="card">
+            <table>
+              <thead>
+                <tr><th>Esemény</th><th>Mikor</th><th>Cél</th><th>Résztvevők</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Release Planning</strong></td>
+                  <td>Release előtt</td>
+                  <td>Magas szintű terv több sprintre</td>
+                  <td>PO, SM, Team</td>
+                </tr>
+                <tr>
+                  <td><strong>Sprint Planning</strong></td>
+                  <td>Sprint elején</td>
+                  <td>Sprint cél + Sprint Backlog összeállítása</td>
+                  <td>Teljes csapat</td>
+                </tr>
+                <tr>
+                  <td><strong>Daily Scrum</strong></td>
+                  <td>Naponta, max 15 perc</td>
+                  <td>Szinkronizáció: mit csináltam, mit fogok, mi akadályoz?</td>
+                  <td>Dev Team (+ SM)</td>
+                </tr>
+                <tr>
+                  <td><strong>Sprint Review</strong></td>
+                  <td>Sprint végén</td>
+                  <td>Az elkészült increment bemutatása, visszacsatolás</td>
+                  <td>Teljes csapat + stakeholders</td>
+                </tr>
+                <tr>
+                  <td><strong>Sprint Retrospective</strong></td>
+                  <td>Review után</td>
+                  <td>Folyamat javítása: mi ment jól, mi nem, hogyan javítsunk?</td>
+                  <td>Teljes csapat</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>Sprint folyamata</h3>
+          <div class="highlight">
+            <strong>Product Backlog</strong> → <em>Sprint Planning</em> → <strong>Sprint Backlog</strong> → <em>2–4 hetes Sprint (Daily Scrum naponta)</em> → <strong>Potentially Shippable Increment</strong> → <em>Sprint Review + Retrospective</em> → <em>következő Sprint</em>
+          </div>
+
+          <h3>Vízesés vs Scrum – összehasonlítás</h3>
+          <div class="compare">
+            <div class="compare-col">
+              <h4 style="color:var(--blue)">Vízesés</h4>
+              <ul style="font-size:.85rem">
+                <li>Lineáris, egymás utáni fázisok</li>
+                <li>Teljes terv az elején</li>
+                <li>Szállítás a projekt végén</li>
+                <li>Megrendelő nem folyamatos</li>
+                <li>Változás drága és nehézkes</li>
+                <li>Fix határidős projektekhez</li>
+              </ul>
+            </div>
+            <div class="compare-col">
+              <h4 style="color:var(--accent3)">Scrum</h4>
+              <ul style="font-size:.85rem">
+                <li>Iteratív sprintek</li>
+                <li>Inkrementális tervezés</li>
+                <li>Szállítás minden Sprint végén</li>
+                <li>Megrendelő (PO) folyamatosan jelen</li>
+                <li>Változás természetes, befogadott</li>
+                <li>Változó/bizonytalan követelményekhez</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="sec-head" onclick="toggle(this)">Vizsgán tudnivaló – gyors összefoglalás <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <div class="sec-body">
+          <div class="card card-accent">
+            <table>
+              <thead><tr><th>Téma</th><th>Legfontosabb pontok</th></tr></thead>
+              <tbody>
+                <tr><td><strong>SOLID</strong></td><td>Mind az 5 elv neve, rövid definíciója és egy-egy példa</td></tr>
+                <tr><td><strong>UML típusok</strong></td><td>Struktúra vs viselkedés; melyik diagramtípus mire jó</td></tr>
+                <tr><td><strong>Osztálydiagram</strong></td><td>Tagváltozó/metódus szintaxis, láthatóságok, 6 kapcsolattípus és szemantikájuk</td></tr>
+                <tr><td><strong>Szekvenciadiagram</strong></td><td>Életvonal, üzenettípusok, 4 combined fragment (alt/loop/opt/par)</td></tr>
+                <tr><td><strong>Állapotgép</strong></td><td>Állapot, átmenet (trigger/guard/action), összetett állapot, régiók, history</td></tr>
+                <tr><td><strong>Template Method</strong></td><td>Algoritmusvázat ős adja, leszármazott felülírja a lépéseket</td></tr>
+                <tr><td><strong>Strategy</strong></td><td>Interfész mögé zárt algoritmus, futás közben cserélhető, DI-vel kombinálva</td></tr>
+                <tr><td><strong>Singleton</strong></td><td>Privát ctor + statikus GetInstance + antipattern veszély</td></tr>
+                <tr><td><strong>Observer</strong></td><td>Subject–Observer kapcsolat, Notify/Update séma, Document-View architektúra</td></tr>
+                <tr><td><strong>Composite</strong></td><td>Levél + összetett egységes interfészen, fa struktúra</td></tr>
+                <tr><td><strong>Adapter</strong></td><td>Inkompatibilis interfész konverzió, Object vs Class Adapter</td></tr>
+                <tr><td><strong>Vízesés</strong></td><td>5 fázis sorrendben, előnyök/hátrányok, mikor érdemes</td></tr>
+                <tr><td><strong>Agilis / Scrum</strong></td><td>Sprint, 3 szerepkör (PO/SM/Team), 3 artifakt, 5 ceremony, Daily Scrum kérdései</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ═══════════════════════════════════════════════════════ -->
-<!-- 8. SCRUM -->
-<!-- ═══════════════════════════════════════════════════════ -->
-<section id="scrum">
-  <div class="section-header">
-    <span class="section-num">08</span>
-    <h2>Scrum</h2>
   </div>
 
-  <p>A legelterjedtebb agilis keretrendszer. Iteratív-inkrementális, önszervező csapatokra épül. Alapegysége a <strong>Sprint</strong> (2–4 hét).</p>
-
-  <h3>Szerepkörök</h3>
-  <div class="grid-3">
-    <div class="card card-accent">
-      <h4>Product Owner</h4>
-      <p style="font-size:.85rem">A termék vízióját képviseli. Karbantartja és priorizálja a <strong>Product Backlog</strong>-ot. Felelős a ROI-ért.</p>
-    </div>
-    <div class="card card-orange">
-      <h4>Scrum Master</h4>
-      <p style="font-size:.85rem">A Scrum folyamatért felelős. Elhárítja az akadályokat (impediment). Nem projektvezető – szolgáló vezető.</p>
-    </div>
-    <div class="card card-blue">
-      <h4>Development Team</h4>
-      <p style="font-size:.85rem">Önszervező, keresztfunkcionális csapat (5–9 fő). Ők tervezik és szállítják a Potentially Shippable Increment-et.</p>
-    </div>
-  </div>
-
-  <h3>Artifaktok</h3>
-  <div class="grid-3">
-    <div class="card">
-      <h4>Product Backlog</h4>
-      <p style="font-size:.85rem">Prioritás szerint rendezett lista az összes szükséges funkcióról (user story-k). A Product Owner kezeli.</p>
-    </div>
-    <div class="card">
-      <h4>Sprint Backlog</h4>
-      <p style="font-size:.85rem">A Sprint Planning-en kiválasztott item-ek + terv a megvalósításhoz. A csapat kezeli.</p>
-    </div>
-    <div class="card">
-      <h4>Potentially Shippable Increment</h4>
-      <p style="font-size:.85rem">Minden Sprint végén leszállított, kész, átadható terméknövekmény. „Done" definíció kell hozzá.</p>
-    </div>
-  </div>
-
-  <h3>Események (Ceremonies)</h3>
-  <div class="card">
-    <table>
-      <thead>
-        <tr><th>Esemény</th><th>Mikor</th><th>Cél</th><th>Résztvevők</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>Release Planning</strong></td>
-          <td>Release előtt</td>
-          <td>Magas szintű terv több sprintre</td>
-          <td>PO, SM, Team</td>
-        </tr>
-        <tr>
-          <td><strong>Sprint Planning</strong></td>
-          <td>Sprint elején</td>
-          <td>Sprint cél + Sprint Backlog összeállítása</td>
-          <td>Teljes csapat</td>
-        </tr>
-        <tr>
-          <td><strong>Daily Scrum</strong></td>
-          <td>Naponta, max 15 perc</td>
-          <td>Szinkronizáció: mit csináltam, mit fogok, mi akadályoz?</td>
-          <td>Dev Team (+ SM)</td>
-        </tr>
-        <tr>
-          <td><strong>Sprint Review</strong></td>
-          <td>Sprint végén</td>
-          <td>Az elkészült increment bemutatása, visszacsatolás</td>
-          <td>Teljes csapat + stakeholders</td>
-        </tr>
-        <tr>
-          <td><strong>Sprint Retrospective</strong></td>
-          <td>Review után</td>
-          <td>Folyamat javítása: mi ment jól, mi nem, hogyan javítsunk?</td>
-          <td>Teljes csapat</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <h3>Sprint folyamata</h3>
-  <div class="highlight">
-    <strong>Product Backlog</strong> → <em>Sprint Planning</em> → <strong>Sprint Backlog</strong> → <em>2–4 hetes Sprint (Daily Scrum naponta)</em> → <strong>Potentially Shippable Increment</strong> → <em>Sprint Review + Retrospective</em> → <em>következő Sprint</em>
-  </div>
-
-  <h3>Vízesés vs Scrum – összehasonlítás</h3>
-  <div class="compare">
-    <div class="compare-col">
-      <h4 style="color:var(--blue)">Vízesés</h4>
-      <ul style="font-size:.85rem">
-        <li>Lineáris, egymás utáni fázisok</li>
-        <li>Teljes terv az elején</li>
-        <li>Szállítás a projekt végén</li>
-        <li>Megrendelő nem folyamatos</li>
-        <li>Változás drága és nehézkes</li>
-        <li>Fix határidős projektekhez</li>
-      </ul>
-    </div>
-    <div class="compare-col">
-      <h4 style="color:var(--accent3)">Scrum</h4>
-      <ul style="font-size:.85rem">
-        <li>Iteratív sprintek</li>
-        <li>Inkrementális tervezés</li>
-        <li>Szállítás minden Sprint végén</li>
-        <li>Megrendelő (PO) folyamatosan jelen</li>
-        <li>Változás természetes, befogadott</li>
-        <li>Változó/bizonytalan követelményekhez</li>
-      </ul>
-    </div>
-  </div>
-
-  <hr>
-  <h3>Vizsgán tudnivaló – gyors összefoglalás</h3>
-  <div class="card card-accent">
-    <table>
-      <thead><tr><th>Téma</th><th>Legfontosabb pontok</th></tr></thead>
-      <tbody>
-        <tr><td><strong>SOLID</strong></td><td>Mind az 5 elv neve, rövid definíciója és egy-egy példa</td></tr>
-        <tr><td><strong>UML típusok</strong></td><td>Struktúra vs viselkedés; melyik diagramtípus mire jó</td></tr>
-        <tr><td><strong>Osztálydiagram</strong></td><td>Tagváltozó/metódus szintaxis, láthatóságok, 6 kapcsolattípus és szemantikájuk</td></tr>
-        <tr><td><strong>Szekvenciadiagram</strong></td><td>Életvonal, üzenettípusok, 4 combined fragment (alt/loop/opt/par)</td></tr>
-        <tr><td><strong>Állapotgép</strong></td><td>Állapot, átmenet (trigger/guard/action), összetett állapot, régiók, history</td></tr>
-        <tr><td><strong>Template Method</strong></td><td>Algoritmusvázat ős adja, leszármazott felülírja a lépéseket</td></tr>
-        <tr><td><strong>Strategy</strong></td><td>Interfész mögé zárt algoritmus, futás közben cserélhető, DI-vel kombinálva</td></tr>
-        <tr><td><strong>Singleton</strong></td><td>Privát ctor + statikus GetInstance + antipattern veszély</td></tr>
-        <tr><td><strong>Observer</strong></td><td>Subject–Observer kapcsolat, Notify/Update séma, Document-View architektúra</td></tr>
-        <tr><td><strong>Composite</strong></td><td>Levél + összetett egységes interfészen, fa struktúra</td></tr>
-        <tr><td><strong>Adapter</strong></td><td>Inkompatibilis interfész konverzió, Object vs Class Adapter</td></tr>
-        <tr><td><strong>Vízesés</strong></td><td>5 fázis sorrendben, előnyök/hátrányok, mikor érdemes</td></tr>
-        <tr><td><strong>Agilis / Scrum</strong></td><td>Sprint, 3 szerepkör (PO/SM/Team), 3 artifakt, 5 ceremony, Daily Scrum kérdései</td></tr>
-      </tbody>
-    </table>
-  </div>
-</section>
-
-</main>
-
-<script>
-  // Smooth scroll
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-    });
-  });
-</script>
+  <script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+  function toggle(head) {
+    const body = head.nextElementSibling;
+    const chev = head.querySelector('.chevron');
+    const open = body.classList.toggle('open');
+    chev.classList.toggle('open', open);
+  }
+  </script>
 </body>
 </html>

@@ -1,0 +1,2293 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vizsga Kikérdező – Záróvizsga Összefoglaló</title>
+<link rel="stylesheet" href="kikerdezo.css">
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="halozat.html">Hálózat</a></li>
+      <li><a href="adatkezeles.html">Adatkezelés</a></li>
+      <li><a href="sztt.html">SZTT</a></li>
+      <li><a href="osszesito.html">Összesítő</a></li>
+      <li><a href="kikerdezo.html">Kikérdező</a></li>
+    </ul>
+  </nav>
+
+  <div class="wrap">
+    <h2>Záróvizsga Felkészítő Kikérdező</h2>
+    <p style="color:var(--text-muted); margin-bottom: 2rem;">Tedd próbára a tudásod a BME VIK üzemmérnök-informatikus (BProf) képzés hivatalos záróvizsga-követelményei alapján!</p>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="quiz-dashboard">
+      <h3>Készen állsz a vizsgaszimulációra?</h3>
+      <p>A kikérdező adatbázisa 150 kérdést tartalmaz, amelyek <strong>szigorúan az osztályozási követelmények tematikájára épülnek</strong> (Hálózat, Adatkezelés és Szoftvertechnológia). Minden teszt indításakor a rendszer véletlenszerűen kiválaszt 12-12-12 kérdést (összesen 36 kérdés, mint a valódi komplex vizsgán).</p>
+      
+      <div class="settings-panel">
+        <h4 style="color:#fbbf24; margin-bottom: 0.5rem; font-family:'Outfit', sans-serif;">Szimulációs Beállítások</h4>
+        <label class="settings-row">
+          <input type="checkbox" id="timer-toggle" checked>
+          <span>Időkorlát bekapcsolása (90 perces visszaszámlálás, mint a vizsgán)</span>
+        </label>
+      </div>
+
+      <h4 style="color:var(--accent); margin-top: 1.5rem; font-family:'Outfit', sans-serif;">Hivatalos BME VIK Értékelési Ponthatárok (36 pontból):</h4>
+      <div class="grading-table-container">
+        <table class="grading-table">
+          <thead>
+            <tr>
+              <th>Elért arány</th>
+              <th>Elért pontszám</th>
+              <th>Osztályzat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>70% vagy felette</td>
+              <td>26 – 36 pont</td>
+              <td><span class="grade-badge grade-5">Jeles (5)</span></td>
+            </tr>
+            <tr>
+              <td>60% – 70% között</td>
+              <td>22 – 25 pont</td>
+              <td><span class="grade-badge grade-4">Jó (4)</span></td>
+            </tr>
+            <tr>
+              <td>50% – 60% között</td>
+              <td>18 – 21 pont</td>
+              <td><span class="grade-badge grade-3">Közepes (3)</span></td>
+            </tr>
+            <tr>
+              <td>40% – 50% között</td>
+              <td>15 – 17 pont</td>
+              <td><span class="grade-badge grade-2">Elégséges (2)</span></td>
+            </tr>
+            <tr>
+              <td>40% alatt</td>
+              <td>0 – 14 pont</td>
+              <td><span class="grade-badge grade-1">Elégtelen (1)</span></td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.5rem; text-align:center;">* A ponthatárt elérő hallgatók a jobbik osztályzatot kapják meg.</p>
+      </div>
+
+      <button class="quiz-btn" onclick="startQuiz()">
+        Gyakorlás indítása
+      </button>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quiz-screen" style="display: none;">
+      <div class="quiz-progress" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <span id="progress-text">Kérdés: 1 / 36</span>
+        <div class="quiz-timer" id="quiz-timer">Idő: 90:00</div>
+        <span id="score-text">Helyes: 0</span>
+      </div>
+      <div class="progress-track" style="margin-bottom: 2rem;">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+
+      <div id="question-card" class="quiz-card">
+        <!-- Dynamically rendered question -->
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <button id="submit-btn" class="quiz-btn" onclick="checkAnswer()">Válasz ellenőrzése</button>
+        <button id="next-btn" class="quiz-btn" style="display: none;" onclick="nextQuestion()">Következő kérdés</button>
+      </div>
+
+      <!-- Feedback panel -->
+      <div id="feedback-panel" class="feedback-container">
+        <div id="feedback-status" class="feedback-status"></div>
+        <div id="feedback-explanation" class="feedback-explanation"></div>
+      </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="results-screen" class="quiz-dashboard" style="display: none;">
+      <h3>Kikérdezés eredménye</h3>
+      <p id="results-message"></p>
+
+      <div class="results-grid">
+        <div class="result-card">
+          <div id="result-score" class="result-card-num">0 / 36</div>
+          <div class="result-card-label">Összesített pontszám</div>
+        </div>
+        <div class="result-card">
+          <div id="result-grade-container" class="result-card-num" style="font-size:1.8rem; margin: 5px 0;">-</div>
+          <div class="result-card-label">Vizsga osztályzat</div>
+        </div>
+        <div class="result-card">
+          <div id="result-percentage" class="result-card-num">0%</div>
+          <div class="result-card-label">Sikerességi arány</div>
+        </div>
+        <div class="result-card">
+          <div id="result-subjects" style="font-family:'DM Mono', monospace; font-size:0.9rem; text-align:left; color:var(--text); margin-top:5px;">
+            Hálózat: 0/12<br>
+            Adatkezelés: 0/12<br>
+            SZTT: 0/12
+          </div>
+          <div class="result-card-label" style="margin-top:10px;">Témakörök bontása</div>
+        </div>
+      </div>
+
+      <button class="quiz-btn" onclick="restartQuiz()">Új teszt indítása</button>
+      <button class="quiz-btn quiz-btn-secondary" onclick="showWelcome()">Vissza a főoldalra</button>
+
+      <h3 class="review-title">Kérdések áttekintése</h3>
+      <div id="review-list">
+        <!-- Dynamically rendered reviews -->
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // 150 Question Database (50 per subject, representing all 15 question types)
+    // Structured precisely around the BME VIK BProf Comprehensive Exam guidelines.
+    const questionDatabase = [
+      // ==========================================
+      // HALOZAT (50 questions, IDs: 1 to 50)
+      // ==========================================
+      {
+        id: 1,
+        subject: "halozat",
+        type: "single",
+        question: "Melyik OSI rétegben működik az IP (Internet Protocol) protokoll?",
+        options: ["Fizikai réteg", "Adatkapcsolati réteg", "Hálózati réteg", "Szállítási réteg"],
+        correct: "Hálózati réteg",
+        explanation: "Az IP (Internet Protocol) az OSI modell 3. rétegében, azaz a Hálózati rétegben működik. Feladata az útvonalválasztás és a logikai címzés."
+      },
+      {
+        id: 2,
+        subject: "halozat",
+        type: "multiple",
+        question: "Melyek a TCP protokoll főbb jellemzői? (Válassz ki több helyes választ!)",
+        options: ["Összeköttetés-alapú", "Összeköttetés-mentes", "Áramlásszabályozást és torlódásvezérlést végez", "Nem garantálja a csomagok megérkezését"],
+        correct: ["Összeköttetés-alapú", "Áramlásszabályozást és torlódásvezérlést végez"],
+        explanation: "A TCP egy megbízható, összeköttetés-alapú szállítási rétegbeli protokoll, amely garantálja a csomagok kézbesítését, sorrendiségét, valamint áramlás- és torlódásvezérlést is megvalósít."
+      },
+      {
+        id: 3,
+        subject: "halozat",
+        type: "boolean",
+        question: "A TCP protokoll a fejlécében nem használ sorszámokat (Sequence Number) a csomagok sorrendjének ellenőrzésére.",
+        options: ["Igaz", "Hamis"],
+        correct: "Hamis",
+        explanation: "Hamis, mert a TCP fejlécének szerves része a Sequence Number (sorszám) és az Acknowledgment Number (nyugtaszám), amelyekkel a helyes sorrendiséget és a megérkezést garantálja."
+      },
+      {
+        id: 4,
+        subject: "halozat",
+        type: "matching",
+        question: "Párosítsd az OSI rétegek nevét a hozzájuk tartozó adategység (PDU) megnevezésével!",
+        pairs: [
+          { term: "Alkalmazási réteg", definition: "Adat (Data)" },
+          { term: "Szállítási réteg", definition: "Szegmens (Segment)" },
+          { term: "Hálózati réteg", definition: "Csomag (Packet)" },
+          { term: "Adatkapcsolati réteg", definition: "Keret (Frame)" }
+        ],
+        explanation: "Az OSI rétegekben az adategységek elnevezése alulról felfelé haladva: Bit (Fizikai), Keret (Adatkapcsolati), Csomag (Hálózati), Szegmens (Szállítási), majd Adat a felsőbb rétegekben."
+      },
+      {
+        id: 5,
+        subject: "halozat",
+        type: "fill",
+        question: "Töltsd ki a hiányzó részt: A HTTP protokoll alapértelmezetten a TCP [blank] portját használja.",
+        correct: ["80"],
+        explanation: "A HTTP (Hypertext Transfer Protocol) szabványos nem-biztonságos TCP portja a 80. (A HTTPS portja a 443)."
+      },
+      {
+        id: 6,
+        subject: "halozat",
+        type: "short",
+        question: "Írd le a TCP kapcsolatfelvétel során használt háromutas kézfogás vezérlőbiteit (pl. SYN, SYN-ACK, ACK) pontos sorrendben!",
+        correct: ["SYN, SYN-ACK, ACK", "SYN, SYN/ACK, ACK", "syn, syn-ack, ack"],
+        explanation: "A TCP kapcsolat felépítése (háromutas kézfogás) során az üzenetváltás sorrendje: 1. SYN, 2. SYN-ACK, 3. ACK."
+      },
+      {
+        id: 7,
+        subject: "halozat",
+        type: "scenario",
+        question: "Egy hálózati mérnöknek 4 különálló alhálózatot kell kialakítania egyetlen /24-es IP tartományból úgy, hogy minden alhálózatban legalább 50 darab hoszt kapjon címet. Melyik alhálózati maszkot kell választania?",
+        options: ["/25", "/26", "/27", "Nem valósítható meg"],
+        correct: "/26",
+        explanation: "Egy /26-os maszk 64 címet ad alhálózatonként (amiből 62 használható hosztcím). 4 darab /26-os alhálózat pontosan kitölt egy /24-es tartományt, és megfelel az 'legalább 50 hoszt' feltételnek."
+      },
+      {
+        id: 8,
+        subject: "halozat",
+        type: "calculation",
+        question: "Hány darab használható hoszt IP-cím osztható ki egy /27-es alhálózatban?",
+        correct: ["30"],
+        explanation: "A /27-es maszk esetén a hoszt bitek száma 32 - 27 = 5. A címtér 2^5 = 32 cím. Ebből le kell vonni a hálózati címet és a broadcast címet, így a használható hosztcímek száma: 32 - 2 = 30."
+      },
+      {
+        id: 9,
+        subject: "halozat",
+        type: "concept",
+        question: "Hogy nevezzük azt a diagnosztikai és hibajelentő protokollt, amelyet a ping és traceroute parancsok használnak a hálózati kapcsolatok tesztelésére?",
+        correct: ["ICMP", "icmp"],
+        explanation: "Az ICMP (Internet Control Message Protocol) egy hálózati rétegbeli segédprotokoll, amely visszajelzést küld a hálózati hibákról."
+      },
+      {
+        id: 10,
+        subject: "halozat",
+        type: "relation",
+        question: "Milyen hálózati architektúra-kapcsolat valósul meg a peer-to-peer (P2P) modellben?",
+        options: [
+          "Minden csomópont egyaránt működik kliensként és szerverként is.",
+          "Egy központi dedikált szerver szolgálja ki a passzív klienseket.",
+          "A csomópontok kizárólag egymáson keresztül, hierarchikusan kommunikálhatnak."
+        ],
+        correct: "Minden csomópont egyaránt működik kliensként és szerverként is.",
+        explanation: "A P2P hálózatokban nincs dedikált szerver, hanem minden hoszt (peer) egyenrangú: egyszerre kérhet le (kliens) és oszthat meg (szerver) erőforrásokat."
+      },
+      {
+        id: 11,
+        subject: "halozat",
+        type: "def-match",
+        question: "Párosítsd az alábbi hálózati fogalmakat a pontos definíciójukkal!",
+        pairs: [
+          { term: "Router", definition: "IP címek alapján csomagokat továbbít a hálózatok között" },
+          { term: "Switch", definition: "MAC címek alapján kereteket továbbít az alhálózaton belül" },
+          { term: "DNS", definition: "Domain neveket fordít le IP címekre" },
+          { term: "DHCP", definition: "Dinamikusan oszt ki IP címeket a hosztoknak" }
+        ],
+        explanation: "A Router (3. réteg) útvonalat választ, a Switch (2. réteg) helyi hálózatot kezel, a DNS nevet felold, a DHCP pedig automatikusan konfigurálja a hosztokat."
+      },
+      {
+        id: 12,
+        subject: "halozat",
+        type: "ordering",
+        question: "Rendezd sorrendbe a TCP kapcsolat lebontásának (szétkapcsolás) lépéseit időben felülről lefelé!",
+        items: [
+          "Hívó fél elküldi a FIN szegmenst",
+          "Fogadó fél elküldi az ACK nyugtát a FIN-re",
+          "Fogadó fél is elküldi a saját FIN szegmensét",
+          "Hívó fél elküldi az ACK nyugtát a fogadó FIN-jére"
+        ],
+        explanation: "A TCP kapcsolat szabályos lebontása egy négyutas folyamat: FIN -> ACK -> FIN -> ACK."
+      },
+      {
+        id: 13,
+        subject: "halozat",
+        type: "correct-statements",
+        question: "Mely állítások igazak a portszámokkal kapcsolatban? (Válassz ki több helyes állítást!)",
+        options: [
+          "A portszámok a szállítási rétegben végzik a folyamatok azonosítását.",
+          "A jól ismert (Well-known) portszámok a 0–1023 tartományba esnek.",
+          "A portszámok az IP címek részei és a hálózati kártya fizikai címét jelölik.",
+          "A UDP és a TCP protokollok nem osztozhatnak azonos portszámokon."
+        ],
+        correct: ["A portszámok a szállítási rétegben végzik a folyamatok azonosítását.", "A jól ismert (Well-known) portszámok a 0–1023 tartományba esnek."],
+        explanation: "A portszámok a szállítási rétegben azonosítják a hálózati alkalmazásokat. A 0-1023 tartomány a Well-known portoké. A TCP és UDP portok függetlenek egymástól, azaz mindkettőnek lehet pl. 53-as portja."
+      },
+      {
+        id: 14,
+        subject: "halozat",
+        type: "identify-wrong",
+        question: "Melyik állítás HIBÁS a DNS névfeloldással kapcsolatban?",
+        options: [
+          "A DNS névfeloldás alapértelmezetten UDP port 53-at használ.",
+          "A DNS lekérdezés lehet rekurzív és iteratív is.",
+          "A DNS névfeloldás kizárólag a kliens gép helyi hosts fájljában történhet.",
+          "A DNS hierarchikus felépítésű adatbázist használ."
+        ],
+        correct: "A DNS névfeloldás kizárólag a kliens gép helyi hosts fájljában történhet.",
+        explanation: "A DNS névfeloldás globális, elosztott és hierarchikus szerverrendszeren keresztül zajlik. A helyi hosts fájl csak az első lépcső a névfeloldásban, de távolról sem a kizárólagos helye."
+      },
+      {
+        id: 15,
+        subject: "halozat",
+        type: "compare",
+        question: "Hasonlítsd össze a TCP és UDP jellemzőit! Válaszd ki, melyik állítás melyik protokollra vonatkozik!",
+        pairs: [
+          { term: "Összeköttetés-alapú és megbízható", definition: "TCP" },
+          { term: "Gyorsabb, de nem biztosít kézbesítési garanciát", definition: "UDP" },
+          { term: "A fejléc mérete fixen 8 bájt", definition: "UDP" },
+          { term: "Áramlás- és torlódásszabályozással rendelkezik", definition: "TCP" }
+        ],
+        explanation: "A TCP komplex nyugtázást, sorszámokat és szabályozást használ (min. 20 bájt fejléc), míg az UDP egy egyszerű, gyors adatküldő protokoll 8 bájtos fejléccel."
+      },
+      {
+        id: 16,
+        subject: "halozat",
+        type: "single",
+        question: "Melyik OSI réteg felelős a szegmentálásért, valamint a végpontok közötti folyamat- és hibavezérlésért?",
+        options: ["Adatkapcsolati réteg", "Hálózati réteg", "Szállítási réteg", "Viszonylati réteg"],
+        correct: "Szállítási réteg",
+        explanation: "A Szállítási réteg (Layer 4) felelős a felsőbb rétegekből kapott adatok szegmentálásáért, a port-címzésért, valamint a végpontok közötti megbízható adatátvitelért."
+      },
+      {
+        id: 17,
+        subject: "halozat",
+        type: "multiple",
+        question: "Mely mezők találhatóak meg az IPv4 csomag fejlécében? (Válassz ki több helyes választ!)",
+        options: ["TTL (Time To Live)", "Source IP Address", "Sequence Number", "Version"],
+        correct: ["TTL (Time To Live)", "Source IP Address", "Version"],
+        explanation: "A TTL, Source IP Address és Version az IPv4 fejléc részei. A Sequence Number szállítási rétegbeli mező, a TCP fejlécben található meg, nem az IP-ben."
+      },
+      {
+        id: 18,
+        subject: "halozat",
+        type: "boolean",
+        question: "Az IPv6 címek hossza 64 bit, míg az IPv4 címeké 32 bit.",
+        options: ["Igaz", "Hamis"],
+        correct: "Hamis",
+        explanation: "Hamis, mert az IPv6 címek hossza 128 bit (16 bájt), míg az IPv4 címeké valóban 32 bit (4 bájt)."
+      },
+      {
+        id: 19,
+        subject: "halozat",
+        type: "fill",
+        question: "Töltsd ki a hiányzó részt: A biztonságos HTTPS protokoll alapértelmezetten a TCP [blank] portot használja.",
+        correct: ["443"],
+        explanation: "A HTTPS (biztonságos HTTP) a 443-as TCP portot használja az SSL/TLS titkosított kommunikációhoz."
+      },
+      {
+        id: 20,
+        subject: "halozat",
+        type: "short",
+        question: "Mi a teljes angol megnevezése annak a technológiának (rövidítése: NAT), amely a privát IP-címeket nyilvános IP-címekre fordítja le a routereken?",
+        correct: ["Network Address Translation", "network address translation"],
+        explanation: "NAT = Network Address Translation (Hálózati címfordítás). Segítségével a helyi magánhálózat gépei egyetlen nyilvános IP-címet megosztva érhetik el az internetet."
+      },
+      {
+        id: 21,
+        subject: "halozat",
+        type: "scenario",
+        question: "Egy felhasználó eléri az internetet IP-címek beírásával (pl. 8.8.8.8), de a böngészőbe írt domain nevek (pl. google.com) nem töltődnek be. Mi a legvalószínűbb hálózati probléma?",
+        options: ["Nincs fizikai kapcsolat", "Helytelen a DNS szerver beállítása", "A default gateway nem válaszol", "A DHCP szerver nem osztott ki IP címet"],
+        correct: "Helytelen a DNS szerver beállítása",
+        explanation: "Mivel IP-címmel működik a kommunikáció, a fizikai réteg és az átjáró jó. A domain nevek feloldása sikertelen, ami egyértelműen a DNS (Domain Name System) konfigurációs hibájára utal."
+      },
+      {
+        id: 22,
+        subject: "halozat",
+        type: "calculation",
+        question: "Hány bites a hálózati rész (CIDR jelöléssel) egy szabványos C-osztályú alhálózati maszk (255.255.255.0) esetén?",
+        correct: ["24"],
+        explanation: "A 255.255.255.0 alhálózati maszk kettes számrendszerben 24 darab 1-est tartalmaz (11111111.11111111.11111111.00000000), így CIDR jelöléssel ez a /24."
+      },
+      {
+        id: 23,
+        subject: "halozat",
+        type: "concept",
+        question: "Melyik protokoll felelős az IP-címek fizikai MAC-címekké történő lefordításáért a helyi hálózaton (LAN)?",
+        correct: ["ARP", "arp", "Address Resolution Protocol"],
+        explanation: "Az ARP (Address Resolution Protocol) végzi a helyi hálózaton az IP-címekhez tartozó hardveres MAC-címek felderítését és cache-elését."
+      },
+      {
+        id: 24,
+        subject: "halozat",
+        type: "relation",
+        question: "Milyen kapcsolat áll fenn a kliens és a szerver között a hagyományos Web (HTTP) architektúrában?",
+        options: [
+          "Kizárólag a kliens kezdeményezheti a kapcsolatot kéréssel, a szerver passzívan válaszol.",
+          "A szerver bármikor küldhet adatot a kliensnek anélkül, hogy az kérte volna.",
+          "Minden gép egyenrangú és egyszerre tölthet be mindkét szerepkört."
+        ],
+        correct: "Kizárólag a kliens kezdeményezheti a kapcsolatot kéréssel, a szerver passzívan válaszol.",
+        explanation: "A klasszikus kliens-szerver modellben a kliens (pl. böngésző) kezdeményez kéréssel (request), a szerver pedig feldolgozza és válaszol (response). A szerver magától nem küldhet kéretlen választ a HTTP-ben."
+      },
+      {
+        id: 25,
+        subject: "halozat",
+        type: "def-match",
+        question: "Párosítsd a hálózati címeket a hozzájuk tartozó jellemzővel!",
+        pairs: [
+          { term: "MAC cím", definition: "48 bites hardveres fizikai cím, beégetve a hálózati kártyába" },
+          { term: "IP cím", definition: "32 vagy 128 bites logikai cím, hálózati rétegbeli azonosításra" },
+          { term: "Portszám", definition: "16 bites szállítási rétegbeli azonosító az alkalmazásokhoz" },
+          { term: "Socket", definition: "Egy IP-cím és egy portszám kombinációja" }
+        ],
+        explanation: "MAC fizikai és fix, az IP logikai és változó, a Port az alkalmazást jelöli a gépen belül, a Socket pedig a végpontot (IP + Port)."
+      },
+      {
+        id: 26,
+        subject: "halozat",
+        type: "ordering",
+        question: "Rendezd sorrendbe az adatok beágyazásának (enkapszuláció) lépéseit a küldő oldalon, a legfelső rétegtől lefelé haladva!",
+        items: [
+          "Alkalmazási rétegbeli tiszta Adat (Data)",
+          "Szállítási rétegben hozzáadott fejléccel: Szegmens (Segment)",
+          "Hálózati rétegben hozzáadott fejléccel: Csomag (Packet)",
+          "Adatkapcsolati rétegben hozzáadott fejléccel és lábléccel: Keret (Frame)",
+          "Fizikai rétegben továbbított Bitek (Bits)"
+        ],
+        explanation: "Az enkapszuláció során a küldő oldalon a fenti rétegekből lefelé haladva minden szint beágyazza az adatot a saját fejlécébe: Adat -> Szegmens -> Csomag -> Keret -> Bitek."
+      },
+      {
+        id: 27,
+        subject: "halozat",
+        type: "correct-statements",
+        question: "Mely állítások igazak az IPv6 protokollal kapcsolatban? (Válassz ki több helyes állítást!)",
+        options: [
+          "Az IPv6 címeket hexadecimális formában ábrázoljuk kettőspontokkal elválasztva.",
+          "Beépített IPSec biztonsági támogatást tartalmaz.",
+          "Az IPv6 címekben a hálózati és eszköz-azonosító rész fixen 64-64 bitre oszlik alapesetben.",
+          "Az IPv6 kompatibilitás miatt kötelezően igényli a NAT címfordítást."
+        ],
+        correct: ["Az IPv6 címeket hexadecimális formában ábrázoljuk kettőspontokkal elválasztva.", "Beépített IPSec biztonsági támogatást tartalmaz.", "Az IPv6 címekben a hálózati és eszköz-azonosító rész fixen 64-64 bitre oszlik alapesetben."],
+        explanation: "Az IPv6 128 bites címeket használ, hexadecimális formátumban. Beépített IPSec-kel jött létre, és az óriási címtér miatt nincs szükség NAT-ra."
+      },
+      {
+        id: 28,
+        subject: "halozat",
+        type: "identify-wrong",
+        question: "Melyik állítás HIBÁS az UDP protokollal kapcsolatban?",
+        options: [
+          "Az UDP összeköttetés-mentes átvitelt biztosít.",
+          "Az UDP fejlécében nincs Sequence Number (sorszám) mező.",
+          "Az UDP garantálja, hogy a csomagok sérülésmentesen és sorrendben érkeznek meg.",
+          "Az UDP-t gyakran használják valós idejű alkalmazásokban (pl. VoIP, játékok)."
+        ],
+        correct: "Az UDP garantálja, hogy a csomagok sérülésmentesen és sorrendben érkeznek meg.",
+        explanation: "Az UDP nem garantál semmit (best-effort): sem a megérkezést, sem a sorrendiséget. Ha ez szükséges, azt az alkalmazási rétegnek kell kezelnie."
+      },
+      {
+        id: 29,
+        subject: "halozat",
+        type: "compare",
+        question: "Hasonlítsd össze az Ethernet Hub és a Switch eszközöket! Melyik jellemző melyikre igaz?",
+        pairs: [
+          { term: "A bejövő keretet minden portra kiküldi (broadcastszerűen)", definition: "Hub" },
+          { term: "MAC táblát tart fenn és célzottan továbbít", definition: "Switch" },
+          { term: "Egyetlen ütközési domént (collision domain) alkot az összes portja", definition: "Hub" },
+          { term: "Minden egyes portja külön ütközési domén", definition: "Switch" }
+        ],
+        explanation: "A Hub egy buta fizikai rétegbeli elosztó (mindent mindenhova küld), a Switch viszont intelligens adatkapcsolati rétegbeli eszköz, ami megtanulja a MAC címeket."
+      },
+      {
+        id: 30,
+        subject: "halozat",
+        type: "single",
+        question: "Hogy nevezzük azt az OSI 2. rétegbeli keretet, amelynek cél MAC címe FF:FF:FF:FF:FF:FF?",
+        options: ["Unicast keret", "Multicast keret", "Broadcast keret", "Anycast keret"],
+        correct: "Broadcast keret",
+        explanation: "Az FF:FF:FF:FF:FF:FF a fizikai broadcast (szórásos) cím. Az erre a címre küldött keretet a switch a helyi alhálózat összes aktív portjára továbbítja."
+      },
+      {
+        id: 31,
+        subject: "halozat",
+        type: "multiple",
+        question: "Melyek a dinamikus útvonalválasztó (routing) protokollok az alábbiak közül? (Válassz ki több helyes választ!)",
+        options: ["OSPF (Open Shortest Path First)", "RIP (Routing Information Protocol)", "DHCP", "BGP (Border Gateway Protocol)"],
+        correct: ["OSPF (Open Shortest Path First)", "RIP (Routing Information Protocol)", "BGP (Border Gateway Protocol)"],
+        explanation: "Az OSPF, RIP és BGP mind dinamikus routing protokollok (az OSPF és RIP belső, a BGP külső átjáró-protokoll). A DHCP egy címkiosztó alkalmazási protokoll."
+      },
+      {
+        id: 32,
+        subject: "halozat",
+        type: "boolean",
+        question: "A routerek az OSI modell 3. rétegében (Hálózati réteg) működnek, és IP-címek alapján döntenek a csomagok továbbításáról.",
+        options: ["Igaz", "Hamis"],
+        correct: "Igaz",
+        explanation: "Igaz. A routerek Layer 3 eszközök, feladatuk a különböző IP alhálózatok összekapcsolása és az útvonalválasztás."
+      },
+      {
+        id: 33,
+        subject: "halozat",
+        type: "fill",
+        question: "Töltsd ki a hiányzó részt: Az FTP (File Transfer Protocol) vezérlőkapcsolata alapértelmezés szerint a TCP [blank] portot használja.",
+        correct: ["21"],
+        explanation: "Az FTP a 21-es portot használja a vezérlésre (parancsok küldésére), és a 20-as portot az aktív adatátvitelre."
+      },
+      {
+        id: 34,
+        subject: "halozat",
+        type: "short",
+        question: "Add meg a /28-as alhálózathoz tartozó alhálózati maszkot pontozott decimális formában (pl. 255.255.255.240)!",
+        correct: ["255.255.255.240"],
+        explanation: "A /28 maszk első 28 bitje 1-es, az utolsó 4 bit 0 (11111111.11111111.11111111.11110000). Decimálisan ez 255.255.255.240."
+      },
+      {
+        id: 35,
+        subject: "halozat",
+        type: "scenario",
+        question: "Egy csomag az interneten halad keresztül. Egy routerhez érve a router megvizsgálja a csomag TTL mezőjét, és azt tapasztalja, hogy az érték 1. Mi történik a csomaggal?",
+        options: [
+          "A router csökkenti a TTL-t 0-ra, eldobja a csomagot, és egy ICMP Time Exceeded üzenetet küld vissza a feladónak.",
+          "A router megnöveli a TTL-t 64-re és továbbküldi a csomagot.",
+          "A router változatlanul továbbküldi a csomagot, mivel a TTL-t csak a célgép vizsgálhatja."
+        ],
+        correct: "A router csökkenti a TTL-t 0-ra, eldobja a csomagot, és egy ICMP Time Exceeded üzenetet küld vissza a feladónak.",
+        explanation: "Minden router csökkenti a TTL értékét 1-gyel. Ha a TTL eléri a 0-t, a csomag eldobásra kerül (ez akadályozza meg a végtelen hurokban keringést), és a router ICMP-vel értesíti a forrást."
+      },
+      {
+        id: 36,
+        subject: "halozat",
+        type: "calculation",
+        question: "Hány darab használható hoszt IP-cím osztható ki egy /30-as pont-pont alhálózatban?",
+        correct: ["2"],
+        explanation: "A /30-as maszkban 2 hoszt bit van (32-30=2). A címtér 2^2 = 4. Levonva a hálózati és a broadcast címeket: 4 - 2 = 2 használható hosztcím."
+      },
+      {
+        id: 37,
+        subject: "halozat",
+        type: "concept",
+        question: "Hogy nevezzük azt a technológiát, amellyel egy fizikai switch-en binnen logikailag elkülönített helyi hálózatokat hozhatunk létre?",
+        correct: ["VLAN", "vlan", "Virtual Local Area Network"],
+        explanation: "A VLAN (Virtual LAN) lehetővé teszi, hogy egyetlen fizikai switch portjait logikailag különálló szórási tartományokká osszuk fel."
+      },
+      {
+        id: 38,
+        subject: "halozat",
+        type: "relation",
+        question: "Milyen kapcsolat van a hálózati kártya gyártója és a hálózati kártya MAC címének első 3 bájtja között?",
+        options: [
+          "Az első 3 bájt az OUI (Organizationally Unique Identifier), ami egyedileg azonosítja a gyártót.",
+          "Az első 3 bájt véletlenszerűen generált, nincs kapcsolat a gyártóval.",
+          "A gyártó csak az utolsó 3 bájtot határozhatja meg, az első 3 bájt fixen a szabványügyi hatóságé."
+        ],
+        correct: "Az első 3 bájt az OUI (Organizationally Unique Identifier), ami egyedileg azonosítja a gyártót.",
+        explanation: "A MAC cím 6 bájtos. Az első 3 bájt az OUI, amit az IEEE oszt ki a gyártóknak, a második 3 bájtot pedig a gyártó osztja ki az eszközeinek egyedileg."
+      },
+      {
+        id: 39,
+        subject: "halozat",
+        type: "def-match",
+        question: "Párosítsd a hálózati kiterjedések rövidítéseit a leírásukkal!",
+        pairs: [
+          { term: "PAN", definition: "Személyi hálózat néhány méteren belül (pl. Bluetooth)" },
+          { term: "LAN", definition: "Helyi hálózat lakáson, irodán belül (pl. Ethernet, Wi-Fi)" },
+          { term: "MAN", definition: "Városi méretű hálózat (pl. kábeltévé gerinchálózat)" },
+          { term: "WAN", definition: "Kiterjedt hálózat országok, kontinensek között (pl. Internet)" }
+        ],
+        explanation: "A kiterjedés szerinti csoportosítás a legkisebbtől (PAN) a legnagyobbig (WAN) halad."
+      },
+      {
+        id: 40,
+        subject: "halozat",
+        type: "ordering",
+        question: "Rendezd időrendi sorrendbe a DHCP kliens IP-cím kérésének (DORA) lépéseit felülről lefelé!",
+        items: [
+          "DHCP Discover (Kliens szórásos üzenetet küld szerver keresésére)",
+          "DHCP Offer (Szerverek IP-cím ajánlatot küldenek)",
+          "DHCP Request (Kliens kiválasztja az egyik ajánlatot és kérést küld)",
+          "DHCP Acknowledge (Szerver jóváhagyja és elküldi a konfigurációt)"
+        ],
+        explanation: "A DHCP folyamat a DORA mozaikszó lépéseit követi: Discover -> Offer -> Request -> Acknowledge."
+      },
+      {
+        id: 41,
+        subject: "halozat",
+        type: "correct-statements",
+        question: "Mely állítások igazak az ütközések elkerülésével / kezelésével kapcsolatban? (Válassz ki több helyes választ!)",
+        options: [
+          "A CSMA/CD-t a vezetékes Ethernet hálózatok használják az ütközések detektálására.",
+          "A CSMA/CA-t a Wi-Fi (802.11) hálózatok használják az ütközések elkerülésére.",
+          "A Full-Duplex kapcsolatokban nincs ütközés, így ott nincs szükség CSMA/CD-re.",
+          "A Token Ring hálózatok is CSMA/CD alapúak."
+        ],
+        correct: ["A CSMA/CD-t a vezetékes Ethernet hálózatok használják az ütközések detektálására.", "A CSMA/CA-t a Wi-Fi (802.11) hálózatok használják az ütközések elkerülésére.", "A Full-Duplex kapcsolatokban nincs ütközés, így ott nincs szükség CSMA/CD-re."],
+        explanation: "Vezetékesnél CD (Collision Detection), vezeték nélkülinél CA (Collision Avoidance) használatos. Full-duplex módban a küldés és fogadás külön szálon zajlik, nincs ütközési lehetőség."
+      },
+      {
+        id: 42,
+        subject: "halozat",
+        type: "identify-wrong",
+        question: "Melyik állítás HIBÁS az optikai kábelekkel kapcsolatban?",
+        options: [
+          "Az optikai kábelek fényimpulzusok formájában továbbítják az adatokat.",
+          "Érzékenyek az elektromágneses interferenciára (EMI).",
+          "Nagyobb távolságok áthidalására képesek, mint a réz alapú UTP kábelek.",
+          "Létezik egymódusú (Single-mode) és többmódusú (Multi-mode) optikai kábel."
+        ],
+        correct: "Érzékenyek az elektromágneses interferenciára (EMI).",
+        explanation: "Az optikai szálak fényvezető üvegből vagy műanyagból vannak, így teljesen immunisak az elektromágneses zavarokra (EMI), szemben a rézkábelekkel."
+      },
+      {
+        id: 43,
+        subject: "halozat",
+        type: "compare",
+        question: "Hasonlítsd össze a szimmetrikus és aszimmetrikus kulcsú titkosítást! Válaszd ki, melyik állítás hova tartozik!",
+        pairs: [
+          { term: "Ugyanazt a kulcsot használja titkosításra és dekódolásra", definition: "Szimmetrikus titkosítás" },
+          { term: "Nyilvános és privát kulcspárt használ", definition: "Aszimmetrikus titkosítás" },
+          { term: "Gyorsabb, nagy adatmennyiség titkosítására ideális", definition: "Szimmetrikus titkosítás" },
+          { term: "Kulcscsere és digitális aláírás megvalósítására alkalmas", definition: "Aszimmetrikus titkosítás" }
+        ],
+        explanation: "A szimmetrikus (pl. AES) gyors és egykulcsos, míg az aszimmetrikus (pl. RSA) lassabb, de megoldja a biztonságos kulcscserét a kulcspárral."
+      },
+      {
+        id: 44,
+        subject: "halozat",
+        type: "single",
+        question: "Mi a feladata a Default Gateway-nek (Alapértelmezett átjáró) a hoszt beállításai között?",
+        options: [
+          "Névfeloldást biztosít a helyi hálózaton.",
+          "Erre a címre küldi a hoszt a csomagokat, ha a céleszköz kívül esik a helyi alhálózaton.",
+          "Dinamikusan oszt ki IP címeket a csatlakozó gépeknek.",
+          "Védelemmel látja el a gépet a külső behatolások ellen."
+        ],
+        correct: "Erre a címre küldi a hoszt a csomagokat, ha a céleszköz kívül esik a helyi alhálózaton.",
+        explanation: "Ha a gép egy másik hálózatra (pl. internetre) akar küldeni csomagot, a router belső interfészének IP-címére (Default Gateway) küldi azt, hogy a router továbbítsa."
+      },
+      {
+        id: 45,
+        subject: "halozat",
+        type: "multiple",
+        question: "Mely protokollok működnek az OSI modell Alkalmazási rétegében (Layer 7)? (Válassz ki több helyes választ!)",
+        options: ["DNS", "SMTP", "TCP", "HTTP"],
+        correct: ["DNS", "SMTP", "HTTP"],
+        explanation: "A DNS, SMTP és HTTP mind alkalmazási rétegbeli szolgáltatások. A TCP a szállítási rétegben (Layer 4) működik."
+      },
+      {
+        id: 46,
+        subject: "halozat",
+        type: "boolean",
+        question: "A TCP/IP modell 4 rétegből áll (Alkalmazási, Szállítási, Internet, Hálózati elérés), szemben az OSI modell 7 rétegével.",
+        options: ["Igaz", "Hamis"],
+        correct: "Igaz",
+        explanation: "Igaz. A TCP/IP modell összevontan kezeli a fizikai/adatkapcsolati rétegeket (Hálózati elérés), valamint a felső három réteget (Alkalmazási réteg)."
+      },
+      {
+        id: 47,
+        subject: "halozat",
+        type: "fill",
+        question: "Töltsd ki a hiányzó részt: A biztonságos távoli parancssori elérést biztosító SSH protokoll alapértelmezett TCP portja a(z) [blank].",
+        correct: ["22"],
+        explanation: "Az SSH (Secure Shell) a 22-es TCP porton várja a bejövő titkosított terminálkapcsolatokat."
+      },
+      {
+        id: 48,
+        subject: "halozat",
+        type: "short",
+        question: "Mi a teljes angol neve annak az alkalmazási rétegbeli protokollnak (rövidítése: SMTP), amelyet e-mailek továbbítására és küldésére használnak?",
+        correct: ["Simple Mail Transfer Protocol", "simple mail transfer protocol"],
+        explanation: "SMTP = Simple Mail Transfer Protocol. Levelek továbbítására és küldésére szolgál (kliens-szerver vagy szerver-szerver között)."
+      },
+      {
+        id: 49,
+        subject: "halozat",
+        type: "calculation",
+        question: "Hány bites az IPv6 cím?",
+        correct: ["128"],
+        explanation: "Az IPv6 logikai cím 128 bitből áll (ez 16 bájt), szemben az IPv4 32 bites hosszával."
+      },
+      {
+        id: 50,
+        subject: "halozat",
+        type: "scenario",
+        question: "Egy gyártelepen két épület között kell hálózati kapcsolatot létesíteni. A távolság 350 méter, és a területen erős áramú gépek működnek, amik elektromos zajt keltenek. Milyen kábeltípust válasszunk a biztonságos összeköttetéshez?",
+        options: ["Optikai kábel (Fiber optic)", "Árnyékolt csavart érpár (STP Cat6)", "Koaxiális kábel", "Wi-Fi Bridge"],
+        correct: "Optikai kábel (Fiber optic)",
+        explanation: "Az optikai kábel nem érzékeny az elektromágneses interferenciára és a 350 méteres távolság is bőven belül van a korlátain (szemben a rézkábelek 100 méteres korlátjával)."
+      },
+
+      // ==========================================
+      // ADATKEZELES (50 questions, IDs: 51 to 100)
+      // ==========================================
+      {
+        id: 51,
+        subject: "adatkezeles",
+        type: "single",
+        question: "Melyik normálforma követeli meg, hogy minden nem-kulcs attribútum közvetlenül (és ne tranzitívan) függjön a teljes elsődleges kulcstól?",
+        options: ["Első normálforma (1NF)", "Második normálforma (2NF)", "Harmadik normálforma (3NF)", "Boyce-Codd normálforma (BCNF)"],
+        correct: "Harmadik normálforma (3NF)",
+        explanation: "A 3NF megköveteli a 2NF-et, és kimondja, hogy ne legyen tranzitív függőség a kulcsjelöltektől, azaz minden nem-kulcs elem közvetlenül a kulcstól függjön."
+      },
+      {
+        id: 52,
+        subject: "adatkezeles",
+        type: "multiple",
+        question: "Mely tulajdonságok alkotják a tranzakciókezelés ACID követelményeit? (Válassz ki több helyes választ!)",
+        options: ["Atomiság (Atomicity)", "Konzisztencia (Consistency)", "Elszigeteltség (Isolation)", "Elosztottság (Distribution)"],
+        correct: ["Atomiság (Atomicity)", "Konzisztencia (Consistency)", "Elszigeteltség (Isolation)"],
+        explanation: "Az ACID tulajdonságok: Atomicity (Atomiság), Consistency (Konzisztencia), Isolation (Izoláció / Elszigeteltség), Durability (Tartósság)."
+      },
+      {
+        id: 53,
+        subject: "adatkezeles",
+        type: "boolean",
+        question: "Ha egy reláció harmadik normálformában (3NF) van, akkor az minden esetben Boyce-Codd normálformában (BCNF) is van.",
+        options: ["Igaz", "Hamis"],
+        correct: "Hamis",
+        explanation: "Hamis, mert a BCNF szigorúbb feltételt támaszt: minden determináns (függőség bal oldala) szuperkulcs kell legyen. Léteznek olyan 3NF sémák, amelyek nem BCNF sémák."
+      },
+      {
+        id: 54,
+        subject: "adatkezeles",
+        type: "matching",
+        question: "Párosítsd a relációalgebrai műveletek szimbólumait a magyar elnevezéseikkel!",
+        pairs: [
+          { term: "σ (szigma)", definition: "Szelekció (sorok szűrése)" },
+          { term: "π (pi)", definition: "Projekció (oszlopok szűrése)" },
+          { term: "⋈ (masni)", definition: "Természetes összekapcsolás (Natural Join)" },
+          { term: "× (szorzás)", definition: "Dékárte-szorzat" }
+        ],
+        explanation: "A szigma (σ) a sorokat választja ki feltétel alapján, a pi (π) az oszlopokat vetíti ki, a masni (⋈) az összekapcsolást jelöli, a kereszt (×) pedig a Dékárte-szorzatot."
+      },
+      {
+        id: 55,
+        subject: "adatkezeles",
+        type: "fill",
+        question: "Töltsd ki a hiányzó részt: Egy tranzakció sikeres befejezését és az adatmódosítások véglegesítését a(z) [blank] SQL utasítással hajtjuk végre.",
+        correct: ["COMMIT", "commit"],
+        explanation: "A COMMIT parancs véglegesíti a tranzakcióban végzett módosításokat az adatbázisban. (A visszavonás parancsa a ROLLBACK)."
+      },
+      {
+        id: 56,
+        subject: "adatkezeles",
+        type: "short",
+        question: "Melyik SQL kulcsszót kell használni a GROUP BY csoportosítás után kapott részeredmények szűrésére?",
+        correct: ["HAVING", "having"],
+        explanation: "Míg a WHERE a csoportosítás előtt szűri a sorokat, a HAVING a GROUP BY után végrehajtott aggregált értékek szűrésére szolgál."
+      },
+      {
+        id: 57,
+        subject: "adatkezeles",
+        type: "scenario",
+        question: "Egy webáruházban a vásárló rákattint a fizetés gombra. A rendszer levonja az összeget a számláról, majd regisztrálja a vásárlást. Ha a vásárlás regisztrációja valamilyen hiba miatt meghiúsul, a levont összeget is vissza kell utalni. Milyen mechanizmussal biztosítható ez adatbázis-szinten?",
+        options: ["Tranzakciókezelés", "Idegen kulcs kényszer", "Adatbázis indexelés", "Nézetek (View-k) használata"],
+        correct: "Tranzakciókezelés",
+        explanation: "Az ilyen mindent-vagy-semmit műveleteket tranzakcióba foglaljuk. Az atomiság (ACID 'A') garantálja, hogy ha bármelyik lépés hibázik, a teljes művelet visszagördül (ROLLBACK)."
+      },
+      {
+        id: 58,
+        subject: "adatkezeles",
+        type: "calculation",
+        question: "Ha az R relációban 5 sor van, az S relációban pedig 4 sor, hány sor keletkezik a két tábla Dékárte-szorzata (R × S) során?",
+        correct: ["20"],
+        explanation: "A Dékárte-szorzat elemszáma a két reláció elemszámának szorzata: 5 * 4 = 20 sor."
+      },
+      {
+        id: 59,
+        subject: "adatkezeles",
+        type: "concept",
+        question: "Hogy nevezzük azt az attribútumhalmazt a relációs adatbázisban, amelynek értékei egyértelműen azonosítják a reláció sorait, és amelyből semelyik attribútum sem hagyható el anélkül, hogy az azonosítás egyedisége megsérülne?",
+        correct: ["kulcsjelölt", "minimális kulcs", "kulcs", "szuperkulcs"],
+        explanation: "A kulcsjelölt (Candidate Key) egy minimális szuperkulcs – vagyis egy olyan attribútumcsoport, amely egyedileg azonosít és nincs benne felesleges elem."
+      },
+      {
+        id: 60,
+        subject: "adatkezeles",
+        type: "relation",
+        question: "Milyen kapcsolat áll fenn egy tipikus adatbázisban az 'Ország' és a 'Főváros' entitások között?",
+        options: ["1:1 (Egy-egy kapcsolat)", "1:N (Egy-több kapcsolat)", "N:M (Több-több kapcsolat)"],
+        correct: "1:1 (Egy-egy kapcsolat)",
+        explanation: "Minden országnak pontosan egy fővárosa van, és minden főváros pontosan egy országhoz tartozik. Ez egy tipikus 1:1 kapcsolat."
+      },
+      {
+        id: 61,
+        subject: "adatkezeles",
+        type: "def-match",
+        question: "Párosítsd az alábbi adatbázis fogalmakat a megfelelő leírásukkal!",
+        pairs: [
+          { term: "Elsődleges kulcs", definition: "Egyértelműen azonosítja a tábla sorait, nem lehet NULL" },
+          { term: "Idegen kulcs", definition: "Referenciális integritást biztosít egy másik táblára" },
+          { term: "Index", definition: "Gyorsítja a keresési és lekérdezési műveleteket" },
+          { term: "Nézet (View)", definition: "Elmentett lekérdezés, virtuális táblaként működik" }
+        ],
+        explanation: "Az elsődleges kulcs egyedi azonosító, az idegen kulcs hivatkozik, az index gyorsít, a nézet pedig egy tárolt SELECT lekérdezés."
+      },
+      {
+        id: 62,
+        subject: "adatkezeles",
+        type: "ordering",
+        question: "Rendezd sorba az SQL SELECT lekérdezések kiértékelésének logikai sorrendjét felülről lefelé (ahogy a DBMS végrehajtja)!",
+        items: [
+          "FROM (táblák beolvasása és JOIN)",
+          "WHERE (sorok előzetes szűrése)",
+          "GROUP BY (csoportosítás)",
+          "HAVING (csoportok szűrése)",
+          "SELECT (oszlopok kiválasztása)",
+          "ORDER BY (sorbarendezés)"
+        ],
+        explanation: "Az SQL végrehajtás logikai sorrendje: FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY. Bár a SELECT van a kód elején, logikailag szinte a legvégén értékelődik ki."
+      },
+      {
+        id: 63,
+        subject: "adatkezeles",
+        type: "correct-statements",
+        question: "Mely állítások igazak az első normálformával (1NF) kapcsolatban? (Válassz ki több helyes választ!)",
+        options: [
+          "Megköveteli, hogy a tábla minden oszlopa csak atomi (nem osztható) értékeket tartalmazzon.",
+          "Előírja, hogy ne legyenek ismétlődő oszlopcsoportok.",
+          "Minden sorában azonos számú oszlopnak kell lennie.",
+          "Kizárja a funkcionális függőségek létezését a kulcsok között."
+        ],
+        correct: ["Megköveteli, hogy a tábla minden oszlopa csak atomi (nem osztható) értékeket tartalmazzon.", "Előírja, hogy ne legyenek ismétlődő oszlopcsoportok.", "Minden sorában azonos számú oszlopnak kell lennie."],
+        explanation: "Az 1NF lényege az atomiság: nincsenek tömbök/listák mezőértékként, nincsenek ismétlődő attribútumcsoportok és a tábla szerkezete kötött (fix oszlopszám)."
+      },
+      {
+        id: 64,
+        subject: "adatkezeles",
+        type: "identify-wrong",
+        question: "Melyik állítás HIBÁS az idegen kulcsokkal (Foreign Key) kapcsolatban?",
+        options: [
+          "Az idegen kulcs biztosítja a referenciális integritást.",
+          "Egy táblában csak egyetlen idegen kulcs mező szerepelhet.",
+          "Az idegen kulcs hivatkozhat saját táblájának elsődleges kulcsára is (rekurzív kapcsolat).",
+          "Az idegen kulcs felvehet NULL értéket is, ha a hivatkozás opcionális."
+        ],
+        correct: "Egy táblában csak egyetlen idegen kulcs mező szerepelhet.",
+        explanation: "Egy táblában tetszőleges számú idegen kulcs lehet, amelyek különböző (vagy akár azonos) táblákra hivatkoznak."
+      },
+      {
+        id: 65,
+        subject: "adatkezeles",
+        type: "compare",
+        question: "Hasonlítsd össze az SQL DDL (adatdefiníciós) és DML (adatmanipulációs) utasításait! Válaszd ki, melyik hova tartozik!",
+        pairs: [
+          { term: "CREATE TABLE", definition: "DDL (Data Definition Language)" },
+          { term: "INSERT INTO", definition: "DML (Data Manipulation Language)" },
+          { term: "DROP INDEX", definition: "DDL (Data Definition Language)" },
+          { term: "UPDATE ... SET", definition: "DML (Data Manipulation Language)" }
+        ],
+        explanation: "A DDL parancsok a sémát és struktúrát módosítják (CREATE, DROP, ALTER), mijen a DML parancsok az adatrekordokat módosítják (SELECT, INSERT, UPDATE, DELETE)."
+      },
+      {
+        id: 66,
+        subject: "adatkezeles",
+        type: "single",
+        question: "Melyik grafikus szimbólum jelöli az entitást a klasszikus Chen-féle egyed-kapcsolat (ER) diagramon?",
+        options: ["Ellipszis", "Téglalap", "Rombusz", "Nyíl"],
+        correct: "Téglalap",
+        explanation: "Az ER diagramon a téglalap jelöli az entitásokat (pl. Vásárló, Termék), az ellipszis az attribútumokat, a rombusz pedig a közöttük lévő kapcsolatokat."
+      },
+      {
+        id: 67,
+        subject: "adatkezeles",
+        type: "single",
+        question: "Az ER-relációs leképezés során hogyan képezünk le egy több-több (N:M) kapcsolatot a relációs sémába?",
+        options: [
+          "Létrehozunk egy új kapcsolótáblát, amelynek attribútumai a két entitás elsődleges kulcsai lesznek idegen kulcsként.",
+          "Az egyik entitás táblájába felvesszük a másik entitás elsődleges kulcsát egyszerű idegen kulcsként.",
+          "A két entitás attribútumait egyetlen nagy táblába vonjuk össze, így elkerülve a JOIN-okat.",
+          "N:M kapcsolat egyáltalán nem képezhető le relációs adatbázisra."
+        ],
+        correct: "Létrehozunk egy új kapcsolótáblát, amelynek attribútumai a két entitás elsődleges kulcsai lesznek idegen kulcsként.",
+        explanation: "Több-több (N:M) kapcsolat leképezésekor külön kapcsolótábla létrehozása kötelező. Ennek elsődleges kulcsa a két kapcsolt entitás kulcsának kombinációja lesz."
+      },
+      {
+        id: 68,
+        subject: "adatkezeles",
+        type: "single",
+        question: "Hogyan kell SQL-ben lekérdezni azokat a sorokat, ahol a 'fizetes' oszlop értéke nincs megadva (azaz NULL)?",
+        options: ["WHERE fizetes = NULL", "WHERE fizetes IS NULL", "WHERE fizetes == NULL", "WHERE fizetes IS EMPTY"],
+        correct: "WHERE fizetes IS NULL",
+        explanation: "Az SQL-ben a NULL érték nem egy konkrét érték, hanem az érték hiánya, így nem lehet a hagyományos egyenlőségjellel (=) összehasonlítani. Helyette az 'IS NULL' operátort használjuk."
+      },
+      {
+        id: 69,
+        subject: "adatkezeles",
+        type: "fill",
+        question: "Töltsd ki a hiányzó részt: Ha egy tranzakció sikertelen vagy hibás lépést hajt végre, az adatmódosításokat a(z) [blank] paranccsal vonhatjuk vissza a kiindulási állapotra.",
+        correct: ["ROLLBACK", "rollback"],
+        explanation: "A ROLLBACK utasítás visszavonja a tranzakció megkezdése óta történt összes módosítást az adatbázisban."
+      },
+      {
+        id: 70,
+        subject: "adatkezeles",
+        type: "short",
+        question: "Melyik SQL kulcsszó használatával lehet kiszűrni a duplikált sorokat a SELECT lekérdezés eredményéből?",
+        correct: ["DISTINCT", "distinct"],
+        explanation: "A SELECT DISTINCT utasítás garantálja, hogy az eredményhalmazban minden sorból csak egyetlen egyedi példány szerepeljen."
+      },
+      {
+        id: 71,
+        subject: "adatkezeles",
+        type: "scenario",
+        question: "Egy nagy forgalmú lekérdező rendszerben a felhasználók adatai (pl. vezetéknév) alapján történő keresések rendkívül lelassultak, pedig a szerver hardvere megfelelő. Mit kell tenni az adatbázisban a keresési teljesítmény javítására?",
+        options: [
+          "Indexet kell létrehozni a vezetéknév oszlopon.",
+          "Új táblába kell átmásolni a vezetékneveket.",
+          "Át kell írni az adatbázist NoSQL alapúra.",
+          "El kell távolítani a Primary Key kényszert."
+        ],
+        correct: "Indexet kell létrehozni a vezetéknév oszlopon.",
+        explanation: "Az index létrehozása a keresett mezőn felgyorsítja a lekérdezéseket (B-fa vagy hash struktúrával), mivel nem kell végigpásztázni az egész táblát (Full Table Scan)."
+      },
+      {
+        id: 72,
+        subject: "adatkezeles",
+        type: "calculation",
+        question: "Az R relációnak 5 attribútuma (oszlopa) van, az S relációnak 4. Hány attribútuma lesz az R és S relációk Dékárte-szorzatának (R × S)?",
+        correct: ["9"],
+        explanation: "A Dékárte-szorzat során keletkező eredményreláció attribútumszáma a két kiindulási reláció attribútumszámának összege: 5 + 4 = 9 oszlop."
+      },
+      {
+        id: 73,
+        subject: "adatkezeles",
+        type: "concept",
+        question: "Hogy nevezzük azt az integritási kényszert, amely kimondja, hogy az idegen kulcs értéke csak olyan érték lehet, amely szerepel a hivatkozott tábla elsődleges kulcsaként (vagy NULL)?",
+        correct: ["referenciális integritás", "hivatkozási integritás", "referential integrity"],
+        explanation: "A referenciális integritás biztosítja a táblák közötti kapcsolatok érvényességét, megakadályozva a 'mutató nélküli' hivatkozásokat."
+      },
+      {
+        id: 74,
+        subject: "adatkezeles",
+        type: "relation",
+        question: "Milyen kapcsolat áll fenn egy tipikus egyetemi adatbázisban az 'Oktatók' és a 'Hallgatók' entitások között?",
+        options: ["1:1 (Egy-egy kapcsolat)", "1:N (Egy-több kapcsolat)", "N:M (Több-több kapcsolat)"],
+        correct: "N:M (Több-több kapcsolat)",
+        explanation: "Egy oktató több hallgatót taníthat, és egy hallgatót több oktató taníthat. Ez egy tipikus több-több (N:M) kapcsolat, amit kapcsolótáblával valósítunk meg."
+      },
+      {
+        id: 75,
+        subject: "adatkezeles",
+        type: "def-match",
+        question: "Párosítsd az SQL adattípusokat a jellemzőjükkel!",
+        pairs: [
+          { term: "CHAR(10)", definition: "Fix hosszúságú karakterlánc, szóközökkel kiegészítve" },
+          { term: "VARCHAR(50)", definition: "Változó hosszúságú karakterlánc a megadott maximumig" },
+          { term: "INTEGER", definition: "Egész számok tárolására szolgáló típus" },
+          { term: "DATE", definition: "Év, hónap és nap tárolására szolgáló típus" }
+        ],
+        explanation: "A CHAR fix hosszúságú, a VARCHAR változó méretű szövegekhez ideális, az INTEGER egész szám, a DATE pedig dátum."
+      },
+      {
+        id: 76,
+        subject: "adatkezeles",
+        type: "ordering",
+        question: "Rendezd sorrendbe a relációs adatbázis-tervezés lépéseit a kezdetektől a megvalósításig!",
+        items: [
+          "Követelményelemzés (üzleti igények felmérése)",
+          "Konceptuális tervezés (ER modell készítése)",
+          "Logikai tervezés (relációk, idegen kulcsok és normalizálás)",
+          "Fizikai tervezés (adattípusok, indexek, DBMS specifikus dolgok)",
+          "Implementáció (SQL CREATE TABLE szkriptek futtatása)"
+        ],
+        explanation: "A tervezés a legmagasabb absztrakciótól (igények, ER diagram) a logikai sémán át a fizikai megvalósításig halad."
+      },
+      {
+        id: 77,
+        subject: "adatkezeles",
+        type: "correct-statements",
+        question: "Mely feltételeknek kell teljesülnie ahhoz, hogy egy reláció Boyce-Codd normálformában (BCNF) legyen? (Válassz ki több helyes választ!)",
+        options: [
+          "A relációnak meg kell felelnie a 3. normálforma (3NF) követelményeinek.",
+          "Minden nem-triviális funkcionális függőség (X -> Y) esetén az X attribútumhalmaz szuperkulcs kell legyen.",
+          "Minden oszlop csak egyértékű (atomi) elemeket tartalmazhat.",
+          "Nem tartalmazhat idegen kulcsot."
+        ],
+        correct: ["A relációnak meg kell felelnie a 3. normálforma (3NF) követelményeinek.", "Minden nem-triviális funkcionális függőség (X -> Y) esetén az X attribútumhalmaz szuperkulcs kell legyen.", "Minden oszlop csak egyértékű (atomi) elemeket tartalmazhat."],
+        explanation: "A BCNF megköveteli az 1NF-et, 2NF-et, 3NF-et. Plusz feltétele, hogy minden függőség bal oldala szuperkulcs legyen."
+      },
+      {
+        id: 78,
+        subject: "adatkezeles",
+        type: "identify-wrong",
+        question: "Melyik állítás HIBÁS az elsődleges kulccsal (Primary Key) kapcsolatban?",
+        options: [
+          "Az elsődleges kulcs értékei egyediek kell legyenek a táblán binnen.",
+          "Az elsődleges kulcs egyetlen oszlopból vagy több oszlop kombinációjából is állhat.",
+          "Egy táblának legfeljebb csak egyetlen elsődleges kulcsa lehet.",
+          "Az elsődleges kulcs oszlopa felvehet NULL értéket is."
+        ],
+        correct: "Az elsődleges kulcs oszlopa felvehet NULL értéket is.",
+        explanation: "Az elsődleges kulcs nem vehet fel NULL értéket (NOT NULL és UNIQUE korlátozás vonatkozik rá egyszerre)."
+      },
+      {
+        id: 79,
+        subject: "adatkezeles",
+        type: "compare",
+        question: "Melyik feltételnek kell teljesülnie két reláció között ahhoz, hogy elvégezhető legyen rajtuk az unió (∪), metszet (∩) vagy különbség (-) művelet?",
+        pairs: [
+          { term: "Relációk attribútumszáma (fokszáma)", definition: "Meg kell egyeznie a két relációban" },
+          { term: "Attribútumok doménjei (adattípusai)", definition: "Kompatibilisnek kell lenniük azonos pozíciókban" },
+          { term: "Relációk sémájának neve", definition: "Eltérhet, nem akadálya a művelet elvégzésének" },
+          { term: "Relációk sorainak száma", definition: "Bármennyi lehet, nincs rá megkötés" }
+        ],
+        explanation: "Két reláció unió-kompatibilis (vagy típus-kompatibilis) kell legyen: azonos számú attribútummal kell rendelkezniük, és az egymásnak megfelelő attribútumok doménjeinek meg kell egyezniük."
+      },
+      {
+        id: 80,
+        subject: "adatkezeles",
+        type: "single",
+        question: "Melyik normálforma követeli meg az 1NF-et és azt, hogy ne legyen részleges függőség (azaz minden nem-kulcs attribútum a teljes elsődleges kulcstól függjön, ne csak egy részétől)?",
+        options: ["Első normálforma (1NF)", "Második normálforma (2NF)", "Harmadik normálforma (3NF)", "Boyce-Codd normálforma (BCNF)"],
+        correct: "Második normálforma (2NF)",
+        explanation: "A 2NF kizárja a részleges funkcionális függőségeket az elsődleges kulcstól. Ha az elsődleges kulcs egyetlen oszlopból áll, a reláció automatikusan 2NF-ben van (ha már 1NF-ben volt)."
+      },
+      {
+        id: 81,
+        subject: "adatkezeles",
+        type: "multiple",
+        question: "Mely parancsok tartoznak az SQL DML (adatmanipulációs) nyelvcsoportjába? (Válassz ki több helyes választ!)",
+        options: ["INSERT INTO", "UPDATE", "CREATE TABLE", "DELETE"],
+        correct: ["INSERT INTO", "UPDATE", "DELETE"],
+        explanation: "Az INSERT, UPDATE és DELETE az adatok manipulálására szolgálnak (DML). A CREATE TABLE egy sémadefiniáló utasítás, amely a DDL csoporthoz tartozik."
+      },
+      {
+        id: 82,
+        subject: "adatkezeles",
+        type: "boolean",
+        question: "Az adatbázis indexek (pl. B-fa index) felgyorsítják az adatlekérdezést (SELECT), de lassíthatják az írási műveleteket (INSERT, UPDATE, DELETE).",
+        options: ["Igaz", "Hamis"],
+        correct: "Igaz",
+        explanation: "Igaz. Keresésnél az index segít, de minden adatmódosításnál (beszúrás, törlés, frissítés) a DBMS-nek újra kell építenie/módosítania kell az indexstruktúrát is."
+      },
+      {
+        id: 83,
+        subject: "adatkezeles",
+        type: "fill",
+        question: "Töltsd ki a hiányzó részt: Az SQL-ben minták illesztésére és joker karakteres szűrésre (pl. '%minta%') a(z) [blank] operátort használjuk a WHERE feltételben.",
+        correct: ["LIKE", "like"],
+        explanation: "A LIKE operátor szolgál a szöveges minták illesztésére az SQL-ben. Pl. WHERE nev LIKE 'Kovács%'."
+      },
+      {
+        id: 84,
+        subject: "adatkezeles",
+        type: "short",
+        question: "Melyik SQL összesítő (aggregáló) függvénnyel lehet megszámlálni a lekérdezés eredményében kapott sorok számát?",
+        correct: ["COUNT", "count"],
+        explanation: "A COUNT() függvénnyel számoljuk meg a sorok számát. Pl. SELECT COUNT(*) FROM Felhasznalok."
+      },
+      {
+        id: 85,
+        subject: "adatkezeles",
+        type: "scenario",
+        question: "Egy adatbázis-sémában a 'Megrendelesek' tábla idegen kulccsal hivatkozik a 'Vevo' tábla elsődleges kulcsára. Ha egy vevőt törölnek, a hozzá tartozó összes megrendelést is automatikusan törölni kell. Milyen beállítást kell alkalmazni az idegen kulcson?",
+        options: ["ON DELETE CASCADE", "ON DELETE SET NULL", "ON DELETE RESTRICT", "Nincs ilyen lehetőség"],
+        correct: "ON DELETE CASCADE",
+        explanation: "Az ON DELETE CASCADE (kaszkádolt törlés) beállítással elérhető, hogy a szülő rekord törlésekor a DBMS automatikusan törölje az összes rá hivatkozó gyermek rekordot."
+      },
+      {
+        id: 86,
+        subject: "adatkezeles",
+        type: "calculation",
+        question: "Az R relációnak 10 sora van, az S relációnak 0 sora. Hány sor keletkezik a két tábla természetes összekapcsolása (R ⋈ S) során?",
+        correct: ["0"],
+        explanation: "Mivel az S reláció üres, nincs egyetlen illeszkedő sorpár sem, így a Natural Join eredménye is 0 sor lesz."
+      },
+      {
+        id: 87,
+        subject: "adatkezeles",
+        type: "concept",
+        question: "Hogy nevezzük azt az adatbázis-optimalizációs eljárást, amikor a lekérdezési teljesítmény növelése érdekében szándékosan megsértjük a normálformákat, redundanciát vive a sémába?",
+        correct: ["denormalizáció", "denormalizalas", "denormalization"],
+        explanation: "A denormalizáció során redundáns adatokat tárolunk, hogy elkerüljük az időigényes JOIN műveleteket az írási komplexitás növekedésének árán."
+      },
+      {
+        id: 88,
+        subject: "adatkezeles",
+        type: "relation",
+        question: "Milyen kapcsolat áll fenn egy tipikus vállalat adatbázisában az 'Osztályok' és a 'Dolgozók' entitások között, ha egy dolgozó csak egy osztályhoz tartozhat, de egy osztályon több dolgozó is dolgozhat?",
+        options: ["1:1 (Egy-egy kapcsolat)", "1:N (Egy-több kapcsolat)", "N:M (Több-több kapcsolat)"],
+        correct: "1:N (Egy-több kapcsolat)",
+        explanation: "Mivel egy osztályhoz több dolgozó kapcsolódik, ez egy 1:N (egy-több) kapcsolat. A dolgozók táblában az osztály azonosítója idegen kulcsként szerepel."
+      },
+      {
+        id: 89,
+        subject: "adatkezeles",
+        type: "def-match",
+        question: "Párosítsd az SQL összekapcsolási (JOIN) típusokat a működésük leírásával!",
+        pairs: [
+          { term: "INNER JOIN", definition: "Csak azokat a sorokat adja vissza, amelyek mindkét táblában egyeznek" },
+          { term: "LEFT JOIN", definition: "A bal oldali tábla összes sorát visszaadja, a jobb oldalon NULL-okkal pótol" },
+          { term: "RIGHT JOIN", definition: "A jobb oldali tábla összes sorát visszaadja, a bal oldalon NULL-okkal pótol" },
+          { term: "FULL JOIN", definition: "Mindkét tábla összes sorát visszaadja, ha nincs egyezés, NULL-lal pótol" }
+        ],
+        explanation: "Az Inner Join az egyezések metszete, a Left a bal oldalt részesíti előnyben, a Right a jobb oldalt, a Full pedig az uniót reprezentálja."
+      },
+      {
+        id: 90,
+        subject: "adatkezeles",
+        type: "ordering",
+        question: "Rendezd sorba az SQL SELECT lekérdezés megírásakor kötelező záradékok szintaktikai sorrendjét felülről lefelé!",
+        items: [
+          "SELECT (kiválasztandó attribútumok)",
+          "FROM (forrástáblák megadása)",
+          "WHERE (sorok szűrési feltétele)",
+          "GROUP BY (csoportosítási oszlopok)",
+          "HAVING (csoportosítás utáni szűrés)",
+          "ORDER BY (eredmény rendezése)"
+        ],
+        explanation: "Ez az SQL SELECT parancs szintaktikai sorrendje (a kódban így kell szerepelniük a záradékoknak)."
+      },
+      {
+        id: 91,
+        subject: "adatkezeles",
+        type: "correct-statements",
+        question: "Milyen előnyökkel jár a relációs adatbázis normalizálása? (Válassz ki több helyes választ!)",
+        options: [
+          "Csökkenti az adatredundanciát.",
+          "Megszünteti a beszúrási, módosítási és törlési anomáliákat.",
+          "Segít megőrizni az adatok konzisztenciáját.",
+          "Minden esetben drasztikusan növeli az összetett lekérdezések futási sebességét."
+        ],
+        correct: ["Csökkenti az adatredundanciát.", "Megszünteti a beszúrási, módosítási és törlési anomáliákat.", "Segít megőrizni az adatok konzisztenciáját."],
+        explanation: "A normalizálás csökkenti a redundanciát és megszünteti az anomáliákat. A lekérdezési sebességet viszont sok JOIN miatt akár lassíthatja is."
+      },
+      {
+        id: 92,
+        subject: "adatkezeles",
+        type: "single",
+        question: "Hogyan képezzük le az ER-relációs leképezés során a gyenge entitásokat relációs sémává?",
+        options: [
+          "Külön táblát hozunk létre neki, amelynek elsődleges kulcsa az azonosító (tulajdonos) entitás elsődleges kulcsából és a gyenge entitás részleges kulcsából (diszkriminátorából) tevődik össze.",
+          "Nem hozunk létre neki külön táblát, hanem a tulajdonos entitás táblájába ágyazzuk be az attribútumait összetett mezőként.",
+          "Külön táblát hozunk létre neki, amelynek egy tetszőlegesen választott egyedi sorazonosító (ID) lesz az egyetlen elsődleges kulcsa.",
+          "A gyenge entitás attribútumait figyelmen kívül hagyjuk a leképezésnél."
+        ],
+        correct: "Külön táblát hozunk létre neki, amelynek elsődleges kulcsa az azonosító (tulajdonos) entitás elsődleges kulcsából és a gyenge entitás részleges kulcsából (diszkriminátorából) tevődik össze.",
+        explanation: "Mivel a gyenge entitás nem létezhet a tulajdonosa nélkül, az elsődleges kulcsa összetett kulcs kell legyen: tartalmazza a tulajdonos entitás elsődleges kulcsát (idegen kulcsként is) és a saját megkülönböztető részleges kulcsát."
+      },
+      {
+        id: 93,
+        subject: "adatkezeles",
+        type: "compare",
+        question: "Hasonlítsd össze az ER diagramok gyenge és erős entitásait!",
+        pairs: [
+          { term: "Létezése függ egy másik entitás létezésétől", definition: "Gyenge entitás" },
+          { term: "Önállóan, saját attribútumai alapján egyértelműen azonosítható", definition: "Erős entitás" },
+          { term: "Dupla keretes téglalappal jelöljük", definition: "Gyenge entitás" },
+          { term: "Saját elsődleges kulccsal rendelkezik", definition: "Erős entitás" }
+        ],
+        explanation: "A gyenge entitás (pl. Megrendelés tétel) nem létezhet az erős entitása (pl. Megrendelés) nélkül."
+      },
+      {
+        id: 94,
+        subject: "adatkezeles",
+        type: "single",
+        question: "Melyik SQL paranccsal tudunk új oszlopot hozzáadni egy meglévő táblához?",
+        options: ["UPDATE TABLE", "ALTER TABLE", "CREATE TABLE", "MODIFY TABLE"],
+        correct: "ALTER TABLE",
+        explanation: "Az ALTER TABLE paranccsal módosítható a tábla szerkezete (pl. ALTER TABLE tabla ADD uj_oszlop INT)."
+      },
+      {
+        id: 95,
+        subject: "adatkezeles",
+        type: "multiple",
+        question: "Mely SQL függvények tartoznak az aggregáló (csoportosító) függvények közé? (Válassz ki több helyes választ!)",
+        options: ["SUM", "AVG", "UPPER", "MAX"],
+        correct: ["SUM", "AVG", "MAX"],
+        explanation: "A SUM, AVG, MAX, MIN és COUNT aggregáló függvények. Az UPPER egy karakterlánc-manipuláló függvény (nagybetűssé alakít)."
+      },
+      {
+        id: 96,
+        subject: "adatkezeles",
+        type: "boolean",
+        question: "Minden elsődleges kulcs egyben szuperkulcs is.",
+        options: ["Igaz", "Hamis"],
+        correct: "Igaz",
+        explanation: "Igaz. A szuperkulcs a reláció azon attribútumainak halmaza, amelyek egyedileg azonosítanak. Mivel a Primary Key egyedileg azonosít, így szuperkulcs is (ráadásul minimális szuperkulcs)."
+      },
+      {
+        id: 97,
+        subject: "adatkezeles",
+        type: "fill",
+        question: "Töltsd ki a hiányzó részt: A tábla minden rekordját (de a struktúrát megtartva) gyorsan törölhetjük a(z) [blank] utasítással, ami nem naplózza egyenként a sorok törlését.",
+        correct: ["TRUNCATE", "truncate"],
+        explanation: "A TRUNCATE TABLE parancs gyorsan üríti a táblát anélkül, hogy a DELETE-hez hasonlóan egyenként naplózná a törléseket."
+      },
+      {
+        id: 98,
+        subject: "adatkezeles",
+        type: "short",
+        question: "Mi a teljes angol neve az ORM rövidítésnek, amely az objektumorientált programkód és a relációs adatbázis közötti átjárhatóságot biztosítja?",
+        correct: ["Object-Relational Mapping", "object relational mapping", "object-relational mapping"],
+        explanation: "ORM = Object-Relational Mapping. Technológia, ami lehetővé teszi, hogy adatbázis-táblákat osztályokként és rekordokat objektumokként kezeljünk a kódban."
+      },
+      {
+        id: 99,
+        subject: "adatkezeles",
+        type: "calculation",
+        question: "Ha egy kapcsolatban részt vevő entitáshalmazok száma 3, akkor a kapcsolat fokszáma:",
+        correct: ["3", "terner", "három"],
+        explanation: "A kapcsolat foka a benne részt vevő entitáshalmazok száma. 2 esetén bináris, 3 esetén terner (háromoldalú) kapcsolatról beszélünk."
+      },
+      {
+        id: 100,
+        subject: "adatkezeles",
+        type: "scenario",
+        question: "Egy adatbázisban le kell kérdezni azokat az alkalmazottakat, akiknek a fizetése magasabb, mint a saját osztályuk átlagfizetése. Melyik SQL szerkezettel valósítható meg ez a legtisztábban?",
+        options: [
+          "Korrelált allekérdezés (Correlated Subquery) használatával a WHERE záradékban.",
+          "Egyszerű csoportosítással (GROUP BY fizetes) allekérdezés nélkül.",
+          "A SELECT listában megadott egyszerű AVG(fizetes) függvénnyel.",
+          "Nem valósítható meg SQL-ben, külső programkódban kell lefutnia a szűrésnek."
+        ],
+        correct: "Korrelált allekérdezés (Correlated Subquery) használatával a WHERE záradékban.",
+        explanation: "A korrelált allekérdezés a külső lekérdezés aktuális sorára (pl. az osztály azonosítójára) hivatkozik, kiszámítja az adott osztály átlagát, majd ezt hasonlítja össze a dolgozó egyéni fizetésével."
+      },
+
+      // ==========================================
+      // SZTT (50 questions, IDs: 101 to 150)
+      // ==========================================
+      {
+        id: 101,
+        subject: "sztt",
+        type: "single",
+        question: "Melyik SOLID elv mondja ki, hogy a szoftveregységek legyenek nyitottak a bővítésre, de zártak a módosításra?",
+        options: [
+          "Single Responsibility Principle (SRP)",
+          "Open/Closed Principle (OCP)",
+          "Liskov Substitution Principle (LSP)",
+          "Interface Segregation Principle (ISP)"
+        ],
+        correct: "Open/Closed Principle (OCP)",
+        explanation: "Az OCP (Open/Closed Principle) célja, hogy új funkciókat a meglévő kód módosítása nélkül (bővítéssel, pl. örökléssel vagy interfész-implementálással) tudjunk hozzáadni."
+      },
+      {
+        id: 102,
+        subject: "sztt",
+        type: "multiple",
+        question: "Melyek a Scrum keretrendszer hivatalos szerepkörei? (Válassz ki több helyes választ!)",
+        options: ["Product Owner", "Scrum Master", "Development Team", "Project Manager"],
+        correct: ["Product Owner", "Scrum Master", "Development Team"],
+        explanation: "A Scrum-ban nincs projektmenedzser (Project Manager) szerepkör. A három hivatalos szerepkör a Product Owner, a Scrum Master és a Fejlesztőcsapat (Development Team)."
+      },
+      {
+        id: 103,
+        subject: "sztt",
+        type: "boolean",
+        question: "A Liskov Substitution Principle (LSP) elv szerint a szülőosztály példányai bárhol behelyettesíthetők kell legyenek a gyerekosztály példányaival anélkül, hogy a program helyessége sérülne.",
+        options: ["Igaz", "Hamis"],
+        correct: "Hamis",
+        explanation: "Hamis, mert az állítás fordítva igaz: a gyerekosztályoknak (leszármazottaknak) kell behelyettesíthetőnek lenniük a szülőosztály (ős) helyére, nem pedig a szülőnek a gyerek helyére."
+      },
+      {
+        id: 104,
+        subject: "sztt",
+        type: "matching",
+        question: "Párosítsd a GoF tervezési mintákat az elsődleges kategóriájukkal!",
+        pairs: [
+          { term: "Singleton (Egyke)", definition: "Létrehozási minta" },
+          { term: "Adapter (Illesztő)", definition: "Szerkezeti minta" },
+          { term: "Strategy (Stratégia)", definition: "Viselkedési minta" },
+          { term: "Composite (Összetett)", definition: "Szerkezeti minta" }
+        ],
+        explanation: "A Singleton objektumpéldányosítást kezel (Létrehozási), az Adapter és Composite struktúrákat épít ki (Szerkezeti), a Strategy pedig algoritmus-viselkedést cserél (Viselkedési)."
+      },
+      {
+        id: 105,
+        subject: "sztt",
+        type: "fill",
+        question: "Töltsd ki a hiányzó részt: A GoF (Gang of Four) tervezési minták könyvben összesen [blank] darab mintát katalogizáltak a szerzők.",
+        correct: ["23"],
+        explanation: "A Gang of Four (Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides) könyvben összesen 23 alapvető objektumorientált tervezési mintát írtak le."
+      },
+      {
+        id: 106,
+        subject: "sztt",
+        type: "short",
+        question: "Melyik tervezési mintát célszerű alkalmazni, ha egy objektum állapotváltozásáról több más objektumot kell automatikusan értesíteni anélkül, hogy szorosan függnének egymástól?",
+        correct: ["Observer", "Megfigyelő", "observer", "megfigyelő"],
+        explanation: "Az Observer (Megfigyelő) minta laza kapcsolatot valósít meg a Subject (megfigyelt) és az Observerek (megfigyelők) között, ahol a Subject automatikusan értesíti őket állapota változásakor."
+      },
+      {
+        id: 107,
+        subject: "sztt",
+        type: "scenario",
+        question: "A csapatod egy olyan fájlfeldolgozó szoftvert ír, amelyben az alapvető lépések (fájl megnyitása, beolvasása, naplózása, lezárása) minden fájltípusnál azonosak, de a tényleges kicsomagolási algoritmus eltér. Nem szeretnéd, hogy a tömörítési algoritmus futás közben változzon, de a kódduplikációt el akarod kerülni. Melyik tervezési mintát választod?",
+        options: ["Strategy (Stratégia)", "Template Method (Sablonmetódus)", "Singleton (Egyke)", "Adapter (Illesztő)"],
+        correct: "Template Method (Sablonmetódus)",
+        explanation: "A Template Method algoritmusvázat definiál az ősosztályban, és a leszármazottakra bízza egyes lépések megvalósítását öröklés útján. Mivel futás közbeni váltás nem szükséges, ez az egyszerűbb és megfelelőbb megoldás a Strategy-vel szemben."
+      },
+      {
+        id: 108,
+        subject: "sztt",
+        type: "calculation",
+        question: "Hány darab alapértelmezett, hivatalos esemény (ceremony) zajlik le egyetlen Scrum Sprint során (a Sprintet is beleértve)?",
+        correct: ["5"],
+        explanation: "Összesen 5 hivatalos Scrum esemény van: 1. Sprint (maga az iteráció), 2. Sprint Planning, 3. Daily Scrum, 4. Sprint Review, 5. Sprint Retrospective."
+      },
+      {
+        id: 109,
+        subject: "sztt",
+        type: "concept",
+        question: "Melyik SOLID tervezési elv teljes nevének rövidítése a DIP?",
+        correct: ["Dependency Inversion Principle", "dependency inversion principle", "Függőség megfordításának elve"],
+        explanation: "DIP = Dependency Inversion Principle (magyarul a függőség megfordításának elve). Kimondja, hogy absztrakcióktól kell függni, nem konkretizációktól."
+      },
+      {
+        id: 110,
+        subject: "sztt",
+        type: "relation",
+        question: "Mi a különbség UML osztálydiagramon az Aggregáció (üres rombusz) és a Kompozíció (teli rombusz) életciklus-kapcsolata között?",
+        options: [
+          "Kompozíció esetén a rész élettartama szorosan függ az egészétől (kizárólagos birtoklás), Aggregációnál nem.",
+          "Aggregáció esetén a rész törlésekor az egész is automatikusan törlődik.",
+          "Nincs közöttük semmilyen életciklusbeli vagy szemantikai különbség."
+        ],
+        correct: "Kompozíció esetén a rész élettartama szorosan függ az egészétől (kizárólagos birtoklás), Aggregációnál nem.",
+        explanation: "A kompozíció erős (kizárólagos) birtoklást jelöl: ha az 'egész' objektum megsemmisül, a 'rész' objektumok is elpusztulnak. Aggregációnál a részek önálló életciklussal rendelkeznek és megoszthatók."
+      },
+      {
+        id: 111,
+        subject: "sztt",
+        type: "def-match",
+        question: "Párosítsd az alábbi fejlesztési elveket a rövid jelmondatukkal!",
+        pairs: [
+          { term: "KISS", definition: "Keep It Simple, Stupid (Ne bonyolítsd túl)" },
+          { term: "YAGNI", definition: "You Aren't Gonna Need It (Ne kódolj előre olyat, ami még nem kell)" },
+          { term: "DRY", definition: "Don't Repeat Yourself (Kerüld el a kódduplikációt)" },
+          { term: "SRP", definition: "Single Responsibility (Egyetlen ok miatt változhasson az osztály)" }
+        ],
+        explanation: "KISS a felesleges bonyolultság ellen véd, YAGNI az idő előtti optimalizáció ellen, DRY a kódduplikáció ellen, SRP pedig a felelősségek szétválasztásáért felel."
+      },
+      {
+        id: 112,
+        subject: "sztt",
+        type: "ordering",
+        question: "Rendezd sorrendbe a Scrum Sprint során lezajló eseményeket időben felülről lefelé haladva!",
+        items: [
+          "Sprint Planning (Sprint tervezés)",
+          "Daily Scrum (Napi álló megbeszélések a sprint alatt)",
+          "Sprint Review (Sprint bemutató a sprint végén)",
+          "Sprint Retrospective (Sprint visszatekintés a sprint legvégén)"
+        ],
+        explanation: "Minden sprint a Sprint Planninggel indul, a sprint során naponta van Daily Scrum, végül a Sprint Review és legutolsóként a Sprint Retrospective zárja a ciklust."
+      },
+      {
+        id: 113,
+        subject: "sztt",
+        type: "correct-statements",
+        question: "Mely állítások igazak a Singleton (Egyke) tervezési mintával kapcsolatban? (Válassz ki több helyes választ!)",
+        options: [
+          "Biztosítja, hogy az osztályból legfeljebb egyetlen példány létezzen a memóriában.",
+          "Privát vagy védett konstruktort alkalmaz, hogy megakadályozza a külső példányosítást.",
+          "Jelentősen megkönnyíti az egységtesztek (unit testek) írását és az objektumok mockolását.",
+          "Globális hozzáférési pontot biztosít a létrehozott példányhoz."
+        ],
+        correct: ["Biztosítja, hogy az osztályból legfeljebb egyetlen példány létezzen a memóriában.", "Privát vagy védett konstruktort alkalmaz, hogy megakadályozza a külső példányosítást.", "Globális hozzáférési pontot biztosít a létrehozott példányhoz."],
+        explanation: "A Singleton biztosítja az egyetlen példányt, ehhez privát ctor-t használ és statikus GetInstance metódust ad közre. Tesztelési szempontból azonban hátrányos (gyakran antipatternnek tekintik), mert globális állapotot vezet be, és megnehezíti a mockolást."
+      },
+      {
+        id: 114,
+        subject: "sztt",
+        type: "identify-wrong",
+        question: "Melyik állítás HIBÁS a Scrum keretrendszerrel kapcsolatban?",
+        options: [
+          "A Scrum Master szolgáló vezető (servant leader).",
+          "A Product Owner közvetlenül utasíthatja a Fejlesztőcsapatot a napi feladataik mikéntjére.",
+          "A Sprint Backlog tartalmát a Fejlesztőcsapat határozza meg a Sprint Planningen.",
+          "A Sprint időtartama fix (time-boxed) és futás közben nem hosszabbítható meg."
+        ],
+        correct: "A Product Owner közvetlenül utasíthatja a Fejlesztőcsapatot a napi feladataik mikéntjére.",
+        explanation: "A Fejlesztőcsapat önszervező. Senki, még a Product Owner or a Scrum Master sem utasíthatja őket arra, HOGY végezzék el a munkájukat."
+      },
+      {
+        id: 115,
+        subject: "sztt",
+        type: "compare",
+        question: "Hasonlítsd össze a Vízesés és a Scrum módszertanok jellemzőit! Válaszd ki, melyik hova tartozik!",
+        pairs: [
+          { term: "Szigorúan lineáris, fázisok egymás után következnek", definition: "Vízesés" },
+          { term: "Iteratív és inkrementális, sprintekben dolgozik", definition: "Scrum" },
+          { term: "A követelmények változása természetes és támogatott", definition: "Scrum" },
+          { term: "A megrendelő csak a nagyobb mérföldköveknél van jelen", definition: "Vízesés" }
+        ],
+        explanation: "A Vízesés terv-alapú és lineáris, kevésbé rugalmas a változásokra. A Scrum agilis, sprintekre épül és folyamatosan együttműködik az ügyféllel (a Product Owneren keresztül)."
+      },
+      {
+        id: 116,
+        subject: "sztt",
+        type: "single",
+        question: "Melyik SOLID elv mondja ki, hogy egy kliensnek nem szabad olyan interfészek megvalósítására kényszerülnie, amelyeket nem használ?",
+        options: [
+          "Single Responsibility Principle (SRP)",
+          "Liskov Substitution Principle (LSP)",
+          "Interface Segregation Principle (ISP)",
+          "Dependency Inversion Principle (DIP)"
+        ],
+        correct: "Interface Segregation Principle (ISP)",
+        explanation: "Az ISP (Interface Segregation Principle) elv célja, hogy a nagy, többfunkciós interfészeket bontsuk fel kisebb, specifikusabb interfészekre, így a klienseknek csak a számukra releváns metódusokat kell megvalósítaniuk."
+      },
+      {
+        id: 117,
+        subject: "sztt",
+        type: "multiple",
+        question: "Mely minták tartoznak a BME követelményrendszerben megjelölt 6 hivatalos tervezési minta közé? (Válassz ki több helyes választ!)",
+        options: ["Template Method", "Strategy", "Prototype", "Singleton"],
+        correct: ["Template Method", "Strategy", "Singleton"],
+        explanation: "A 6 hivatalos minta: Template Method, Strategy, Singleton, Observer, Composite, Adapter. A Prototype nem szerepel köztük."
+      },
+      {
+        id: 118,
+        subject: "sztt",
+        type: "boolean",
+        question: "A kód refaktorálása (refactoring) során a cél az, hogy megváltoztassuk a meglévő kód belső szerkezetét anélkül, hogy a külső, megfigyelhető viselkedését módosítanánk.",
+        options: ["Igaz", "Hamis"],
+        correct: "Igaz",
+        explanation: "Igaz. A refaktorálás célja a kód minőségének, olvashatóságának és karbantarthatóságának javítása, miközben a funkcionális működése pontosan ugyanaz marad (a teszteknek továbbra is le kell futniuk)."
+      },
+      {
+        id: 119,
+        subject: "sztt",
+        type: "fill",
+        question: "Töltsd ki a hiányzó részt: A szoftverfejlesztésben a DRY elv a 'Don't [blank] Yourself' rövidítése.",
+        correct: ["Repeat", "repeat"],
+        explanation: "DRY = Don't Repeat Yourself (Ne ismételd önmagad). Elv, ami a kódduplikáció minimalizálását célozza a karbantarthatóság érdekében."
+      },
+      {
+        id: 120,
+        subject: "sztt",
+        type: "short",
+        question: "Melyik szerkezeti tervezési minta feladata az, hogy egy meglévő osztály interfészét átalakítsa egy másik, a kliens által elvárt interfészre?",
+        correct: ["Adapter", "adapter", "Illesztő"],
+        explanation: "Az Adapter (Illesztő) minta lehetővé teszi olyan osztályok együttműködését, amelyek az összeférhetetlen interfészeik miatt egyébként nem tudnának együtt dolgozni."
+      },
+      {
+        id: 121,
+        subject: "sztt",
+        type: "scenario",
+        question: "Egy fájlrendszer-kezelő modult fejlesztesz, ahol könyvtárakat (amik fájlokat és további alkönyvtárakat tartalmazhatnak) és fájlokat kell kezelni. Szeretnéd, hogy a kliens kód egységesen, azonos interfészen keresztül tudja kezelni az egyedi fájlokat és a fájlcsoportokat (könyvtárakat) is. Melyik tervezési mintát alkalmazod?",
+        options: ["Composite (Összetett) minta", "Strategy (Stratégia) minta", "Adapter (Illesztő) minta", "Template Method (Sablonmetódus) minta"],
+        correct: "Composite (Összetett) minta",
+        explanation: "A Composite minta lehetővé teszi, hogy objektumokból fa-struktúrákat építsünk rész-egész hierarchiák ábrázolására. A minta segítségével a kliensek egységesen kezelhetik az egyedi objektumokat és az objektumok kompozícióit."
+      },
+      {
+        id: 122,
+        subject: "sztt",
+        type: "calculation",
+        question: "Scrum keretrendszerben egy 4 hetes (egy hónapos) Sprint esetén maximum hány óra a Sprint Planning esemény hivatalos időkorlátja (timebox)?",
+        correct: ["8", "nyolc"],
+        explanation: "A szabályok szerint a Sprint Planning időkorlátja maximum 8 óra egy egyhónapos Sprint esetén. Rövidebb sprinteknél ez arányosan kevesebb (pl. 2 hetesnél max 4 óra)."
+      },
+      {
+        id: 123,
+        subject: "sztt",
+        type: "concept",
+        question: "Hogy nevezzük azt az agilis fejlesztési gyakorlatot, amikor a fejlesztő először megírja az automatizált tesztesetet (ami elbukik), majd elkészíti a kódot, ami átmegy a teszten, majd végül refaktorál?",
+        correct: ["TDD", "Test-Driven Development", "tesztvezérelt fejlesztés"],
+        explanation: "A TDD (Test-Driven Development / Tesztvezérelt fejlesztés) a Red-Green-Refactor ciklust követi."
+      },
+      {
+        id: 124,
+        subject: "sztt",
+        type: "relation",
+        question: "Milyen kapcsolatot (öröklődési viszonyt) szimbolizál az UML osztálydiagramon az üres végű, folytonos vonalú nyíl?",
+        options: ["Generalizáció (Generalization / Öröklődés)", "Realizáció (Implementáció)", "Aggregáció", "Függőség (Dependency)"],
+        correct: "Generalizáció (Generalization / Öröklődés)",
+        explanation: "UML-ben az üres végű folytonos nyíl a szülő osztály felé mutatva az öröklődést (is-a kapcsolat, generalizáció) ábrázolja."
+      },
+      {
+        id: 125,
+        subject: "sztt",
+        type: "def-match",
+        question: "Párosítsd az objektumorientált alapfogalmakat a definíciójukkal!",
+        pairs: [
+          { term: "Osztály", definition: "Az objektumok sablonja, leírja az állapotot és a viselkedést" },
+          { term: "Objektum", definition: "Az osztály memóriában létrejött konkrét példánya" },
+          { term: "Interfész", definition: "Csak metódus-szignatúrákat tartalmazó absztrakt szerződés" },
+          { term: "Absztrakt osztály", definition: "Részben megvalósított osztály, közvetlenül nem példányosítható" }
+        ],
+        explanation: "Az osztály a tervrajz, az objektum a ház, az interfész a csatlakozó szabvány, az absztrakt osztály pedig a félkész sablon."
+      },
+      {
+        id: 126,
+        subject: "sztt",
+        type: "ordering",
+        question: "Rendezd sorrendbe a hagyományos Vízesés modell fázisait a kezdetektől a lezárásig!",
+        items: [
+          "Követelmények specifikációja (Requirements)",
+          "Rendszertervezés (Design)",
+          "Megvalósítás és kódolás (Implementation)",
+          "Integráció és tesztelés (Verification)",
+          "Üzemeltetés és karbantartás (Maintenance)"
+        ],
+        explanation: "A Vízesés modell szigorúan lineárisan halad végig ezeken a szakaszokon, ahol az egyik fázis csak a másik befejeztével kezdődhet meg."
+      },
+      {
+        id: 127,
+        subject: "sztt",
+        type: "correct-statements",
+        question: "Mely értékek szerepelnek kiemelten az Agilis Kiáltványban (Agile Manifesto)? (Válassz ki több helyes választ!)",
+        options: [
+          "Az egyének és a személyes kommunikáció fontosabb, mint a folyamatok és az eszközök.",
+          "A működő szoftver fontosabb, mint az átfogó dokumentáció.",
+          "A szerződéses tárgyalás fontosabb, mint az ügyféllel való együttműködés.",
+          "A változásokra való reagálás fontosabb, mint egy terv szigorú követése."
+        ],
+        correct: [
+          "Az egyének és a személyes kommunikáció fontosabb, mint a folyamatok és az eszközök.",
+          "A működő szoftver fontosabb, mint az átfogó dokumentáció.",
+          "A változásokra való reagálás fontosabb, mint egy terv szigorú követése."
+        ],
+        explanation: "Az Agilis Kiáltvány 4 alapértéke közül három a fenti helyes állítás. A negyedik az 'Ügyféllel való együttműködés fontosabb, mint a szerződéses tárgyalás' (tehát a harmadik opció hamis)."
+      },
+      {
+        id: 128,
+        subject: "sztt",
+        type: "identify-wrong",
+        question: "Melyik állítás HIBÁS a teszteléssel és a TDD-vel kapcsolatban?",
+        options: [
+          "A TDD ciklus lépései: írj egy elbukó tesztet, írd meg a legkisebb kódot, ami átmegy, majd refaktorálj.",
+          "Az egységteszteknek (unit test) el kell tudniuk futni elszigetelten, hálózati és adatbázis elérés nélkül.",
+          "A TDD-vel írt kód tesztlefedettsége (test coverage) jellemzően alacsonyabb, mint a hagyományos kódoké.",
+          "A mockolás segítségével helyettesíthetjük a tesztelt egység külső függőségeit."
+        ],
+        correct: "A TDD-vel írt kód tesztlefedettsége (test coverage) jellemzően alacsonyabb, mint a hagyományos kódoké.",
+        explanation: "Mivel a TDD-ben nem írunk kódot teszt nélkül, az így készült rendszerek tesztlefedettsége rendkívül magas (gyakran közel 100%-os), nem pedig alacsonyabb."
+      },
+      {
+        id: 129,
+        subject: "sztt",
+        type: "compare",
+        question: "Hasonlítsd össze az osztályok közötti öröklődést (Inheritance) és az objektum-összetételt (Composition)! Melyik jellemző melyikre igaz?",
+        pairs: [
+          { term: "'Is-a' (együtt járó/szülő-gyerek) típusú kapcsolat", definition: "Öröklődés (Inheritance)" },
+          { term: "'Has-a' (birtoklási) típusú kapcsolat", definition: "Kompozíció (Composition)" },
+          { term: "Fehérdobozos (white-box) újrafelhasználás, sérti az egységbezárást", definition: "Öröklődés (Inheritance)" },
+          { term: "Feketedobozos (black-box) újrafelhasználás, futás közben is cserélhető", definition: "Kompozíció (Composition)" }
+        ],
+        explanation: "A modern tervezési elvek az objektum-összetételt javasolják az osztályöröklődéssel szemben ('Favor composition over inheritance'), mert rugalmasabb és jobban zárja az egységeket."
+      },
+      {
+        id: 130,
+        subject: "sztt",
+        type: "single",
+        question: "Melyik SOLID elv megsértését jelzi, ha a szülő osztály helyére behelyettesített leszármazott osztály metódusa UnsupportedOperationException-t dob (azaz nem tudja teljesíteni a szülő szerződését)?",
+        options: [
+          "Single Responsibility Principle (SRP)",
+          "Open/Closed Principle (OCP)",
+          "Liskov Substitution Principle (LSP)",
+          "Interface Segregation Principle (ISP)"
+        ],
+        correct: "Liskov Substitution Principle (LSP)",
+        explanation: "Az LSP szerint a leszármazott osztályoknak meg kell felelniük a szülőosztály viselkedési szerződésének. Ha egy metódus üresen marad vagy kivételt dob, mert az adott altípusra nem értelmezhető, az LSP sérül."
+      },
+      {
+        id: 131,
+        subject: "sztt",
+        type: "single",
+        question: "Melyik állítás igaz az UML szekvenciadiagramokkal (Sequence Diagram) kapcsolatban?",
+        options: [
+          "A szekvenciadiagramok az objektumok közötti interakciók időbeli lefolyását ábrázolják az üzenetváltások sorrendjében.",
+          "Az objektumok életciklusát és belső állapotváltozásait írják le állapotok és átmenetek segítségével.",
+          "Kizárólag a rendszer statikus osztályszerkezetét és az öröklődési viszonyokat mutatják be.",
+          "A fizikai hardvereszközök és szoftverkomponensek elhelyezkedését ábrázolják a szerveren."
+        ],
+        correct: "A szekvenciadiagramok az objektumok közötti interakciók időbeli lefolyását ábrázolják az üzenetváltások sorrendjében.",
+        explanation: "A szekvenciadiagram egy dinamikus viselkedési diagram, amely az objektumok közötti üzenetküldéseket és azok időbeli egymásutániságát (fentről lefelé haladva) jeleníti meg."
+      },
+      {
+        id: 132,
+        subject: "sztt",
+        type: "boolean",
+        question: "A Scrum egy projektmenedzsment-módszertan, amelyben a Scrum Master közvetlen felettese és vezetője a fejlesztőcsapatnak, feladata a feladatok egyéni kiosztása és ellenőrzése.",
+        options: ["Igaz", "Hamis"],
+        correct: "Hamis",
+        explanation: "Hamis. A Scrum egy keretrendszer. A Scrum Master nem menedzser, hanem egy 'szolgáló vezető' (servant leader), a fejlesztők pedig önszervezőek, maguk osztják be a munkát."
+      },
+      {
+        id: 133,
+        subject: "sztt",
+        type: "fill",
+        question: "Töltsd ki a hiányzó részt: A Daily Scrum (napi megbeszélés) hivatalos időkorlátja (timebox) fixen [blank] perc.",
+        correct: ["15"],
+        explanation: "A Daily Scrum egy rövid, napi szinten ismétlődő megbeszélés a szinkronizációra, melynek időkorlátja szigorúan 15 perc."
+      },
+      {
+        id: 134,
+        subject: "sztt",
+        type: "short",
+        question: "Melyik tervezési mintáról van szó? Korlátozza egy osztály példányosítását, garantálva, hogy csak egyetlen példány jön létre a futtató környezetben, és ehhez globális hozzáférési pontot biztosít.",
+        correct: ["Singleton", "Egyke", "singleton", "egyke"],
+        explanation: "A Singleton (Egyke) minta biztosítja az egyetlen példányt a konstruktor priváttá tételével és egy statikus lekérdező metódussal."
+      },
+      {
+        id: 135,
+        subject: "sztt",
+        type: "single",
+        question: "UML állapotgép (State Machine) diagramon hogyan ábrázoljuk az átmenethez (transition) kapcsolódó feltételt (guard condition), amelynek teljesülnie kell az átmenet végrehajtásához?",
+        options: [
+          "Szögletes zárójelben az átmenet felirataként, például: [egyenleg > 0]",
+          "Sima zárójelben, például: (egyenleg > 0)",
+          "A feltétel nevét egy külön rombusz szimbólumba írva az átmenet közepén.",
+          "Szaggatott vonallal jelölt jegyzetben (Note)."
+        ],
+        correct: "Szögletes zárójelben az átmenet felirataként, például: [egyenleg > 0]",
+        explanation: "Az UML állapotgépben az átmenetek felirata általában a következő formátumú: esemény [guard] / akció. A guard feltétel szögletes zárójelben szerepel, és egy igaz/hamis logikai kifejezést határoz meg."
+      },
+      {
+        id: 136,
+        subject: "sztt",
+        type: "calculation",
+        question: "Hány darab alapértéket fogalmaz meg az Agilis Kiáltvány (Agile Manifesto)?",
+        correct: ["4", "négy"],
+        explanation: "Az Agilis Kiáltvány 4 alapértéket (és 12 alapelvet) fogalmaz meg a szoftverfejlesztési folyamatok javítására."
+      },
+      {
+        id: 137,
+        subject: "sztt",
+        type: "concept",
+        question: "Hogy nevezzük azt a szoftverfejlesztési jelenséget, amikor a gyors, de rosszul tervezett megoldások miatt a kód minősége romlik, ami a jövőben extra fejlesztési időben és költségekben ('kamat') fizetendő vissza?",
+        correct: ["technikai adósság", "technikai adossag", "technical debt"],
+        explanation: "A technikai adósság (Technical Debt) a hanyag kódolás hosszú távú negatív következményeit és karbantartási költségét szimbolizálja."
+      },
+      {
+        id: 138,
+        subject: "sztt",
+        type: "relation",
+        question: "Mi a különbség UML osztálydiagramon az asszociáció (egyszerű vonal) és a függőség (szaggatott nyíl) között?",
+        options: [
+          "Az asszociáció tartós szerkezeti kapcsolatot jelöl (pl. tagváltozó), míg a függőség átmeneti (pl. metódus paramétere vagy lokális változó).",
+          "A függőség erősebb életciklusbeli függést jelent, mint az asszociáció.",
+          "Nincs közöttük különbség, csak két eltérő rajzolási stílus."
+        ],
+        correct: "Az asszociáció tartós szerkezeti kapcsolatot jelöl (pl. tagváltozó), míg a függőség átmeneti (pl. metódus paramétere vagy lokális változó).",
+        explanation: "Az asszociáció strukturális kapcsolat (osztályszintű tagváltozó), míg a függőség (dependency) gyengébb, lokális kapcsolat: az egyik osztály csak metódusparaméterként, lokális változóként vagy visszatérési értékként használja a másikat."
+      },
+      {
+        id: 139,
+        subject: "sztt",
+        type: "def-match",
+        question: "Párosítsd a Scrum eseményeket a céljuk leírásával!",
+        pairs: [
+          { term: "Sprint Planning", definition: "A sprint céljának meghatározása és a feladatok kiválasztása" },
+          { term: "Daily Scrum", definition: "Napi 15 perces szinkronizáció és az akadályok jelzése" },
+          { term: "Sprint Review", definition: "A sprint során elkészült termékinkrementum bemutatása a PO-nak és ügyfélnek" },
+          { term: "Sprint Retrospective", definition: "A csapat belső folyamatainak és együttműködésének fejlesztése" }
+        ],
+        explanation: "Planning tervez, Daily napi státuszt ad, Review bemutat, Retrospective a belső folyamatokat javítja."
+      },
+      {
+        id: 140,
+        subject: "sztt",
+        type: "ordering",
+        question: "Rendezd sorrendbe a Test-Driven Development (TDD) mikrociklus lépéseit a kezdetektől a lezárásig!",
+        items: [
+          "Írj egy elbukó automatizált tesztet (RED)",
+          "Írd meg a lehető legegyszerűbb kódot, amivel a teszt sikeres lesz (GREEN)",
+          "Tisztítsd meg és strukturáld át a kódot anélkül, hogy a teszt elbukna (REFACTOR)"
+        ],
+        explanation: "A TDD ciklus közismert neve: Red-Green-Refactor."
+      },
+      {
+        id: 141,
+        subject: "sztt",
+        type: "correct-statements",
+        question: "Melyek a páros programozás (Pair Programming) bizonyított előnyei? (Válassz ki több helyes választ!)",
+        options: [
+          "Kevesebb hiba (bug) kerül be a kódba már a fejlesztés során.",
+          "Javítja a tudásmegosztást a csapaton belül.",
+          "Folyamatos kód-felülvizsgálatot (code review) biztosít.",
+          "Minden esetben felére csökkenti a szoftver elkészítéséhez szükséges fejlesztési időt."
+        ],
+        correct: [
+          "Kevesebb hiba (bug) kerül be a kódba már a fejlesztés során.",
+          "Javítja a tudásmegosztást a csapaton belül.",
+          "Folyamatos kód-felülvizsgálatot (code review) biztosít."
+        ],
+        explanation: "A páros programozás növeli a minőséget és a tudásmegosztást. Bár a minőség jobb, a tiszta fejlesztési időt (emberórában) nem csökkenti a felére, sőt, kezdetben minimális többlettel járhat."
+      },
+      {
+        id: 142,
+        subject: "sztt",
+        type: "identify-wrong",
+        question: "Melyik állítás HIBÁS a tiszta kód (Clean Code) alapelveivel kapcsolatban?",
+        options: [
+          "A metódusok legyenek rövidek és végezzenek pontosan egy dolgot.",
+          "A változó- és osztálynevek legyenek beszédesek és kifejezőek.",
+          "Minél több és hosszabb kommentet kell írni minden egyes kódsorhoz, mert a komment helyettesíti a jól megírt kódot.",
+          "Kerüljük a mágikus számok (magyarázat nélküli konstansok) használatát."
+        ],
+        correct: "Minél több és hosszabb kommentet kell írni minden egyes kódsorhoz, mert a komment helyettesíti a jól megírt kódot.",
+        explanation: "A Clean Code szerint a jó kód önmagát dokumentálja. A kommentek gyakran 'szagok' (code smells), mert elavulhatnak. Csak akkor írjunk kommentet, ha a kód szándéka másképp nem fejezhető ki."
+      },
+      {
+        id: 143,
+        subject: "sztt",
+        type: "compare",
+        question: "UML szekvenciadiagramon (Sequence Diagram) mit jelöl a függőleges szaggatott vonal és a rajta elhelyezkedő vékony téglalap?",
+        pairs: [
+          { term: "Függőleges szaggatott vonal", definition: "Az objektum életvonala (Lifeline), az idő múlását jelzi" },
+          { term: "Vékony függőleges téglalap", definition: "Az objektum aktív állapota (Activation bar / Focus of control)" },
+          { term: "Vízszintes folytonos nyíl", definition: "Szinkron üzenetküldés (Synchronous message)" },
+          { term: "Vízszintes szaggatott nyíl nyitott fejjel", definition: "Válaszüzenet (Return message)" }
+        ],
+        explanation: "A lifeline az objektum jelenlétét mutatja, az activation bar pedig azt az időszakot ábrázolja, amikor az objektum éppen műveletet végez (aktív)."
+      },
+      {
+        id: 144,
+        subject: "sztt",
+        type: "single",
+        question: "Melyik SOLID elv mondja ki, hogy egy osztálynak csak egyetlen oka lehessen a változásra (azaz csak egyetlen felelőssége legyen)?",
+        options: [
+          "Single Responsibility Principle (SRP)",
+          "Open/Closed Principle (OCP)",
+          "Liskov Substitution Principle (LSP)",
+          "Interface Segregation Principle (ISP)"
+        ],
+        correct: "Single Responsibility Principle (SRP)",
+        explanation: "Az SRP (Single Responsibility Principle) szerint minden modulnak vagy osztálynak egyetlen üzleti/funkcionális felelősséggel kell rendelkeznie, így csak egyetlen aktor változtatási igénye miatt módosulhat."
+      },
+      {
+        id: 145,
+        subject: "sztt",
+        type: "compare",
+        question: "Párosítsd a szoftvertechnológiában tanult tervezési mintákat az elsődleges feladatukkal!",
+        pairs: [
+          { term: "Template Method", definition: "Algoritmusváz definiálása ősosztályban, egyes lépések leszármazottban" },
+          { term: "Strategy", definition: "Algoritmusok családba rendezése, futás közben cserélhetővé tétele" },
+          { term: "Observer", definition: "Objektum állapotváltozásáról több megfigyelő automatikus értesítése" },
+          { term: "Adapter", definition: "Összeférhetetlen interfészek közötti átjárhatóság biztosítása" }
+        ],
+        explanation: "Ezek a tervezési minták mind részei a BME szoftvertechnológia tananyagának: Template Method (öröklés alapú), Strategy (objektum-összetétel alapú), Observer (laza kapcsolatú eseménykezelés) és Adapter (szerkezeti illesztés)."
+      },
+      {
+        id: 146,
+        subject: "sztt",
+        type: "boolean",
+        question: "A Scrum-ban a Product Owner felelős a Product Backlog kezeléséért, a prioritások meghatározásáért és a fejlesztendő funkciók értékének maximalizálásáért.",
+        options: ["Igaz", "Hamis"],
+        correct: "Igaz",
+        explanation: "Igaz. A Product Owner képviseli az ügyfeleket és a stakeholdereket, ő határozza meg a backlog elemeinek sorrendjét."
+      },
+      {
+        id: 147,
+        subject: "sztt",
+        type: "fill",
+        question: "Töltsd ki a hiányzó részt: A szoftverarchitektúrában a GoF rövidítés a 'Gang of [blank]' elnevezést takarja.",
+        correct: ["Four", "four"],
+        explanation: "GoF = Gang of Four (Négyek Bandája). Ők írták a klasszikus Design Patterns könyvet."
+      },
+      {
+        id: 148,
+        subject: "sztt",
+        type: "single",
+        question: "UML állapotgép (State Machine) diagramon mit fejez ki az 'entry' és 'exit' kulcsszó egy adott állapot belsejében?",
+        options: [
+          "Az entry az állapotba lépéskor, az exit pedig az állapot elhagyásakor automatikusan végrehajtandó akciót jelöli.",
+          "Az entry a rendszer indítási állapotát, az exit pedig a leállítási állapotát jelenti.",
+          "Az entry az adatok bemeneti csatornáját, az exit a kimeneti csatornáját jelöli.",
+          "Semmit, ezek nem szabványos UML elemek."
+        ],
+        correct: "Az entry az állapotba lépéskor, az exit pedig az állapot elhagyásakor automatikusan végrehajtandó akciót jelöli.",
+        explanation: "Az UML állapotokon belül megadhatók belső tevékenységek. Az 'entry / akció' az állapotba való belépéskor hajtódik végre, míg az 'exit / akció' az állapotból kilépéskor fut le."
+      },
+      {
+        id: 149,
+        subject: "sztt",
+        type: "calculation",
+        question: "Scrum szabályok szerint maximum hány hét lehet egyetlen Sprint hossza?",
+        correct: ["4", "négy"],
+        explanation: "A Scrum Guide szerint a Sprint egy legfeljebb egy hónapos (4 hetes) fix időtartamú iteráció a fókusz fenntartása érdekében."
+      },
+      {
+        id: 150,
+        subject: "sztt",
+        type: "scenario",
+        question: "Egy olyan fizetési rendszert tervezel, ahol a vásárlónak többféle fizetési módot kell felkínálni (pl. Bankkártya, PayPal, Átutalás). A fizetési algoritmusok teljesen eltérnek, de a kliens kódnak egységesen kell kezelnie őket, és futás közben kell kiválasztani a megfelelőt a felhasználó választása alapján. Melyik mintát alkalmazod?",
+        options: ["Strategy (Stratégia)", "Template Method (Sablonmetódus)", "Adapter (Illesztő)", "Singleton (Egyke)"],
+        correct: "Strategy (Stratégia)",
+        explanation: "A Strategy (Stratégia) minta családba rendezi az algoritmusokat, egységbe zárja és cserélhetővé teszi őket futás közben az egységes interfészen keresztül."
+      }
+    ];
+
+    let currentQuestions = [];
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let userAnswers = [];
+    let subjectScores = { halozat: 0, adatkezeles: 0, sztt: 0 };
+    
+    // Timer variables
+    let timerInterval = null;
+    let timeLeft = 90 * 60; // 90 minutes in seconds
+    let isTimerEnabled = true;
+
+    // Shuffle helper (Fisher-Yates)
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function showWelcome() {
+      // Clear any running timers
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      document.getElementById('welcome-screen').style.display = 'block';
+      document.getElementById('quiz-screen').style.display = 'none';
+      document.getElementById('results-screen').style.display = 'none';
+    }
+
+    const Q_PER_SUBJECT = 12;
+
+    function startQuiz() {
+      document.getElementById('welcome-screen').style.display = 'none';
+      document.getElementById('quiz-screen').style.display = 'block';
+      document.getElementById('results-screen').style.display = 'none';
+
+      // Setup timer option
+      isTimerEnabled = document.getElementById('timer-toggle').checked;
+      const timerElement = document.getElementById('quiz-timer');
+      
+      if (isTimerEnabled) {
+        timeLeft = 90 * 60; // Reset to 90 mins
+        updateTimerDisplay();
+        timerElement.style.display = 'inline-flex';
+        timerElement.classList.remove('warning');
+        
+        timerInterval = setInterval(() => {
+          timeLeft--;
+          updateTimerDisplay();
+          
+          if (timeLeft <= 10 * 60) {
+            timerElement.classList.add('warning');
+          }
+          
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert("Lejárt a vizsgaidő (90 perc)! A teszt kiértékelésre kerül.");
+            showResults();
+          }
+        }, 1000);
+      } else {
+        timerElement.style.display = 'inline-flex';
+        timerElement.innerHTML = 'Gyakorló mód';
+        timerElement.classList.remove('warning');
+      }
+
+      // Pick exactly 12 random questions from each subject (total 36)
+      const halozatPool = questionDatabase.filter(q => q.subject === 'halozat');
+      const adatkezelesPool = questionDatabase.filter(q => q.subject === 'adatkezeles');
+      const szttPool = questionDatabase.filter(q => q.subject === 'sztt');
+
+      const selectedHalozat = shuffleArray(halozatPool).slice(0, Q_PER_SUBJECT);
+      const selectedAdatkezeles = shuffleArray(adatkezelesPool).slice(0, Q_PER_SUBJECT);
+      const selectedSztt = shuffleArray(szttPool).slice(0, Q_PER_SUBJECT);
+
+      currentQuestions = shuffleArray([...selectedHalozat, ...selectedAdatkezeles, ...selectedSztt]);
+      currentQuestionIndex = 0;
+      score = 0;
+      userAnswers = [];
+      subjectScores = { halozat: 0, adatkezeles: 0, sztt: 0 };
+
+      renderQuestion();
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      document.getElementById('quiz-timer').innerHTML = `Idő: ${formattedTime}`;
+    }
+
+    function renderQuestion() {
+      const question = currentQuestions[currentQuestionIndex];
+      const card = document.getElementById('question-card');
+      
+      // Update progress
+      document.getElementById('progress-text').innerText = `Kérdés: ${currentQuestionIndex + 1} / ${currentQuestions.length}`;
+      document.getElementById('score-text').innerText = `Helyes: ${score}`;
+      document.getElementById('progress-fill').style.width = `${(currentQuestionIndex / currentQuestions.length) * 100}%`;
+
+      // Hide feedback panel
+      document.getElementById('feedback-panel').style.display = 'none';
+      document.getElementById('submit-btn').style.display = 'inline-flex';
+      document.getElementById('next-btn').style.display = 'none';
+
+      // Build subject badge text
+      let subjectLabel = '';
+      if (question.subject === 'halozat') subjectLabel = 'Hálózat';
+      else if (question.subject === 'adatkezeles') subjectLabel = 'Adatkezelés';
+      else if (question.subject === 'sztt') subjectLabel = 'SZTT';
+
+      let html = `
+        <span class="question-subject-badge subject-${question.subject}">${subjectLabel}</span>
+        <div class="question-text">${question.question}</div>
+      `;
+
+      // Render answer inputs based on question type
+      if (question.type === 'single' || question.type === 'boolean' || question.type === 'scenario' || question.type === 'identify-wrong') {
+        const shuffledOptions = shuffleArray(question.options);
+        html += `<div class="options-list">`;
+        shuffledOptions.forEach((opt, idx) => {
+          html += `
+            <label class="option-item" onclick="selectOption(this)">
+              <input type="radio" name="quiz-option" value="${opt.replace(/"/g, '&quot;')}">
+              <span class="option-text">${opt}</span>
+            </label>
+          `;
+        });
+        html += `</div>`;
+      } 
+      else if (question.type === 'multiple' || question.type === 'correct-statements') {
+        const shuffledOptions = shuffleArray(question.options);
+        html += `<div class="options-list">`;
+        shuffledOptions.forEach((opt, idx) => {
+          html += `
+            <label class="option-item" onclick="selectOption(this)">
+              <input type="checkbox" name="quiz-option" value="${opt.replace(/"/g, '&quot;')}">
+              <span class="option-text">${opt}</span>
+            </label>
+          `;
+        });
+        html += `</div>`;
+      }
+      else if (question.type === 'matching' || question.type === 'def-match' || question.type === 'compare') {
+        const allDefinitions = shuffleArray(question.pairs.map(p => p.definition));
+        html += `<div class="matching-grid">`;
+        question.pairs.forEach((pair, idx) => {
+          html += `
+            <div class="matching-row">
+              <div class="matching-term">${pair.term}</div>
+              <div>
+                <select class="matching-select" data-term="${pair.term.replace(/"/g, '&quot;')}">
+                  <option value="">-- Válassz párt --</option>
+                  ${allDefinitions.map(def => `<option value="${def.replace(/"/g, '&quot;')}">${def}</option>`).join('')}
+                </select>
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+      }
+      else if (question.type === 'fill') {
+        // Replace [blank] with input tag
+        const filledText = question.question.replace('[blank]', '<input type="text" class="inline-fill-input" id="fill-input">');
+        html = `
+          <span class="question-subject-badge subject-${question.subject}">${subjectLabel}</span>
+          <div class="question-text">Szövegkiegészítés:</div>
+          <div class="inline-fill-container">${filledText}</div>
+        `;
+      }
+      else if (question.type === 'short' || question.type === 'calculation' || question.type === 'concept') {
+        html += `
+          <div class="text-answer-container">
+            <input type="text" class="text-answer-input" id="text-input" placeholder="Ide írd a választ..." autocomplete="off">
+          </div>
+        `;
+      }
+      else if (question.type === 'ordering') {
+        const shuffledItems = shuffleArray(question.items);
+        html += `<div class="sort-list" id="sort-list">`;
+        shuffledItems.forEach((item, idx) => {
+          html += `
+            <div class="sort-item" data-val="${item.replace(/"/g, '&quot;')}">
+              <span>${item}</span>
+              <div class="sort-controls">
+                <button class="sort-btn" onclick="moveItem(this, -1)" title="Fel">▲</button>
+                <button class="sort-btn" onclick="moveItem(this, 1)" title="Le">▼</button>
+              </div>
+            </div>
+          `;
+        });
+        html += `</div>`;
+        setTimeout(updateSortButtons, 50); // Initial sort buttons disable setup
+      }
+
+      card.innerHTML = html;
+    }
+
+    function selectOption(labelElement) {
+      const container = labelElement.parentElement;
+      const input = labelElement.querySelector('input');
+      
+      if (input.type === 'radio') {
+        container.querySelectorAll('.option-item').forEach(el => el.classList.remove('active'));
+        labelElement.classList.add('active');
+      } else {
+        labelElement.classList.toggle('active', input.checked);
+      }
+    }
+
+    // Sort handlers
+    function moveItem(btn, direction) {
+      if (btn.disabled) return;
+      const item = btn.closest('.sort-item');
+      const list = item.parentElement;
+      if (direction === -1) {
+        if (item.previousElementSibling) {
+          list.insertBefore(item, item.previousElementSibling);
+        }
+      } else {
+        if (item.nextElementSibling) {
+          list.insertBefore(item.nextElementSibling, item);
+        }
+      }
+      updateSortButtons();
+    }
+
+    function updateSortButtons() {
+      const list = document.getElementById('sort-list');
+      if (!list) return;
+      const items = list.querySelectorAll('.sort-item');
+      items.forEach((item, idx) => {
+        const upBtn = item.querySelector('.sort-btn[title="Fel"]');
+        const downBtn = item.querySelector('.sort-btn[title="Le"]');
+        upBtn.disabled = (idx === 0);
+        downBtn.disabled = (idx === items.length - 1);
+      });
+    }
+
+    function checkAnswer() {
+      const question = currentQuestions[currentQuestionIndex];
+      let isCorrect = false;
+      let userVal = null;
+      let displayUserVal = '';
+
+      // Extract value and validate
+      if (question.type === 'single' || question.type === 'boolean' || question.type === 'scenario' || question.type === 'identify-wrong') {
+        const selected = document.querySelector('input[name="quiz-option"]:checked');
+        if (!selected) {
+          alert("Kérlek, válassz egy lehetőséget!");
+          return;
+        }
+        userVal = selected.value;
+        displayUserVal = userVal;
+        isCorrect = (userVal === question.correct);
+
+        // Visual highlights
+        document.querySelectorAll('.option-item').forEach(label => {
+          const val = label.querySelector('input').value;
+          if (val === question.correct) label.classList.add('correct-answer');
+          else if (val === userVal) label.classList.add('incorrect-answer');
+        });
+      }
+      else if (question.type === 'multiple' || question.type === 'correct-statements') {
+        const selected = Array.from(document.querySelectorAll('input[name="quiz-option"]:checked')).map(el => el.value);
+        if (selected.length === 0) {
+          alert("Kérlek, válassz legalább egy lehetőséget!");
+          return;
+        }
+        userVal = selected;
+        displayUserVal = userVal.join(', ');
+        
+        // Check equivalence of arrays
+        const correctSet = new Set(question.correct);
+        const userSet = new Set(userVal);
+        isCorrect = (correctSet.size === userSet.size && [...correctSet].every(x => userSet.has(x)));
+
+        // Visual highlights
+        document.querySelectorAll('.option-item').forEach(label => {
+          const val = label.querySelector('input').value;
+          if (question.correct.includes(val)) label.classList.add('correct-answer');
+          else if (userVal.includes(val)) label.classList.add('incorrect-answer');
+        });
+      }
+      else if (question.type === 'matching' || question.type === 'def-match' || question.type === 'compare') {
+        const selects = Array.from(document.querySelectorAll('.matching-select'));
+        let answeredCount = 0;
+        let correctMatches = 0;
+        const userPairs = [];
+
+        selects.forEach(select => {
+          const term = select.getAttribute('data-term');
+          const val = select.value;
+          if (val) answeredCount++;
+          
+          userPairs.push({ term, val });
+          
+          const pairObj = question.pairs.find(p => p.term === term);
+          if (pairObj && pairObj.definition === val) {
+            correctMatches++;
+            select.style.borderColor = '#10b981';
+          } else {
+            select.style.borderColor = val ? '#ef4444' : '';
+          }
+        });
+
+        if (answeredCount < selects.length) {
+          alert("Kérlek, minden elemhez válassz párt!");
+          return;
+        }
+
+        userVal = userPairs;
+        displayUserVal = userPairs.map(p => `${p.term} -> ${p.val || 'Nincs'}`).join('; ');
+        isCorrect = (correctMatches === question.pairs.length);
+      }
+      else if (question.type === 'fill') {
+        const input = document.getElementById('fill-input');
+        if (!input || !input.value.trim()) {
+          alert("Kérlek, írd be a hiányzó szót/számot!");
+          return;
+        }
+        userVal = input.value.trim();
+        displayUserVal = userVal;
+        isCorrect = question.correct.map(c => c.toLowerCase()).includes(userVal.toLowerCase());
+        
+        input.style.color = isCorrect ? '#34d399' : '#f87171';
+        input.style.borderColor = isCorrect ? '#10b981' : '#ef4444';
+      }
+      else if (question.type === 'short' || question.type === 'calculation' || question.type === 'concept') {
+        const input = document.getElementById('text-input');
+        if (!input || !input.value.trim()) {
+          alert("Kérlek, írd be a választ!");
+          return;
+        }
+        userVal = input.value.trim();
+        displayUserVal = userVal;
+        isCorrect = question.correct.map(c => c.toLowerCase()).includes(userVal.toLowerCase());
+
+        input.style.color = isCorrect ? '#34d399' : '#f87171';
+        input.style.borderColor = isCorrect ? '#10b981' : '#ef4444';
+      }
+      else if (question.type === 'ordering') {
+        const items = Array.from(document.querySelectorAll('.sort-item')).map(el => el.getAttribute('data-val'));
+        userVal = items;
+        displayUserVal = userVal.join(' -> ');
+        isCorrect = true;
+        
+        const sortItems = Array.from(document.querySelectorAll('.sort-item'));
+        items.forEach((item, idx) => {
+          const sortRow = sortItems.find(el => el.getAttribute('data-val') === item);
+          if (sortRow) {
+            if (item === question.items[idx]) {
+              sortRow.style.borderColor = '#10b981';
+              sortRow.style.background = 'rgba(16, 185, 129, 0.03)';
+            } else {
+              isCorrect = false;
+              sortRow.style.borderColor = '#ef4444';
+              sortRow.style.background = 'rgba(239, 68, 68, 0.03)';
+            }
+          }
+        });
+      }
+
+      // Record answers
+      userAnswers.push({
+        question: question.question,
+        subject: question.subject,
+        type: question.type,
+        isCorrect: isCorrect,
+        userVal: displayUserVal,
+        correctVal: question.type === 'matching' || question.type === 'def-match' || question.type === 'compare' 
+          ? question.pairs.map(p => `${p.term} -> ${p.definition}`).join('; ')
+          : (question.type === 'ordering' ? question.items.join(' -> ') : (Array.isArray(question.correct) ? question.correct[0] : question.correct)),
+        explanation: question.explanation
+      });
+
+      if (isCorrect) {
+        score++;
+        subjectScores[question.subject]++;
+      }
+
+      // Show feedback panel
+      const statusDiv = document.getElementById('feedback-status');
+      const explanationDiv = document.getElementById('feedback-explanation');
+      
+      statusDiv.className = 'feedback-status ' + (isCorrect ? 'correct' : 'incorrect');
+      statusDiv.innerHTML = isCorrect 
+        ? '✓ Helyes válasz!' 
+        : '✗ Helytelen válasz! A helyes: ' + (question.type === 'matching' || question.type === 'def-match' || question.type === 'compare' 
+            ? 'lásd a magyarázatot' 
+            : (question.type === 'ordering' ? 'lásd a magyarázatot' : (Array.isArray(question.correct) ? question.correct[0] : question.correct)));
+      
+      explanationDiv.innerHTML = `<strong>Magyarázat:</strong> ${question.explanation}`;
+      
+      document.getElementById('feedback-panel').style.display = 'block';
+      document.getElementById('submit-btn').style.display = 'none';
+      document.getElementById('next-btn').style.display = 'inline-flex';
+
+      // Disable inputs inside question card
+      document.getElementById('question-card').querySelectorAll('input, select, button').forEach(el => el.disabled = true);
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < currentQuestions.length) {
+        renderQuestion();
+      } else {
+        showResults();
+      }
+    }
+
+    function showResults() {
+      // Clear timer interval
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      
+      document.getElementById('quiz-screen').style.display = 'none';
+      document.getElementById('results-screen').style.display = 'block';
+
+      // Score text and percentage
+      document.getElementById('result-score').innerText = `${score} / ${currentQuestions.length}`;
+      const percentage = Math.round((score / currentQuestions.length) * 100);
+      document.getElementById('result-percentage').innerText = `${percentage}%`;
+
+      // Compute official BME VIK BProf Grade
+      let gradeNum = 1;
+      let gradeLabel = 'Elégtelen (1)';
+      let gradeClass = 'grade-1';
+      
+      if (percentage >= 70) {
+        gradeNum = 5;
+        gradeLabel = 'Jeles (5)';
+        gradeClass = 'grade-5';
+      } else if (percentage >= 60) {
+        gradeNum = 4;
+        gradeLabel = 'Jó (4)';
+        gradeClass = 'grade-4';
+      } else if (percentage >= 50) {
+        gradeNum = 3;
+        gradeLabel = 'Közepes (3)';
+        gradeClass = 'grade-3';
+      } else if (percentage >= 40) {
+        gradeNum = 2;
+        gradeLabel = 'Elégséges (2)';
+        gradeClass = 'grade-2';
+      }
+      
+      const gradeContainer = document.getElementById('result-grade-container');
+      gradeContainer.innerHTML = `<span class="grade-badge ${gradeClass}">${gradeLabel}</span>`;
+
+      // Subjects breakdown
+      document.getElementById('result-subjects').innerHTML = `
+        Hálózat: ${subjectScores.halozat} / ${Q_PER_SUBJECT}<br>
+        Adatkezelés: ${subjectScores.adatkezeles} / ${Q_PER_SUBJECT}<br>
+        SZTT: ${subjectScores.sztt} / ${Q_PER_SUBJECT}
+      `;
+
+      // Results custom message
+      let msg = '';
+      if (gradeNum === 5) msg = 'Gratulálunk! Kiváló (Jeles) vizsgaeredmény. Készen állsz a záróvizsgára!';
+      else if (gradeNum === 4) msg = 'Nagyszerű munka! Jó eredményt értél el, minimális ismétléssel megvan a jeles is.';
+      else if (gradeNum === 3) msg = 'Közepes sikerrel teljesítetted a szimulációt. Érdemes átolvasni az anyagrészleteket.';
+      else if (gradeNum === 2) msg = 'Éppen sikerült (Elégséges). A biztonságos vizsgához javasolt további felkészülés.';
+      else msg = 'A vizsga sajnos Sikertelen (Elégtelen) lett. Kérjük, alaposan olvasd át az összesítő segédletet!';
+      
+      document.getElementById('results-message').innerText = msg;
+
+      // Render review accordions
+      const reviewContainer = document.getElementById('review-list');
+      let html = '';
+      userAnswers.forEach((ans, idx) => {
+        html += `
+          <div class="review-item">
+            <div class="review-header" onclick="toggleReviewBody(this)">
+              <div class="review-header-left">
+                <span class="review-status-dot ${ans.isCorrect ? 'correct' : 'incorrect'}"></span>
+                <span class="review-question-txt">${idx + 1}. Kérdés: ${ans.question}</span>
+              </div>
+              <span class="chevron">▼</span>
+            </div>
+            <div class="review-body">
+              <p><strong>A te válaszod:</strong> <span style="color:${ans.isCorrect ? '#10b981' : '#ef4444'}">${ans.userVal}</span></p>
+              <p><strong>Helyes válasz:</strong> <span style="color:#10b981">${ans.correctVal}</span></p>
+              <hr style="margin: 0.75rem 0;">
+              <p><strong>Magyarázat:</strong> ${ans.explanation}</p>
+            </div>
+          </div>
+        `;
+      });
+      reviewContainer.innerHTML = html;
+    }
+
+    function toggleReviewBody(header) {
+      const body = header.nextElementSibling;
+      const chev = header.querySelector('.chevron');
+      const open = (body.style.display === 'block');
+      
+      body.style.display = open ? 'none' : 'block';
+      chev.classList.toggle('open', !open);
+      chev.style.transform = open ? 'rotate(0deg)' : 'rotate(180deg)';
+    }
+
+    function restartQuiz() {
+      startQuiz();
+    }
+  </script>
+</body>
+</html>
