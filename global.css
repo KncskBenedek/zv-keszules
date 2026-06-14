@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
-@import url('nav.css');
+/* nav.css is linked directly in each page's <head>; no @import needed here. */
 
 :root {
   --bg: #090d16;
@@ -349,4 +349,62 @@ tr:nth-child(even) td {
 
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+/* Print styles — make the study notes readable on paper.
+   Expands every tab/accordion and drops the dark theme + chrome. */
+@media print {
+  nav,
+  .skip-link,
+  .tabs,
+  .chevron {
+    display: none !important;
+  }
+
+  .page {
+    display: block !important; /* show every tab panel */
+  }
+
+  .sec-body {
+    display: block !important; /* expand every accordion */
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .wrap,
+  .container {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+
+  .section,
+  .card,
+  pre,
+  table,
+  .tip,
+  .warn,
+  .danger {
+    break-inside: avoid;
+  }
+
+  h2,
+  h3,
+  th,
+  .sec-head {
+    color: #000 !important;
+  }
+
+  p,
+  li,
+  td {
+    color: #111 !important;
+  }
+
+  a {
+    color: #000 !important;
+    text-decoration: underline;
+  }
 }

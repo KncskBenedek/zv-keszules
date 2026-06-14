@@ -8,6 +8,7 @@
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://bprof-zv.hu/sztt.html" />
 <link rel="stylesheet" href="sztt.css">
+<link rel="stylesheet" href="nav.css">
 <title>Szoftvertechnológia Felkészítő Jegyzet - BProf Záróvizsga</title>
 
 <!-- Open Graph / Facebook -->
@@ -15,8 +16,6 @@
 <meta property="og:url" content="https://bprof-zv.hu/sztt.html" />
 <meta property="og:title" content="Szoftvertechnológia Felkészítő Jegyzet - BProf Záróvizsga" />
 <meta property="og:description" content="Részletes összefoglaló a SOLID elvekről, tervezési mintákról (Strategy, Observer, Composite, stb.) és fejlesztési módszertanokról." />
-<meta property="og:image" content="https://bprof-zv.hu/assets/og-image.png" />
-
 <!-- Structured Data / JSON-LD -->
 <script type="application/ld+json">
 {
@@ -33,6 +32,7 @@
 </script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Ugrás a tartalomra</a>
 
   <nav>
     <ul>
@@ -45,7 +45,7 @@
     </ul>
   </nav>
 
-  <div class="wrap">
+  <div class="wrap" id="main" role="main" tabindex="-1">
     <h1>Szoftvertechnológia és -technikák</h1>
 
     <div class="tabs">
@@ -831,19 +831,6 @@ view2→  doc.GetData()</code></pre>
 
   </div>
 
-  <script>
-  function showPage(id) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    event.target.classList.add('active');
-  }
-  function toggle(head) {
-    const body = head.nextElementSibling;
-    const chev = head.querySelector('.chevron');
-    const open = body.classList.toggle('open');
-    chev.classList.toggle('open', open);
-  }
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>

@@ -8,6 +8,7 @@
 <meta name="robots" content="index, follow" />
 <link rel="canonical" href="https://bprof-zv.hu/kikerdezo.html" />
 <link rel="stylesheet" href="kikerdezo.css">
+<link rel="stylesheet" href="nav.css">
 <title>Záróvizsga Kikérdező Szimulátor - BProf Záróvizsga</title>
 
 <!-- Open Graph / Facebook -->
@@ -15,8 +16,6 @@
 <meta property="og:url" content="https://bprof-zv.hu/kikerdezo.html" />
 <meta property="og:title" content="Záróvizsga Kikérdező Szimulátor - BProf Záróvizsga" />
 <meta property="og:description" content="Teszteld a tudásod a BME VIK BProf komplex záróvizsga szimulátorával. 150 véletlenszerűen generált kérdés." />
-<meta property="og:image" content="https://bprof-zv.hu/assets/og-image.png" />
-
 <!-- Structured Data / JSON-LD -->
 <script type="application/ld+json">
 {
@@ -30,6 +29,7 @@
 </script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Ugrás a tartalomra</a>
 
   <nav>
     <ul>
@@ -42,12 +42,17 @@
     </ul>
   </nav>
 
-  <div class="wrap">
+  <div class="wrap" id="main" role="main" tabindex="-1">
     <h1>Záróvizsga Felkészítő Kikérdező</h1>
     <p style="color:var(--text-muted); margin-bottom: 2rem;">Tedd próbára a tudásod a BME VIK üzemmérnök-informatikus (BProf) képzés hivatalos záróvizsga-követelményei alapján!</p>
 
     <!-- Welcome Screen -->
     <div id="welcome-screen" class="quiz-dashboard">
+      <div id="resume-banner" style="display:none; margin-bottom:1.5rem; padding:1rem 1.25rem; border:1px solid var(--accent); border-radius:12px; background:rgba(167,139,250,0.08);">
+        <p id="resume-info" style="margin-bottom:0.75rem; color:var(--text);">Van egy félbehagyott vizsgád. Folytatod?</p>
+        <button class="quiz-btn" onclick="resumeQuiz()" style="margin-right:0.5rem;">Folytatás</button>
+        <button class="quiz-btn quiz-btn-secondary" onclick="discardSavedQuiz()">Elvetés és új teszt</button>
+      </div>
       <h3>Készen állsz a vizsgaszimulációra?</h3>
       <p>A kikérdező adatbázisa 150 kérdést tartalmaz, amelyek <strong>szigorúan az osztályozási követelmények tematikájára épülnek</strong> (Hálózat, Adatkezelés és Szoftvertechnológia). Minden teszt indításakor a rendszer véletlenszerűen kiválaszt 12-12-12 kérdést (összesen 36 kérdés, mint a valódi komplex vizsgán).</p>
       
@@ -2000,6 +2005,8 @@
       }
 
       card.innerHTML = html;
+
+      saveQuizState(); // persist progress so a refresh/navigation can resume
     }
 
     function selectOption(labelElement) {
@@ -2221,7 +2228,11 @@
         clearInterval(timerInterval);
         timerInterval = null;
       }
-      
+
+      clearQuizState(); // quiz finished — drop any saved progress
+      var rb = document.getElementById('resume-banner');
+      if (rb) rb.style.display = 'none';
+
       document.getElementById('quiz-screen').style.display = 'none';
       document.getElementById('results-screen').style.display = 'block';
 
@@ -2309,8 +2320,120 @@
     }
 
     function restartQuiz() {
+      clearQuizState();
       startQuiz();
     }
+
+    /* ---------------- Quiz progress persistence (localStorage) ----------------
+       Saves the in-progress quiz so a refresh or navigating away does not wipe
+       it. On resume, currentQuestionIndex is normalised to userAnswers.length so
+       an already-answered question is never replayed or double-scored. */
+    var QUIZ_SAVE_KEY = 'zv-quiz-state-v1';
+
+    function saveQuizState() {
+      try {
+        var quizScreen = document.getElementById('quiz-screen');
+        if (!quizScreen || quizScreen.style.display === 'none') return; // only an active quiz
+        if (!currentQuestions.length) return;
+        localStorage.setItem(QUIZ_SAVE_KEY, JSON.stringify({
+          v: 1,
+          currentQuestions: currentQuestions,
+          currentQuestionIndex: currentQuestionIndex,
+          score: score,
+          userAnswers: userAnswers,
+          subjectScores: subjectScores,
+          timeLeft: timeLeft,
+          isTimerEnabled: isTimerEnabled
+        }));
+      } catch (e) { /* storage disabled or full — ignore */ }
+    }
+
+    function clearQuizState() {
+      try { localStorage.removeItem(QUIZ_SAVE_KEY); } catch (e) {}
+    }
+
+    function loadSavedQuiz() {
+      try {
+        var raw = localStorage.getItem(QUIZ_SAVE_KEY);
+        if (!raw) return null;
+        var s = JSON.parse(raw);
+        if (!s || !Array.isArray(s.currentQuestions) || !s.currentQuestions.length) return null;
+        return s;
+      } catch (e) { return null; }
+    }
+
+    function discardSavedQuiz() {
+      clearQuizState();
+      var banner = document.getElementById('resume-banner');
+      if (banner) banner.style.display = 'none';
+    }
+
+    function resumeQuiz() {
+      var s = loadSavedQuiz();
+      if (!s) { showWelcome(); return; }
+
+      currentQuestions = s.currentQuestions;
+      score = s.score || 0;
+      userAnswers = Array.isArray(s.userAnswers) ? s.userAnswers : [];
+      subjectScores = s.subjectScores || { halozat: 0, adatkezeles: 0, sztt: 0 };
+      isTimerEnabled = !!s.isTimerEnabled;
+      currentQuestionIndex = s.currentQuestionIndex || 0;
+      // Never replay an already-answered question.
+      if (currentQuestionIndex < userAnswers.length) currentQuestionIndex = userAnswers.length;
+
+      if (currentQuestionIndex >= currentQuestions.length) { showResults(); return; }
+
+      document.getElementById('welcome-screen').style.display = 'none';
+      document.getElementById('quiz-screen').style.display = 'block';
+      document.getElementById('results-screen').style.display = 'none';
+
+      var timerElement = document.getElementById('quiz-timer');
+      if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+      if (isTimerEnabled) {
+        timeLeft = typeof s.timeLeft === 'number' ? s.timeLeft : 90 * 60;
+        updateTimerDisplay();
+        timerElement.style.display = 'inline-flex';
+        timerElement.classList.toggle('warning', timeLeft <= 10 * 60);
+        timerInterval = setInterval(function () {
+          timeLeft--;
+          updateTimerDisplay();
+          if (timeLeft <= 10 * 60) timerElement.classList.add('warning');
+          if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            alert('Lejárt a vizsgaidő (90 perc)! A teszt kiértékelésre kerül.');
+            showResults();
+          }
+        }, 1000);
+      } else {
+        timerElement.style.display = 'inline-flex';
+        timerElement.innerHTML = 'Gyakorló mód';
+        timerElement.classList.remove('warning');
+      }
+
+      renderQuestion();
+    }
+
+    // Offer to resume an interrupted quiz on load.
+    document.addEventListener('DOMContentLoaded', function () {
+      var s = loadSavedQuiz();
+      var banner = document.getElementById('resume-banner');
+      if (s && banner && (s.currentQuestionIndex || 0) < s.currentQuestions.length) {
+        var answered = Array.isArray(s.userAnswers) ? s.userAnswers.length : 0;
+        var info = document.getElementById('resume-info');
+        if (info) {
+          info.textContent = 'Van egy félbehagyott vizsgád (' + answered + ' / ' +
+            s.currentQuestions.length + ' kérdés megválaszolva). Folytatod?';
+        }
+        banner.style.display = 'block';
+      }
+    });
+
+    // Capture the latest state (incl. the live timer) when leaving the page.
+    window.addEventListener('pagehide', saveQuizState);
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState === 'hidden') saveQuizState();
+    });
   </script>
+  <script src="app.js"></script>
 </body>
 </html>

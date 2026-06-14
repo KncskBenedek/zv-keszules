@@ -30,3 +30,69 @@ nav ul li a:hover {
   background-color: rgba(255, 255, 255, 0.05) !important;
   color: #f3f4f6 !important;
 }
+
+/* Active page indicator (set by app.js) */
+nav ul li a.active,
+nav ul li a[aria-current="page"] {
+  color: #f3f4f6 !important;
+  background-color: rgba(167, 139, 250, 0.15) !important;
+  box-shadow: inset 0 -2px 0 #a78bfa;
+}
+
+/* ---- Shared accessibility helpers (loaded on every page) ---- */
+
+/* Visually-hidden, but available to screen readers */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip-to-content link: off-screen until focused */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -56px;
+  z-index: 1000;
+  background: #a78bfa;
+  color: #090d16;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.15s ease;
+}
+
+.skip-link:focus {
+  top: 8px;
+}
+
+/* Visible keyboard focus for interactive elements */
+a:focus-visible,
+button:focus-visible,
+.tab:focus-visible,
+.sec-head:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid #a78bfa;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

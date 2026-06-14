@@ -16,8 +16,6 @@
   <meta property="og:url" content="https://bprof-zv.hu/osszesito.html" />
   <meta property="og:title" content="Záróvizsga Összesítő Tananyag - BProf Záróvizsga" />
   <meta property="og:description" content="Mindent egy helyen összefoglaló, interaktív gyorsáttekintő a hálózatok, adatkezelés és SZTT témakörökből." />
-  <meta property="og:image" content="https://bprof-zv.hu/assets/og-image.png" />
-
   <!-- Structured Data / JSON-LD -->
   <script type="application/ld+json">
   {
@@ -34,6 +32,7 @@
   </script>
 </head>
 <body>
+  <a class="skip-link" href="#main">Ugrás a tartalomra</a>
   <nav>
       <ul>
         <li><a href="index.html">Home</a></li>
@@ -44,7 +43,7 @@
         <li><a href="kikerdezo.html">Kikérdező</a></li>
       </ul>
     </nav>
-  <div class="wrap">
+  <div class="wrap" id="main" role="main" tabindex="-1">
 <h1>BProf záróvizsga összefoglaló tananyag</h1>
 
 <div class="tabs">
@@ -463,20 +462,8 @@
 </div>
 </div>
 
-</div></div><script>
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
-}
-function toggle(head) {
-  const body = head.nextElementSibling;
-  const chev = head.querySelector('.chevron');
-  const open = body.classList.toggle('open');
-  chev.classList.toggle('open', open);
-}
-</script>
+</div></div>
+<script src="app.js"></script>
 </body>
 </html>
 
