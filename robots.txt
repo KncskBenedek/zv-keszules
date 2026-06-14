@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://bprof-zv.hu/sitemap.xml
+Sitemap: https://kncskbenedek.github.io/zv-keszules/sitemap.xml
