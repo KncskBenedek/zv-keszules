@@ -188,6 +188,7 @@ li::marker {
 }
 
 .sec-head {
+  margin: 0; /* override default h2 margin now that .sec-head is an <h2> */
   padding: 16px 20px;
   background: rgba(17, 24, 39, 0.2);
   cursor: pointer;
@@ -206,6 +207,25 @@ li::marker {
 
 .sec-head:hover {
   background: var(--surface-hover);
+}
+
+/* Interactive button inside each accordion heading (built by app.js).
+   The <h2> keeps heading semantics; this button is the click/keyboard target. */
+.sec-head-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
 .sec-body {

@@ -79,37 +79,45 @@
   function initAccordions() {
     document.querySelectorAll(".sec-head").forEach(function (head) {
       head.removeAttribute("onclick");
-      head.setAttribute("role", "button");
-      head.setAttribute("tabindex", "0");
 
       var body = head.nextElementSibling;
       var open = !!(body && body.classList.contains("open"));
-      head.setAttribute("aria-expanded", open ? "true" : "false");
 
-      var chev = head.querySelector(".chevron");
-      if (chev) chev.setAttribute("aria-hidden", "true");
-      if (body) {
-        if (!body.id) body.id = "sec-" + Math.abs(hashString(head.textContent || "")) ;
-        head.setAttribute("aria-controls", body.id);
+      // WAI-ARIA disclosure pattern: wrap the heading's contents in a real
+      // <button>. The heading (<h2>) keeps document-outline semantics while
+      // the button provides native keyboard/click operability.
+      var btn = head.querySelector(".sec-head-btn");
+      if (!btn) {
+        btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "sec-head-btn";
+        while (head.firstChild) btn.appendChild(head.firstChild);
+        head.appendChild(btn);
       }
 
-      head.addEventListener("click", function () { toggleSection(head); });
-      head.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
-          e.preventDefault();
-          toggleSection(head);
-        }
-      });
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      var chev = btn.querySelector(".chevron");
+      if (chev) chev.setAttribute("aria-hidden", "true");
+      if (body) {
+        if (!body.id) body.id = "sec-" + Math.abs(hashString(head.textContent || ""));
+        if (!btn.id) btn.id = body.id + "-btn";
+        btn.setAttribute("aria-controls", body.id);
+        body.setAttribute("role", "region");
+        body.setAttribute("aria-labelledby", btn.id);
+      }
+
+      btn.addEventListener("click", function () { toggleSection(head); });
     });
   }
 
   function toggleSection(head) {
     var body = head.nextElementSibling;
     if (!body) return;
+    var btn = head.querySelector(".sec-head-btn");
     var chev = head.querySelector(".chevron");
     var open = body.classList.toggle("open");
     if (chev) chev.classList.toggle("open", open);
-    head.setAttribute("aria-expanded", open ? "true" : "false");
+    (btn || head).setAttribute("aria-expanded", open ? "true" : "false");
   }
 
   /* --------------------------------------------------------- Active nav -- */

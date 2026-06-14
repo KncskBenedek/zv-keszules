@@ -16,7 +16,8 @@
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://bprof-zv.hu/halozat.html" />
   <meta property="og:title" content="Hálózatok Felkészítő Jegyzet - BProf Záróvizsga" />
-  <meta property="og:description" content="Átfogó összefoglaló a hálózati rétegekről, protokollokról, IPv4/IPv6 alhálózatokról és útvonalválasztásról." />
+<meta property="og:description" content="Átfogó összefoglaló a hálózati rétegekről, protokollokról, IPv4/IPv6 alhálózatokról és útvonalválasztásról." />
+  <meta property="og:image" content="https://bprof-zv.hu/assets/og-image.png" />
   <!-- Structured Data / JSON-LD -->
   <script type="application/ld+json">
   {
@@ -67,7 +68,7 @@
 <div id="alap" class="page active">
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">Áramkörkapcsolás vs. csomagkapcsolás <span class="badge k">ZV</span> <span class="chevron open">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">Áramkörkapcsolás vs. csomagkapcsolás <span class="badge k">ZV</span> <span class="chevron open">▼</span></h2>
 <div class="sec-body open">
   <div class="gr2">
     <div class="card"><strong>Áramkörkapcsolás</strong><span>Dedikált erőforrás lefoglalva az egész kapcsolat idejére. Garantált sávszélesség. Hívásfelépítés + lebontás szükséges. Pl.: telefonhálózat. Erőforrás-felosztás: FDM (frekvenciaosztás) vagy TDM (időosztás).</span></div>
@@ -84,7 +85,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">Csomagvesztés és késleltetés <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">Csomagvesztés és késleltetés <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <h3>A késleltetés 4 összetevője</h3>
   <div class="tw"><table>
@@ -108,7 +109,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">Internet felépítése és ISP-k <span class="badge v">!</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">Internet felépítése és ISP-k <span class="badge v">!</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <div class="tw"><table>
     <tr><th>Szint</th><th>Neve</th><th>Jellemző</th><th>Példa</th></tr>
@@ -138,7 +139,7 @@
 <div id="alkalmazasi" class="page">
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">HTTP – A Web protokollja <span class="badge k">ZV</span> <span class="chevron open">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">HTTP – A Web protokollja <span class="badge k">ZV</span> <span class="chevron open">▼</span></h2>
 <div class="sec-body open">
   <ul>
     <li>TCP-t használ, 80-as porton (HTTPS: 443)</li>
@@ -176,7 +177,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">FTP és biztonságos alternatívái <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">FTP és biztonságos alternatívái <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <ul>
     <li>Kliens-szerver modell, <strong>nem állapotmentes</strong> (tartja a könyvtárt, felhasználót)</li>
@@ -195,7 +196,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">E-mail protokollok <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">E-mail protokollok <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <h3>Szerepek és protokollok</h3>
   <div class="tw"><table>
@@ -212,7 +213,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">DNS – Doménnév-szolgáltatás <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">DNS – Doménnév-szolgáltatás <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <p>Elosztott, hierarchikus adatbázis. Alkalmazási rétegbeli protokoll (UDP/TCP, 53-as port).</p>
   <h3>DNS szerverek hierarchiája</h3>
@@ -240,7 +241,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">Socketek <span class="badge v">!</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">Socketek <span class="badge v">!</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <ul>
     <li>Logikai kommunikációs végpont – az alkalmazás és a hálózat közötti interfész (ajtó)</li>
@@ -263,7 +264,7 @@
 <div id="szallitasi" class="page">
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">UDP – User Datagram Protocol <span class="chevron open">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">UDP – User Datagram Protocol <span class="chevron open">▼</span></h2>
 <div class="sec-body open">
   <ul>
     <li>"Lecsupaszított" Internet transzport protokoll – "best effort"</li>
@@ -283,7 +284,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">TCP – Áttekintés és szegmensszerkezet <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">TCP – Áttekintés és szegmensszerkezet <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <ul>
     <li>Pont-pont (egy küldő, egy fogadó), full-duplex</li>
@@ -306,7 +307,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">TCP nyugtázás és újraküldés <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">TCP nyugtázás és újraküldés <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <h3>RTT becslés</h3>
   <p>Exponenciális mozgóátlag: <code>EstimatedRTT = (1-α)·EstimatedRTT + α·SampleRTT</code> (α = 0.125)</p>
@@ -330,7 +331,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">TCP forgalomszabályozás <span class="badge v">!</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">TCP forgalomszabályozás <span class="badge v">!</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <p>Cél: a küldő ne töltse túl a fogadó pufferét.</p>
   <ul>
@@ -342,7 +343,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">TCP kapcsolatkezelés <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">TCP kapcsolatkezelés <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <div class="gr2">
     <div class="card"><strong>Kapcsolatfelépítés: 3-way handshake</strong><span>1. Kliens → SYN (kezdő sorszám)<br>2. Szerver → SYN+ACK (saját kezdő sorszám)<br>3. Kliens → ACK (már tartalmazhat adatot)</span></div>
@@ -352,7 +353,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">TCP torlódáskezelés <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">TCP torlódáskezelés <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <p>A hálózat terhelési állapotához igazodik (nem csak a fogadóhoz).</p>
   <h3>Torlódási ablak (CongWin) szabályozása</h3>
@@ -369,7 +370,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">Nyalábolás és nyalábbontás <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">Nyalábolás és nyalábbontás <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <ul>
     <li><strong>Nyalábolás (Multiplexing):</strong> több socket adatainak összegyűjtése + fejléc hozzáadása → hálózatra küldés</li>
@@ -388,7 +389,7 @@
 <div id="halozati" class="page">
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">IPv4 – Fejléc és fragmentálás <span class="badge k">ZV</span> <span class="chevron open">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">IPv4 – Fejléc és fragmentálás <span class="badge k">ZV</span> <span class="chevron open">▼</span></h2>
 <div class="sec-body open">
   <h3>IPv4 datagram fejléc fontosabb mezői</h3>
   <div class="tw"><table>
@@ -412,7 +413,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">IPv4 Címzés és alhálózatok <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">IPv4 Címzés és alhálózatok <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <ul>
     <li>32 bites cím, 4 oktet decimálisan (pl. 192.168.1.1)</li>
@@ -450,7 +451,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">VLSM – Változó hosszúságú maszkok <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">VLSM – Változó hosszúságú maszkok <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <h3>VLSM lépései</h3>
   <ol style="padding-left:1.2rem; color: var(--color-text-secondary); font-size:13px; line-height:1.8">
@@ -466,7 +467,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">IPv6 <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">IPv6 <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <ul>
     <li>128 bites cím, hexadecimálisan 8×16 bit, kettősponttal elválasztva</li>
@@ -486,7 +487,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">DHCP, NAT, ICMP <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">DHCP, NAT, ICMP <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <h3>DHCP – Dynamic Host Configuration Protocol</h3>
   <p>Szerver-kliens alapú (alkalmazási réteg). Automatikus IP kiosztás.</p>
@@ -514,7 +515,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">Routing – Statikus és dinamikus <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">Routing – Statikus és dinamikus <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <h3>Routing tábla és Longest Prefix Matching</h3>
   <p>Több illeszkedő bejegyzés esetén a <strong>leghosszabb prefix</strong> (legszigorúbb maszk) nyer. Default route: 0.0.0.0/0 – mindenre illeszkedik, de mindig rövidebb mint bármely specifikusabb bejegyzés.</p>
@@ -532,7 +533,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">RIP, OSPF, BGP <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">RIP, OSPF, BGP <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <div class="tw"><table>
     <tr><th>Protokoll</th><th>Típus</th><th>Algoritmus</th><th>Metrika</th><th>Max</th><th>Szállítás</th></tr>
@@ -566,7 +567,7 @@
 <div id="adatkapcs" class="page">
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">Adatkapcsolati réteg alapjai és ARP <span class="badge k">ZV</span> <span class="chevron open">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">Adatkapcsolati réteg alapjai és ARP <span class="badge k">ZV</span> <span class="chevron open">▼</span></h2>
 <div class="sec-body open">
   <h3>L2 alrétegek</h3>
   <ul>
@@ -592,7 +593,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">Switch és MAC tanulás <span class="badge v">!</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">Switch és MAC tanulás <span class="badge v">!</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <ul>
     <li>A switch kereteket pufferel, MAC cím alapján irányítja tovább</li>
@@ -612,7 +613,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">VLAN – Virtuális LAN <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">VLAN – Virtuális LAN <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <ul>
     <li>Logikai szétválasztás egyetlen fizikai hálózaton</li>
@@ -631,7 +632,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">Ethernet és közeghozzáférés <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">Ethernet és közeghozzáférés <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <h3>Ethernet keretszerkezet</h3>
   <ul>
@@ -673,7 +674,7 @@
 <div id="fizikai" class="page">
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">Fizikai réteg feladatai <span class="chevron open">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">Fizikai réteg feladatai <span class="chevron open">▼</span></h2>
 <div class="sec-body open">
   <ul>
     <li>Keret tartalmának kódolása bitekre (vonali kódolás – encoding)</li>
@@ -696,7 +697,7 @@
 </div>
 
 <div class="section">
-<div class="sec-head" onclick="toggle(this)">Összefoglaló: Protokollok és portok <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+<h2 class="sec-head" onclick="toggle(this)">Összefoglaló: Protokollok és portok <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
 <div class="sec-body">
   <div class="tw"><table>
     <tr><th>Protokoll</th><th>Port</th><th>Réteg</th><th>Szállítás</th></tr>

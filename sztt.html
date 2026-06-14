@@ -16,6 +16,7 @@
 <meta property="og:url" content="https://bprof-zv.hu/sztt.html" />
 <meta property="og:title" content="Szoftvertechnológia Felkészítő Jegyzet - BProf Záróvizsga" />
 <meta property="og:description" content="Részletes összefoglaló a SOLID elvekről, tervezési mintákról (Strategy, Observer, Composite, stb.) és fejlesztési módszertanokról." />
+<meta property="og:image" content="https://bprof-zv.hu/assets/og-image.png" />
 <!-- Structured Data / JSON-LD -->
 <script type="application/ld+json">
 {
@@ -58,7 +59,7 @@
     <!-- ================= 1. SOLID ================= -->
     <div id="solid" class="page active">
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">SOLID alapelvek <span class="badge k">ZV</span> <span class="chevron open">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">SOLID alapelvek <span class="badge k">ZV</span> <span class="chevron open">▼</span></h2>
         <div class="sec-body open">
           <p>Az öt SOLID elv a jól tervezett, karbantartható OO kód alapköve. Mindegyik egy oksági elvben foglalja össze, mikor és miért változzon egy osztály.</p>
 
@@ -113,7 +114,7 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Kapcsolódó elvek <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Kapcsolódó elvek <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <div class="grid-3">
             <div class="card">
@@ -136,7 +137,7 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
     <!-- ================= 2. UML MODELLEZÉS ================= -->
     <div id="uml" class="page">
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">UML áttekintés <span class="badge i">def</span> <span class="chevron open">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">UML áttekintés <span class="badge i">def</span> <span class="chevron open">▼</span></h2>
         <div class="sec-body open">
           <p><strong>Unified Modeling Language (UML 2.5.1)</strong> – szabványos, általános modellező nyelv szoftverrendszerek dokumentálásához és tervezéséhez. <em>Nem oldja meg a problémát, csak segít leírni.</em></p>
 
@@ -170,7 +171,7 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Osztálydiagram <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Osztálydiagram <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <p>A leggyakrabban használt UML diagram. OOP-alapú rendszerek struktúráját írja le: osztályok, tagváltozók, metódusok, kapcsolatok. Programozási nyelvtől független.</p>
 
@@ -277,7 +278,7 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Szekvenciadiagram <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Szekvenciadiagram <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <p>Az objektumok közötti <strong>üzenetek sorrendjére</strong> fókuszál. Egy konkrét lefutást ábrázol. Rendszer- és metódusszinten egyaránt alkalmazható.</p>
 
@@ -335,7 +336,7 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Állapotgép (State Machine) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Állapotgép (State Machine) <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <p>Objektum-orientált, eseményvezérelt „véges automata". Fókusz: <strong>a rendszer állapotai</strong> és <strong>az állapotátmenetek feltételei</strong>.</p>
 
@@ -421,7 +422,7 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
     <!-- ================= 3. TERVEZÉSI MINTÁK ================= -->
     <div id="mintak" class="page">
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Tervezési minták kategóriái <span class="chevron open">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Tervezési minták kategóriái <span class="chevron open">▼</span></h2>
         <div class="sec-body open">
           <p>A <strong>GoF (Gang of Four)</strong> könyv 23 mintát katalogizált. Célok: könnyen változtatható/kiterjeszthető kód, újrafelhasználhatóság, unit tesztelhetőség.</p>
 
@@ -443,7 +444,7 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Template Method (Sablonmetódus) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Template Method (Sablonmetódus) <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <p><strong>Cél:</strong> Algoritmusvázat definiál, a lépések implementálását a leszármazottra bízza. Az ős <code>Run()</code> metódusa hívja a virtuális/absztrakt lépéseket.</p>
           <div class="grid-2">
@@ -492,7 +493,7 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Strategy (Stratégia) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Strategy (Stratégia) <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <p><strong>Cél:</strong> Algoritmusok egy csoportján belül az egyes algoritmusokat egységbe zárja és <strong>egymással kicserélhetővé</strong> teszi. A kliens csak az interfészt látja.</p>
           <pre><code><span class="kw">interface</span> <span class="cls">ICompressionStrategy</span> {
@@ -526,7 +527,7 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Singleton (Egyke) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Singleton (Egyke) <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <p><strong>Cél:</strong> Biztosítja, hogy egy osztályból <strong>csak egy példány</strong> létezzen, és ehhez globális hozzáférést biztosít.</p>
           <pre><code><span class="kw">class</span> <span class="cls">WindowManager</span> {
@@ -543,7 +544,7 @@ area += s.area(); <span class="cm">// minden Shape-re egységesen</span></code><
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Observer (Megfigyelő) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Observer (Megfigyelő) <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <p><strong>Cél:</strong> Egy objektum (subject) értesítést küld más objektumoknak (observer) az állapotának változásairól – <strong>anélkül, hogy a konkrét típusuktól függne</strong>.</p>
           <div class="grid-2">
@@ -574,7 +575,7 @@ view2→  doc.GetData()</code></pre>
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Composite (Összetett) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Composite (Összetett) <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <p><strong>Cél:</strong> Rész-egész viszonyú objektumokat fastruktúrába rendez. A kliens az egyszerű és összetett objektumokat <strong>egységesen kezeli</strong>.</p>
           <pre><code><span class="kw">interface</span> <span class="cls">Graphics</span> { <span class="kw">void</span> Draw(); }
@@ -589,7 +590,7 @@ view2→  doc.GetData()</code></pre>
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Adapter (Illesztő) <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Adapter (Illesztő) <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <p><strong>Cél:</strong> Egy osztály interfészét olyan interfésszé konvertálja, amilyent a kliens vár – lehetővé téve inkompatibilis interfészek együttműködését.</p>
           <div class="grid-2">
@@ -614,7 +615,7 @@ view2→  doc.GetData()</code></pre>
     <!-- ================= 4. MÓDSZERTANOK ================= -->
     <div id="modszertanok" class="page">
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Vízesés modell (Waterfall) <span class="badge k">ZV</span> <span class="chevron open">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Vízesés modell (Waterfall) <span class="badge k">ZV</span> <span class="chevron open">▼</span></h2>
         <div class="sec-body open">
           <p>Az elmúlt 50+ év legelterjedtebb modellje. <strong>Lineáris</strong> – az egyes fázisok egymás után következnek, egy fázis lezárása után lép a következőbe.</p>
 
@@ -660,7 +661,7 @@ view2→  doc.GetData()</code></pre>
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Agilis fejlesztés – alapelvek <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Agilis fejlesztés – alapelvek <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <p>Az agilis kiáltvány (2001) négy értéke és 12 alapelve. Közös vonás: <strong>iteratív, inkrementális</strong> fejlesztés, folyamatos visszacsatolás, változásokhoz való alkalmazkodás.</p>
           <div class="grid-2">
@@ -692,7 +693,7 @@ view2→  doc.GetData()</code></pre>
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Scrum <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Scrum <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <p>A legelterjedtebb agilis keretrendszer. Iteratív-inkrementális, önszervező csapatokra épül. Alapegysége a <strong>Sprint</strong> (2–4 hét).</p>
 
@@ -803,7 +804,7 @@ view2→  doc.GetData()</code></pre>
       </div>
 
       <div class="section">
-        <div class="sec-head" onclick="toggle(this)">Vizsgán tudnivaló – gyors összefoglalás <span class="badge k">ZV</span> <span class="chevron">▼</span></div>
+        <h2 class="sec-head" onclick="toggle(this)">Vizsgán tudnivaló – gyors összefoglalás <span class="badge k">ZV</span> <span class="chevron">▼</span></h2>
         <div class="sec-body">
           <div class="card card-accent">
             <table>
