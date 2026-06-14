@@ -1921,7 +1921,7 @@
       `;
 
       // Render answer inputs based on question type
-      if (question.type === 'single' || question.type === 'boolean' || question.type === 'scenario' || question.type === 'identify-wrong') {
+      if (question.type === 'single' || question.type === 'boolean' || question.type === 'scenario' || question.type === 'identify-wrong' || question.type === 'relation') {
         const shuffledOptions = shuffleArray(question.options);
         html += `<div class="options-list">`;
         shuffledOptions.forEach((opt, idx) => {
@@ -2050,7 +2050,7 @@
       let displayUserVal = '';
 
       // Extract value and validate
-      if (question.type === 'single' || question.type === 'boolean' || question.type === 'scenario' || question.type === 'identify-wrong') {
+      if (question.type === 'single' || question.type === 'boolean' || question.type === 'scenario' || question.type === 'identify-wrong' || question.type === 'relation') {
         const selected = document.querySelector('input[name="quiz-option"]:checked');
         if (!selected) {
           alert("Kérlek, válassz egy lehetőséget!");
